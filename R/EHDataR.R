@@ -305,5 +305,3 @@ EHModel_Regression_StandardLM <- function(df, y) {
   
 }
 
-install_github("ericonsi/EHDataR")
-
