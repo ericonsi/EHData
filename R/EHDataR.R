@@ -117,34 +117,39 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
 }
 
 
-EHExplore_Outliers_Boxplots <- function(df, font_size=7, y="")
+
+EHExplore_Outliers_Boxplots <- function(df, font_size=7, x="")
 {
   
   df <- select_if(df, is.numeric)
-  
   
   plot_list2 <- list()
   
   for(i in 1:ncol(df)) {     
     
-    qp <- toString(head(sort(round(df[,i],2)),5))
-    qz <- toString(tail(sort(round(df[,i],2)),5))
-    qk <- str_c("L:   ", qp, "\\\n", "H:   ", qz)
     
-    qk <- gsub('\\\\','', qk)
+    if (x == "") {
+      p <- ggplot(df, aes(df[,i])) 
+      
+      qp <- toString(head(sort(round(df[,i],2)),5))
+      qz <- toString(tail(sort(round(df[,i],2)),5))
+      qk <- str_c("L:   ", qp, "\\\n", "H:   ", qz)
+      
+      qk <- gsub('\\\\','', qk)
+      
+    }
+    else{
+      df[,x] <- as.factor(df[,x])
+      p <- ggplot(df, aes_string(y=df[,i], x, fill=x)) 
+      qk=""
+    }
     
-  if (y !="") {
-    p <- ggplot(df, aes(df[,i])) 
-  }
-  else{
-    p <- ggplot(df, aes_string(df[,i], y)) 
-  }
-
-    p <- p +               coord_flip() +  
-                           xlab(colnames(df)[i])  +
-                           ylab(qk) +
-                           theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-                           geom_boxplot()
+    p <- p +               
+      coord_flip() +  
+      xlab(colnames(df)[i])  +
+      ylab(qk) +
+      theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+      geom_boxplot()
     
     p <- eval(substitute(p, list(i=i)))
     plot_list2[[i]] <- p 
