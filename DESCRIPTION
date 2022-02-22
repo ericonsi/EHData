@@ -1,0 +1,11 @@
+Package: EHLibrariesForR
+Type: Package
+Title: Stats, Data Wrangling, Connection and Plotting Libraries by Eric Hirsch
+Version: 0.1.0
+Author: Eric Hirsch
+Maintainer: me <ericonsi@yahoo.com>
+Description: Private libraries for my professional work
+License:
+Encoding: UTF-8
+LazyData: true
+Imports:
