@@ -1,4 +1,4 @@
-Package: EHLibrariesForR
+Package: EHData
 Type: Package
 Title: Stats, Data Wrangling, Connection and Plotting Libraries by Eric Hirsch
 Version: 0.1.0
