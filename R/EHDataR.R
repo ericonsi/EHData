@@ -155,13 +155,14 @@ EHExplore_Correlations_Boxplots <- function(df, x)
   
   for(i in 1:ncol(df)) {
     
-    p <- eval(substitute(ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
+    p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
                            xlab(x)  +
                            ylab(colnames(df)[i]) +
                            theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-                           geom_boxplot(), list(i=i)))
+                           geom_boxplot()
     
-    plot_list3[[i]] <- p 
+    
+    plot_list3[[i]] <- eval(substitute(p, list(i=i)))
     
     
   }
@@ -172,8 +173,6 @@ dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyba
 
 dfTrain <- dfTrain %>%
   mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
-
-head(dfTrain)
 
 EHExplore_Correlations_Boxplots(dfTrain, "xq")
 
