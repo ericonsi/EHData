@@ -116,48 +116,66 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   return(plot_list)
 }
 
-
-
-EHExplore_Outliers_Boxplots <- function(df, font_size=7, x="")
-{
-  
+EHExplore_Outliers_Boxplots <- function(df, font_size=7)
+{  
   df <- select_if(df, is.numeric)
+
+
+plot_list2 <- list()
+
+for(i in 1:ncol(df)) {     
   
-  plot_list2 <- list()
+  qp <- toString(head(sort(round(df[,i],2)),5))
+  qz <- toString(tail(sort(round(df[,i],2)),5))
+  qk <- str_c("L:   ", qp, "\\\n", "H:   ", qz)
   
-  for(i in 1:ncol(df)) {     
+  qk <- gsub('\\\\','', qk)
+  
+  p <- eval(substitute(ggplot(df, aes(df[,i])) +
+                         coord_flip() +  
+                         xlab(colnames(df)[i])  +
+                         ylab(qk) +
+                         theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+                         geom_boxplot(), list(i=i)))
+  
+  plot_list2[[i]] <- p 
+  
+  
+}
+return (plot_list2)
+}
+
+EHExplore_Correlations_Boxplots <- function(df, x)
+{  
+
+  df <- select_if(df, is.numeric)
+  df[,x] <- as.factor(df[,x])
+  
+  plot_list3 <- list()
+  
+  for(i in 1:ncol(df)) {
     
+    p <- eval(substitute(ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
+                           xlab(x)  +
+                           ylab(colnames(df)[i]) +
+                           theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+                           geom_boxplot(), list(i=i)))
     
-    if (x == "") {
-      p <- ggplot(df, aes(df[,i])) 
-      
-      qp <- toString(head(sort(round(df[,i],2)),5))
-      qz <- toString(tail(sort(round(df[,i],2)),5))
-      qk <- str_c("L:   ", qp, "\\\n", "H:   ", qz)
-      
-      qk <- gsub('\\\\','', qk)
-      
-    }
-    else{
-      df[,x] <- as.factor(df[,x])
-      p <- ggplot(df, aes_string(y=df[,i], x, fill=x)) 
-      qk=""
-    }
-    
-    p <- p +               
-      coord_flip() +  
-      xlab(colnames(df)[i])  +
-      ylab(qk) +
-      theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-      geom_boxplot()
-    
-    p <- eval(substitute(p, list(i=i)))
-    plot_list2[[i]] <- p 
+    plot_list3[[i]] <- p 
     
     
   }
-  return (plot_list2)
+  return (plot_list3)
 }
+
+dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
+
+dfTrain <- dfTrain %>%
+  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
+
+head(dfTrain)
+
+EHExplore_Correlations_Boxplots(dfTrain, "xq")
 
 EHExplore_Distributions_Histograms <- function(df, font_size = 7, hist_nbins = 20)
 {
