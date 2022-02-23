@@ -170,10 +170,10 @@ EHExplore_Correlations_Boxplots <- function(df, x)
   return (plot_list3)
 }
 
-#dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
-#dfTrain <- dfTrain %>%
-#  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
-#EHExplore_Correlations_Boxplots(dfTrain, "xq")
+dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
+dfTrain <- dfTrain %>%
+  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
+EHExplore_Correlations_Boxplots(dfTrain, "xq")
 
 EHExplore_Distributions_Histograms <- function(df, font_size = 7, hist_nbins = 20)
 {
