@@ -18,6 +18,7 @@ library(patchwork)
 library(ggthemes)
 library(tinytex)
 library(stats)
+library(ggsci)
 
 EHTheme <- function(){
   
@@ -96,8 +97,6 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df[,interaction] <- as.factor(df[,interaction])
   
-  library(ggsci)
-  
   plot_list <- list()
   
   for(i in 1:ncol(df)) {     
@@ -158,8 +157,10 @@ EHExplore_Correlations_Boxplots <- function(df, x)
     p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
                            xlab(x)  +
                            ylab(colnames(df)[i]) +
-                           theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-                           geom_boxplot()
+                           theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+                            scale_color_d3()+
+                            scale_fill_d3()+                     
+                            geom_boxplot()
     
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
@@ -169,12 +170,10 @@ EHExplore_Correlations_Boxplots <- function(df, x)
   return (plot_list3)
 }
 
-dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
-
-dfTrain <- dfTrain %>%
-  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
-
-EHExplore_Correlations_Boxplots(dfTrain, "xq")
+#dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
+#dfTrain <- dfTrain %>%
+#  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
+#EHExplore_Correlations_Boxplots(dfTrain, "xq")
 
 EHExplore_Distributions_Histograms <- function(df, font_size = 7, hist_nbins = 20)
 {
