@@ -29,7 +29,7 @@ EHTheme <- function(){
 }
 
 
-EHWrangle_MissingValues_Imputation <- function(df, y)
+EHPrepare_MissingValues_Imputation <- function(df, y)
 {
   
   #1. Missing Completely at Random (MCAR):
@@ -115,7 +115,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   return(plot_list)
 }
 
-EHExplore_Outliers_Boxplots <- function(df, font_size=7)
+EHSummarize_SingleColumn_Boxplots <- function(df, font_size=7)
 {  
   df <- select_if(df, is.numeric)
 
@@ -144,7 +144,7 @@ for(i in 1:ncol(df)) {
 return (plot_list2)
 }
 
-EHExplore_Correlations_Boxplots <- function(df, x)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
 {  
 
   df <- select_if(df, is.numeric)
@@ -170,12 +170,12 @@ EHExplore_Correlations_Boxplots <- function(df, x)
   return (plot_list3)
 }
 
-dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
-dfTrain <- dfTrain %>%
-  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
-EHExplore_Correlations_Boxplots(dfTrain, "xq")
+#dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
+#dfTrain <- dfTrain %>%
+#  mutate(xq = ifelse(TEAM_PITCHING_H >1500, 1, 0))
+#EHExplore_Correlations_Boxplots(dfTrain, "xq")
 
-EHExplore_Distributions_Histograms <- function(df, font_size = 7, hist_nbins = 20)
+EHSummarize_SingleColumn_Histograms <- function(df, font_size = 7, hist_nbins = 20)
 {
   
   df <- select_if(df, is.numeric)
@@ -203,7 +203,7 @@ EHExplore_Distributions_Histograms <- function(df, font_size = 7, hist_nbins = 2
 }
 
 
-EHExplore_Correlations_Scatterplots <- function(df, y, flip=FALSE)
+EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 {
   plot_list <- list()
   
@@ -240,7 +240,7 @@ EHExplore_Correlations_Scatterplots <- function(df, y, flip=FALSE)
 }
 
 
-EHExplore_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE)
+EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE)
 {  
   
   list1 <- EHExplore_Outliers_Boxplots(data)
@@ -332,5 +332,37 @@ EHModel_Regression_StandardLM <- function(df, y) {
   
   return(step3)
   
+}
+
+EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
+  {
+  
+  plot_list4 <- list()
+  
+  df <- select_if(df, is.numeric)
+
+  
+  for(i in 1:ncol(df)) {
+    
+    plotdata <- df %>%
+      group_by(df[, 1], y) %>%
+      summarize(n = n()) %>% 
+      mutate(pct = n/sum(n),
+             lbl = scales::percent(pct))
+    plotdata
+    
+    p <- ggplot(plotdata, aes_string(df[ , i], pct, fill=y)) +
+      geom_bar(stat = "identity",
+               position = "fill") + +
+      ylab(y) +
+      xlab(xText) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+      ggtitle(colnames(df)[i]) + EHTheme()
+    
+    p <- eval(substitute(p, list(i=i)))
+    plot_list[[i]] <- p 
+  }
+ 
+  return (plot_list4)
 }
 
