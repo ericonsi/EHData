@@ -353,11 +353,14 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
     p <- ggplot(plotdata, aes_string(df[ , i], "pct", fill=y)) +
       geom_bar(stat = "identity",
                position = "fill") +
-      ylab(y) +
-      xlab(xText) +
+      ylab("Per Cent") +
+      xlab(df[ , i]) +
       theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-      ggtitle(colnames(df)[i]) + EHTheme()
-    
+      ggtitle(colnames(df)[i]) + EHTheme() +
+      geom_text(aes(label = lbl), 
+                size = 3, 
+                position = position_stack(vjust = 0.5))
+      
     p <- eval(substitute(p, list(i=i)))
     plot_list[[i]] <- p 
   }
