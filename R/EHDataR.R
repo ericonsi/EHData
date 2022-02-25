@@ -337,7 +337,7 @@ EHModel_Regression_StandardLM <- function(df, y) {
   
 }
 
-EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
+EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
 {
   
   plot_list4 <- list()
@@ -354,7 +354,7 @@ EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
     p <- ggplot(df, aes_string(x=df[ , i], fill=y)) +
       geom_bar(position = "fill") +
       ylab("Proportion") +
-      xlab(df[ ,i]) +
+      xlab(colnames(df)[i]) +
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       scale_color_d3()+
       scale_fill_d3()+
