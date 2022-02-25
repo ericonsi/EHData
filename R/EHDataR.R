@@ -393,10 +393,7 @@ EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
       xlab(df[ , i]) +
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-      ggtitle(colnames(df)[i]) + EHTheme() +
-      geom_text(aes(label = lbl), 
-                size = 3, 
-                position = position_stack(vjust = 0.5))
+      ggtitle(colnames(df)[i]) + EHTheme()
     
     p <- eval(substitute(p, list(i=i)))
     plot_list4[[i]] <- p
