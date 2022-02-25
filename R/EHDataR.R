@@ -352,7 +352,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
     
     print(head(plotdata))
     
-    p <- ggplot(plotdata, aes_string(df[ , i], pct, fill=y)) +
+    p <- ggplot(plotdata, aes_string(df[ , i], y, fill=y)) +
       geom_bar(stat = "identity",
                position = "fill") + +
       ylab(y) +
