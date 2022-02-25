@@ -387,7 +387,7 @@ EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
   
     df[,i] <- as.factor(df[ ,i])
     
-    p <- ggplot(df, aes_string(df[ , i], y, fill=y)) +
+    p <- ggplot(df, aes_string(x=df[ , i], fill=y)) +
       geom_bar(position = "fill") +
       ylab("Proportion") +
       xlab(df[ , i]) +
