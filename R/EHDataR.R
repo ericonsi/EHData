@@ -94,6 +94,8 @@ EHPrepare_MissingValues_Imputation <- function(df, y)
 
 EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
+  library(ggsci)
+  
   df <- select_if(df, is.numeric)
   
   df[,interaction] <- as.factor(df[,interaction])
@@ -147,7 +149,7 @@ return (plot_list2)
 
 EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
 {  
-
+  library(ggsci)
   df <- select_if(df, is.numeric)
   df[,x] <- as.factor(df[,x])
   
