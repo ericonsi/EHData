@@ -41,8 +41,8 @@ EHSummarize_MissingValues <- function(df)
   #3. Missing Not at Random (MNAR)
 
   naniar::gg_miss_var(df)
-  vis_miss(df)
-  gg_miss_upset(df)
+  naniar::vis_miss(df)
+  naniar::gg_miss_upset(df)
   
 }
 
