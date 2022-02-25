@@ -337,42 +337,6 @@ EHModel_Regression_StandardLM <- function(df, y) {
   
 }
 
-EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
-  {
-  
-  plot_list4 <- list()
-  
-  df <- select_if(df, is.numeric)
-
-  
-  for(i in 1:ncol(df)) {
-    
-    plotdata <- df %>%
-      group_by(df[, 1], y) %>%
-      summarize(n = n()) %>% 
-      mutate(pct = n/sum(n),
-             lbl = scales::percent(pct))
-
-    
-    p <- ggplot(plotdata, aes_string(df[ , i], "pct", fill=df[ , i])) +
-      geom_bar(stat = "identity",
-               position = "fill") +
-      ylab("Per Cent") +
-      xlab(df[ , i]) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
-      ggtitle(colnames(df)[i]) + EHTheme() +
-      geom_text(aes(label = lbl), 
-                size = 3, 
-                position = position_stack(vjust = 0.5))
-      
-    p <- eval(substitute(p, list(i=i)))
-    plot_list4[[i]] <- p 
-  }
- 
-  return (plot_list4)
-}
-
-
 EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
 {
   
@@ -390,9 +354,8 @@ EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
     p <- ggplot(df, aes_string(x=df[ , i], fill=y)) +
       geom_bar(position = "fill") +
       ylab("Proportion") +
-      xlab(df[ , i]) +
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
       ggtitle(colnames(df)[i]) + EHTheme()
     
     p <- eval(substitute(p, list(i=i)))
