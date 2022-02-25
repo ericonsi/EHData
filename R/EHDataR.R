@@ -21,6 +21,7 @@ library(stats)
 library(ggsci)
 library(scales)
 
+
 EHTheme <- function(){
   
   x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray"))
@@ -32,6 +33,8 @@ EHTheme <- function(){
 
 EHSummarize_MissingValues <- function(df)
 {
+
+  library(naniar)
   
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
