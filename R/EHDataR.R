@@ -19,6 +19,7 @@ library(ggthemes)
 library(tinytex)
 library(stats)
 library(ggsci)
+library(scales)
 
 EHTheme <- function(){
   
