@@ -350,6 +350,8 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       mutate(pct = n/sum(n),
              lbl = scales::percent(pct))
     
+    print(head(plotdata))
+    
     p <- ggplot(plotdata, aes_string(df[ , i], pct, fill=y)) +
       geom_bar(stat = "identity",
                position = "fill") + +
