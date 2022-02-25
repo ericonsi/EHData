@@ -399,7 +399,7 @@ EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
                 position = position_stack(vjust = 0.5))
     
     p <- eval(substitute(p, list(i=i)))
-    plot_list4[[i]] <- p9
+    plot_list4[[i]] <- p
   }
   
   return (plot_list4)
