@@ -372,3 +372,35 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   return (plot_list4)
 }
 
+
+EHExplore_TwoCategoricalColumns_Barcharts2 <- function(df, y)
+{
+  
+  plot_list4 <- list()
+  
+  df <- select_if(df, is.numeric)
+  
+  df[,y] <- as.factor(df[,y])
+  
+  for(i in 1:ncol(df)) {
+    
+  
+    df[,i] <- as.factor(df[ ,i])
+    
+    p <- ggplot(plotdata, aes_string(df[ , i], y, fill=y)) +
+      geom_bar(position = "fill") +
+      ylab("Proportion") +
+      xlab(df[ , i]) +
+      stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+      ggtitle(colnames(df)[i]) + EHTheme() +
+      geom_text(aes(label = lbl), 
+                size = 3, 
+                position = position_stack(vjust = 0.5))
+    
+    p <- eval(substitute(p, list(i=i)))
+    plot_list4[[i]] <- p 
+  }
+  
+  return (plot_list4)
+}
