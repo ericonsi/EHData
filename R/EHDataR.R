@@ -30,6 +30,20 @@ EHTheme <- function(){
 }
 
 
+EHSummarize_MissingValues <- function(df)
+{
+  
+  #1. Missing Completely at Random (MCAR):
+  #2. Missing at Random (MAR):
+  #3. Missing Not at Random (MNAR)
+
+  gg_miss_var(airquality)
+  vis_miss(df)
+  gg_miss_upset(df)
+  
+}
+
+
 EHPrepare_MissingValues_Imputation <- function(df, y)
 {
   
