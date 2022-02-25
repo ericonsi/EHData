@@ -350,11 +350,9 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       mutate(pct = n/sum(n),
              lbl = scales::percent(pct))
     
-    print(head(plotdata))
-    
-    p <- ggplot(plotdata, aes_string(df[ , i], y, fill=y)) +
+    p <- ggplot(plotdata, aes_string(df[ , i], pct, fill=y)) +
       geom_bar(stat = "identity",
-               position = "fill") + +
+               position = "fill") +
       ylab(y) +
       xlab(xText) +
       theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
