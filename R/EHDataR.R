@@ -48,7 +48,7 @@ EHSummarize_MissingValues <- function(df)
   g <- gg_miss_upset(df)
   grid.arrange(p,g,ncol=2)
   
-  
+  return(p)
 }
 
 
