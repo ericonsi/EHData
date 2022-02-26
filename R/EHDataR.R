@@ -34,7 +34,7 @@ EHTheme <- function(){
 EHSummarize_MissingValues <- function(df)
 {
 
-  library(naniar)
+  #library(naniar)
   
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
