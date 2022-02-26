@@ -42,7 +42,7 @@ EHSummarize_MissingValues <- function(df)
   
   gg_miss_var(df)
   vis_miss(df)
-  gg_miss_upset(df)
+  #gg_miss_upset(df)
   #grid.arrange(p,g,ncol=2)
   
 }
