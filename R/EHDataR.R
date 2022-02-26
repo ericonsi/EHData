@@ -39,16 +39,12 @@ EHSummarize_MissingValues <- function(df)
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
-
   
-  print("hello")
-  
-  #p <- gg_miss_var(df)
-  #q <- vis_miss(df)
-  #g <- gg_miss_upset(df)
+  gg_miss_var(df)
+  vis_miss(df)
+  gg_miss_upset(df)
   #grid.arrange(p,g,ncol=2)
   
-  return("hi")
 }
 
 
