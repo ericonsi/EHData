@@ -44,11 +44,11 @@ EHSummarize_MissingValues <- function(df)
   print("hello")
   
   p <- gg_miss_var(df)
-  vis_miss(df)
+  q <- vis_miss(df)
   g <- gg_miss_upset(df)
   grid.arrange(p,g,ncol=2)
   
-  return(p)
+  return(q)
 }
 
 
