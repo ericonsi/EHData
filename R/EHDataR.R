@@ -40,9 +40,11 @@ EHSummarize_MissingValues <- function(df)
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
 
-  print(naniar::gg_miss_var(df))
-  print(naniar::vis_miss(df))
-  print(naniar::gg_miss_upset(df))
+  p <- gg_miss_var(df)
+  vis_miss(df)
+  g <- gg_miss_upset(df)
+  grid.arrange(p,g,ncol=2)
+  
   
 }
 
