@@ -34,16 +34,20 @@ EHTheme <- function(){
 EHSummarize_MissingValues <- function(df)
 {
 
-  #library(naniar)
+  library(naniar)
   
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
-  gg_miss_var(df)
-  vis_miss(df)
-  #gg_miss_upset(df)
-  #grid.arrange(p,g,ncol=2)
+  list12 = list()
+  
+  list12[[1]] <- gg_miss_var(df)
+  list12[[2]] <- vis_miss(df)
+  list12[[3]] <- gg_miss_upset(df)
+  
+  return(list12)
+
   
 }
 
