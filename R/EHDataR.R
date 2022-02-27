@@ -20,7 +20,7 @@ library(tinytex)
 library(stats)
 library(ggsci)
 library(scales)
-
+library(naniar)
 
 EHTheme <- function(){
   
