@@ -173,7 +173,6 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
 {  
   library(ggsci)
   df <- select_if(df, is.numeric)
-  df[,x] <- as.factor(df[,x])
   
   plot_list3 <- list()
   
@@ -183,7 +182,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
     
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     
-    
+    df[,x] <- as.factor(df[,x])
     p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
                            xlab(x)  +
                            ylab(xText) +
