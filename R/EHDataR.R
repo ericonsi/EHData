@@ -179,9 +179,14 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
   
   for(i in 1:ncol(df)) {
     
+    ct <- cor.test(df[,i], df[,x])
+    
+    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    
+    
     p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
                            xlab(x)  +
-                           ylab(colnames(df)[i]) +
+                           ylab(xText) +
                            theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                             scale_color_d3()+
                             scale_fill_d3()+                     
