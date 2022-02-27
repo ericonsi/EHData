@@ -179,6 +179,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
   for(i in 1:ncol(df)) {
     
     print(colnames(df)[i])
+    print(colnames(df)[x])
     ct <- cor.test(df[,i], df[,x])
     
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
