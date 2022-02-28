@@ -361,6 +361,11 @@ EHModel_Regression_StandardLM <- function(df, y) {
   
   print(plot(step3))
   
+  library(lmtest)
+  print(bptest(step3))
+  
+  print(shapiro.test(step3$residuals))
+  
   return(step3)
   
 }
