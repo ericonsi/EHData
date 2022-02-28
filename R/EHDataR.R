@@ -293,9 +293,7 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
     gap <- lenZ - quotient*9
     gaprows <- gap/3
     
-    if(lenZ>=9)
-    {
-    
+    if (lenZ>=9) {
     for(i in 1:quotient) { 
       
       start <- (i-1)*9 + 1
@@ -303,6 +301,7 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
       
       grid.arrange(grobs=zz2[c(start:finish)], ncol=3)
       
+    }
     }
     
     if (gaprows>0) {
@@ -312,15 +311,6 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
       
       grid.arrange(grobs=zz2[c(start:finish)], ncol=3, nrow=gaprows)
     }  
-    }
-    else{
-      if (gaprows>0) {
-        
-        start <- quotient*9 + 1
-        finish <- start + gaprows*3 - 1
-        
-        grid.arrange(grobs=zz2[c(start:finish)], ncol=3, nrow=gaprows)
-    }
   }
   
   if (return_list) {
