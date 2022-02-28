@@ -274,9 +274,9 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE)
 {  
   
-  list1 <- EHExplore_Outliers_Boxplots(data)
-  list2 <- EHExplore_Distributions_Histograms(data, hist_nbins =  h_nbins)
-  list3 <- EHExplore_Correlations_Scatterplots(data, y)
+  list1 <- EHSummarize_SingleColumn_Boxplots(data)
+  list2 <- EHSummarize_SingleColumn_Histograms(data, hist_nbins =  h_nbins)
+  list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
   
   zz2 <- list()
   
