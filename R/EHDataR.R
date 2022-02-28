@@ -279,14 +279,15 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
   list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
   
   zz2 <- list()
-  
-  
+
   
   for(i in 1:length(list1)) {
     zz2[i*3-2] <- list1[i]
     zz2[i*3-1] <- list2[i]
     zz2[i*3] <- list3[i]
   }
+  
+  return(zz2)
   
   if (print) {
     lenZ <- length(zz2)
