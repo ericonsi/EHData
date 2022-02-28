@@ -12,7 +12,7 @@ library(lubridate)
 library(fastDummies)
 library(data.table)
 library(mltools)
-#library(MASS)
+library(MASS)
 library(car)
 library(patchwork)
 library(ggthemes)
@@ -287,14 +287,14 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
     zz2[i*3] <- list3[i]
   }
   
-  return(zz2)
-  
   if (print) {
     lenZ <- length(zz2)
     quotient <- lenZ %/% 9
     gap <- lenZ - quotient*9
     gaprows <- gap/3
     
+    if(lenZ>=9)
+    {
     
     for(i in 1:quotient) { 
       
@@ -312,6 +312,15 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
       
       grid.arrange(grobs=zz2[c(start:finish)], ncol=3, nrow=gaprows)
     }  
+    }
+    else{
+      if (gaprows>0) {
+        
+        start <- quotient*9 + 1
+        finish <- start + gaprows*3 - 1
+        
+        grid.arrange(grobs=zz2[c(start:finish)], ncol=3, nrow=gaprows)
+    }
   }
   
   if (return_list) {
