@@ -100,19 +100,19 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   l1$r2omit = s3
   l1$r2multiple = s4
   
-  if (impute = "mean") {
+  if (impute == "mean") {
     l1$type = "mean"
     l1$df=dfImputedMean
   }
-  else if (impute = "median") {
+  else if (impute == "median") {
     l1$type = "median"
     l1$df=dfImputedMedian
   }
-  else if (impute = "omit") {
+  else if (impute == "omit") {
     l1$type = "omit"
     l1$df=dfOmit
   }
-  else if (impute = "multiple") {
+  else if (impute == "multiple") {
     l1$type = "multiple"
     l1$df=dfMultiple
   }
