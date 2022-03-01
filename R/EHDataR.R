@@ -69,7 +69,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   dfOmit <- na.omit(df)
   
   set.seed(042760)
-  dfMultiple <- Amelia::amelia(df, m=25)
+  #dfMultiple <- Amelia::amelia(df, m=25)
   
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
@@ -87,18 +87,19 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   step3 <- stepAIC(m3, trace=FALSE)
   s3 <- summary(step3)$adj.r.squared
   
-  fla4 <- substitute(n ~ ., list(n = as.name(y)))
-  m4 <- lm(fla4, dfMultiple)
-  step4 <- stepAIC(m4, trace=FALSE)
-  s4 <- summary(step4)$adj.r.squared
+  #fla4 <- substitute(n ~ ., list(n = as.name(y)))
+  #m4 <- lm(fla4, dfMultiple)
+  #step4 <- stepAIC(m4, trace=FALSE)
+  #s4 <- summary(step4)$adj.r.squared
   
   l1 <- vector(mode = "list", length = 5)
-  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit", "r2multiple")
+  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
+  #names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit", "r2multiple")
   
   l1$r2mean = s1
   l1$r2median = s2
   l1$r2omit = s3
-  l1$r2multiple = s4
+  #l1$r2multiple = s4
   
   if (impute == "mean") {
     l1$type = "mean"
@@ -112,22 +113,22 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
     l1$type = "omit"
     l1$df=dfOmit
   }
-  else if (impute == "multiple") {
-    l1$type = "multiple"
-    l1$df=dfMultiple
-  }
+  #else if (impute == "multiple") {
+  #  l1$type = "multiple"
+  #  l1$df=dfMultiple
+  #}
   
   print(c("type:", l1$type))
   print(c("r2mean:", round(l1$r2mean,4)))
   print(c("r2median:", round(l1$r2median,4)))
   print(c("r2omit", round(l1$r2omit,4)))
-  print(c("r2multiple", round(l1$r2multiple,4)))
+ # print(c("r2multiple", round(l1$r2multiple,4)))
   
     if (print_all) {
       print(summary(step1))
       print(summary(step2))
       print(summary(step3))
-      print(summary(step4))
+      #print(summary(step4))
     }
     
     return (l1$df)
