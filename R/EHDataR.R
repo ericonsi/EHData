@@ -69,7 +69,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   dfOmit <- na.omit(df)
   
   set.seed(042760)
-  dfMultiple <- amelia(df, m=25)
+  dfMultiple <- Amelia::amelia(df, m=25)
   
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
