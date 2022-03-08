@@ -366,7 +366,7 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y) {
+EHModel_Regression_StandardLM <- function(df, y, vif=TRUE, tests = TRUE, avplots = TRUE) {
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
@@ -376,16 +376,24 @@ EHModel_Regression_StandardLM <- function(df, y) {
   step3 <- stepAIC(mod_4, trace=FALSE)
   print(summary(step3))
   
+  if (vif){
   print("VIF Analysis")
   vif_values <- car::vif(step3)
   print(vif_values)
+  }
   
   print(plot(step3))
   
+  if (tests) {
   library(lmtest)
   print(bptest(step3))
   
   print(shapiro.test(step3$residuals))
+  }
+  
+  if (avplots) {
+    print(avPlots(step3))
+  }
   
   return(step3)
   
