@@ -394,7 +394,7 @@ EHModel_Regression_StandardLM <- function(df, y, vif=TRUE, tests = TRUE, avplots
   }
   
   if (avplots) {
-    print(avPlots(step3))
+    avPlots(step3)
   }
   
   return(step3)
