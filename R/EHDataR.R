@@ -53,7 +53,7 @@ EHSummarize_MissingValues <- function(df)
 }
 
 
-EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = FALSE)
+EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all = FALSE)
 {
   
   #1. Missing Completely at Random (MCAR):
@@ -68,7 +68,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   
   dfOmit <- na.omit(df)
   
-  set.seed(042760)
+  #set.seed(042760)
   #dfMultiple <- Amelia::amelia(df, m=25)
   
   
@@ -94,6 +94,8 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "", print_all = F
   
   l1 <- vector(mode = "list", length = 5)
   names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
+  
+  #l1 <- vector(mode = "list", length = 6)
   #names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit", "r2multiple")
   
   l1$r2mean = s1
