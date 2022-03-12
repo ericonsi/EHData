@@ -315,7 +315,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
     
     p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
       xlab(y)  +
-      ylab(xTest) +
+      ylab(xText) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+                     
