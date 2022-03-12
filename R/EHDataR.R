@@ -197,18 +197,20 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
   
   library(ggsci)
   
-  plot_list3 <- list()
   
+  plot_list3 <- list()
+
     df <- select_if(df, is.numeric)
+
     
     for(i in 1:ncol(df)) {
       
       ct <- cor.test(df[,i], df[,y])
     
-    #xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
-    xText <- "hi!"
+    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     
     df[,y] <- as.factor(df[,y])
+    
     p <- ggplot(df, aes_string(x=df[,i], y=y, fill=y)) +
                            xlab(xText)  +
                            ylab(y) +
@@ -292,6 +294,45 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
     
   }
   return(plot_list)
+}
+
+
+
+
+EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y, flip=FALSE)
+{
+  plot_list3 <- list()
+  
+  df <- select_if(df, is.numeric)
+  
+  for(i in 1:ncol(df)) {
+    
+    ct <- cor.test(df[,i], df[,y])
+    
+    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    
+    x1 = df[[i]]
+    y1 =y
+    
+    if(flip)
+    {
+      x1=y
+      y1=df[[i]]
+    }
+    
+    p <- ggplot(df, aes_string(x=df[,i], y=y, fill=y)) +
+      xlab(xText)  +
+      ylab(y) +
+      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+      scale_color_d3()+
+      scale_fill_d3()+                     
+      geom_boxplot()
+    
+    
+    plot_list3[[i]] <- eval(substitute(p, list(i=i)))
+    
+  }
+  return(plot_list3)
 }
 
 
