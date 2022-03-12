@@ -282,14 +282,13 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     
     p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
-      xlab(y)  +
+      xlab(colnames(df)[i])  +
       ylab(xText) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+                     
       geom_boxplot()+
-      coord_flip() +
-      ggtitle(colnames(df)[i])
+      coord_flip()
     
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
