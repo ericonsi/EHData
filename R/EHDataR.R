@@ -192,40 +192,6 @@ for(i in 1:ncol(df)) {
 return (plot_list2)
 }
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots_tmp <- function(df, y)
-{  
-  
-  library(ggsci)
-  
-  
-  plot_list3 <- list()
-
-    df <- select_if(df, is.numeric)
-
-    
-    for(i in 1:ncol(df)) {
-      
-      ct <- cor.test(df[,i], df[,y])
-    
-    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
-    
-    df[,y] <- as.factor(df[,y])
-    
-    p <- ggplot(df, aes_string(x=df[,i], y=y, fill=y)) +
-                           xlab(xText)  +
-                           ylab(y) +
-                           theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
-                            scale_color_d3()+
-                            scale_fill_d3()+                     
-                            geom_boxplot()
-    
-    
-    plot_list3[[i]] <- eval(substitute(p, list(i=i)))
-    
-    
-  }
-  return (plot_list3)
-}
 
 #dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
 #dfTrain <- dfTrain %>%
@@ -302,16 +268,15 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
   plot_list3 <- list()
   
   df <- select_if(df, is.numeric)
+  df <- df %>%
+    mutate(NumericY = df[,y])
+  df[,y] <- as.factor(df[,y])
   
   for(i in 1:ncol(df)) {
     
-    df[,y] <- as.integer(df[,y])
-    
-    ct <- cor.test(df[,i], df[,y])
+    ct <- cor.test(df[,i], df$NumericY)
     
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
-    
-    df[,y] <- as.factor(df[,y])
     
     p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
       xlab(y)  +
