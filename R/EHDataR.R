@@ -205,10 +205,10 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
     #xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     xText <- "hi!"
     
-    df[,x] <- as.factor(df[,x])
-    p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
-                           xlab(x)  +
-                           ylab(xText) +
+    df[,y] <- as.factor(df[,y])
+    p <- ggplot(df, aes_string(x=df[,i], y=y, fill=y)) +
+                           xlab(xText)  +
+                           ylab(y) +
                            theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                             scale_color_d3()+
                             scale_fill_d3()+                     
