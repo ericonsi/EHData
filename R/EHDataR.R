@@ -303,10 +303,11 @@ EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y)
 {
   plot_list3 <- list()
   
-  df[,y] <- as.integer(df[,y])
   df <- select_if(df, is.numeric)
   
   for(i in 1:ncol(df)) {
+    
+    df[,y] <- as.integer(df[,y])
     
     ct <- cor.test(df[,i], df[,y])
     
