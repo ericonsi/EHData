@@ -288,13 +288,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
       scale_color_d3()+
       scale_fill_d3()+                     
       geom_boxplot()+
-      coord_flip() +
-      annotate("text",
-               x = 1:length(table(df[,y])),
-               y = aggregate(df[,y] ~ df[,x], df, median)[ , 2],
-               label = table(df[,y]),
-               col = "red",
-               vjust = - 1)
+      coord_flip()
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
     
