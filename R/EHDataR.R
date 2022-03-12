@@ -299,7 +299,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 
 
 
-EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y, flip=FALSE)
+EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y)
 {
   plot_list3 <- list()
   
@@ -314,13 +314,8 @@ EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y, flip=FALSE)
     x1 = df[[i]]
     y1 =y
     
-    if(flip)
-    {
-      x1=y
-      y1=df[[i]]
-    }
     
-    p <- ggplot(df, aes_string(x=x1, y=y1, fill=y1)) +
+    p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
       xlab(xText)  +
       ylab(y) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
