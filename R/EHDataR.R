@@ -320,7 +320,7 @@ EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y, flip=FALSE)
       y1=df[[i]]
     }
     
-    p <- ggplot(df, aes_string(x=df[,i], y=y, fill=y)) +
+    p <- ggplot(df, aes_string(x=x1, y=y1, fill=y1)) +
       xlab(xText)  +
       ylab(y) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
