@@ -192,16 +192,15 @@ for(i in 1:ncol(df)) {
 return (plot_list2)
 }
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
 {  
+  
   library(ggsci)
-  df <- select_if(df, is.numeric)
-  
-  plot_list3 <- list()
-  
-  for(i in 1:ncol(df)) {
+    df <- select_if(df, is.numeric)
     
-    #ct <- cor.test(df[,i], df[,x])
+    for(i in 1:ncol(df)) {
+      
+      ct <- cor.test(df[,i], df[,y])
     
     #xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     xText <- "hi!"
