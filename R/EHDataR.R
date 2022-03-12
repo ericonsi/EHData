@@ -203,7 +203,8 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
     
     ct <- cor.test(df[,i], df[,x])
     
-    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    #xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    xTest <- "hi!"
     
     df[,x] <- as.factor(df[,x])
     p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
