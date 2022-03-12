@@ -192,7 +192,7 @@ for(i in 1:ncol(df)) {
 return (plot_list2)
 }
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots_tmp <- function(df, y)
 {  
   
   library(ggsci)
@@ -297,9 +297,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 }
 
 
-
-
-EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
 {
   plot_list3 <- list()
   
@@ -315,14 +313,15 @@ EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y)
     
     df[,y] <- as.factor(df[,y])
     
-    p <- ggplot(df, aes_string(x=df[,i], y)) +
-      xlab(xText)  +
-      ylab(y) +
+    p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
+      xlab(y)  +
+      ylab(xTest) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+                     
       geom_boxplot()+
-      coord_flip()
+      coord_flip() +
+      ggtitle(colnames(df)[i])
     
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
@@ -332,12 +331,17 @@ EHExplore_TwoContinuousColumns_Scatterplots2 <- function(df, y)
 }
 
 
-EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE)
+EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE, type="scatter")
 {  
   
   list1 <- EHSummarize_SingleColumn_Boxplots(data)
   list2 <- EHSummarize_SingleColumn_Histograms(data, hist_nbins =  h_nbins)
-  list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
+  
+  if(type=="scatter"){
+    list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
+  } else if (type=="box"){
+    list3 <- EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots(data, y)
+  }
   
   zz2 <- list()
 
