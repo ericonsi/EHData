@@ -269,13 +269,15 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
   
   df <- select_if(df, is.numeric)
   
-  df$NumericY <- df[,y]
+  df$NumericY <- as.numeric(df[,y])
   
   df[,y] <- as.factor(df[,y])
   
   for(i in 1:ncol(df)) {
     
-    ct <- cor.test(df[,i], df$NumericY)
+    df$NumericX <- as.numeric(df[,i])
+    
+    ct <- cor.test(df$NumericX, df$NumericY)
     
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     
