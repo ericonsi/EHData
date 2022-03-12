@@ -201,6 +201,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
   
   for(i in 1:ncol(df)) {
     
+    print("yay!")
     #print(d[,i])
     print(df[, x])
     ct <- cor.test(df[,i], df[,x])
