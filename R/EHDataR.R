@@ -196,6 +196,9 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
 {  
   
   library(ggsci)
+  
+  plot_list3 <- list()
+  
     df <- select_if(df, is.numeric)
     
     for(i in 1:ncol(df)) {
