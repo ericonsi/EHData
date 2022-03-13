@@ -440,7 +440,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   return (plot_list4)
 }
 
-EHModel_Regression_Logistic(df, y, splitRatio = .8)
+EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
 {
   library(caTools)
   library(ROCR)
