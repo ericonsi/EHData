@@ -471,29 +471,13 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   
   # Evaluating model accuracy
   # using confusion matrix
-  table(test_reg$vs, predict_reg)
+  table(test_reg[,y], predict_reg)
   
-  missing_classerr <- mean(predict_reg != test_reg$vs)
+  missing_classerr <- mean(predict_reg != test_reg[,y])
   print(paste('Accuracy =', 1 - missing_classerr))
   
-  # ROC-AUC Curve
-  ROCPred <- prediction(predict_reg, test_reg$vs)
-  ROCPer <- performance(ROCPred, measure = "tpr",
-                        x.measure = "fpr")
   
-  auc <- performance(ROCPred, measure = "auc")
-  auc <- auc@y.values[[1]]
-  auc
-  
-  # Plotting curve
-  plot(ROCPer)
-  plot(ROCPer, colorize = TRUE,
-       print.cutoffs.at = seq(0.1, by = 0.1),
-       main = "ROC CURVE")
-  abline(a = 0, b = 1)
-  
-  auc <- round(auc, 4)
-  legend(.6, .4, auc, title = "AUC", cex = 1)
-  
+  dfTable <- as.data.frame(table(dfB1))
+  print(dfTable)
   return(logistic_model)
 }
