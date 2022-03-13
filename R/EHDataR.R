@@ -451,6 +451,8 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   train_reg <- subset(df, split == "TRUE")
   test_reg <- subset(df, split == "FALSE")
   
+  fla <- substitute(n ~ ., list(n = as.name(y)))
+  
   logistic_model <- glm(fla,
                         data = df,
                         family = "binomial")
