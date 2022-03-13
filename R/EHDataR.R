@@ -445,7 +445,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   library(caTools)
   library(ROCR)
   
-  split <- sample.split(df, SplitRatio = SplitRatio)
+  split <- sample.split(df, SplitRatio = splitRatio)
   split
   
   train_reg <- subset(df, split == "TRUE")
