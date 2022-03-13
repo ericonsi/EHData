@@ -288,8 +288,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
       scale_color_d3()+
       scale_fill_d3()+                     
       geom_boxplot()+
-      coord_flip() +
-      geom_text(aes(label = ..count..), stat = "count", position = "fill")
+      coord_flip() 
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
     
