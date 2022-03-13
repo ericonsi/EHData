@@ -471,13 +471,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   
   # Evaluating model accuracy
   # using confusion matrix
-  table(test_reg[,y], predict_reg)
+  print(table(test_reg[,y], predict_reg))
   
-  missing_classerr <- mean(predict_reg != test_reg[,y])
-  print(paste('Accuracy =', 1 - missing_classerr))
-  
-  
-  dfTable <- as.data.frame(table(dfB1))
-  print(dfTable)
   return(logistic_model)
 }
