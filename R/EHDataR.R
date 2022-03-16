@@ -469,10 +469,10 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   scored_class <- ifelse(predict_reg >0.5, 1, 0)
   class <- test_reg[,y]
   
-  dfPred <- c(class, scored_class)
+  dfPred <- data.frame(class, scored_class)
   
   dfPred$class <- as.factor(dfPred$class)
-  dfPred$scored.class <- as.factor(dfPred$scored_class)
+  dfPred$scored_class <- as.factor(dfPred$scored_class)
   
   print(confusionMatrix(data = dfPred$scored_class, reference = dfPred$class))
 
