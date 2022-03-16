@@ -467,11 +467,19 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   predict_reg
   
   # Changing probabilities
-  predict_reg <- ifelse(predict_reg >0.5, 1, 0)
+  scored_class <- ifelse(predict_reg >0.5, 1, 0)
+  class <- test_reg[,y]
   
   # Evaluating model accuracy
   # using confusion matrix
-  print(table(test_reg[,y], predict_reg))
+  print(table(class, scored_class))
   
+  dfPred <- c(class, scored_class)
+  
+  dfPred$class <- as.factor(dfPred$class)
+  dfPred$scored.class <- as.factor(dfPred$scored_class)
+  
+  print(confusionMatrix(data = dfPred$scored_class, reference = dfPred$class))
+
   return(logistic_model)
 }
