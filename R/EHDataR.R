@@ -465,15 +465,9 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   # Predict test data based on model
   predict_reg <- predict(logistic_model,
                          test_reg, type = "response")
-  predict_reg
-  
-  # Changing probabilities
+
   scored_class <- ifelse(predict_reg >0.5, 1, 0)
   class <- test_reg[,y]
-  
-  # Evaluating model accuracy
-  # using confusion matrix
-  print(table(class, scored_class))
   
   dfPred <- c(class, scored_class)
   
