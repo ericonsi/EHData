@@ -23,6 +23,7 @@ library(scales)
 library(naniar)
 library(Amelia)
 library(caret)
+library(pROC)
 
 EHTheme <- function(){
   
@@ -475,6 +476,13 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   dfPred$scored_class <- as.factor(dfPred$scored_class)
   
   print(confusionMatrix(data = dfPred$scored_class, reference = dfPred$class))
+  
+  dfPred_raw <- data.frame(class, predict_reg)
+  
+  roc(class ~ predict_reg, dfPred_raw)
+  
+  print(roc1 <- roc(dfPred_raw$class,
+              dfPred_raw$predict_reg, plot=TRUE))
 
   return(logistic_model)
 }
