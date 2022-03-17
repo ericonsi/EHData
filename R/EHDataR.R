@@ -481,10 +481,12 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   
   roc(class ~ predict_reg, dfPred_raw)
   
-  print(roc1 <- roc(dfPred_raw$class,
-              dfPred_raw$predict_reg, plot=TRUE))
+
   
-  print(auc(roc1))
+roc1 <- roc(dfPred_raw$class,
+              dfPred_raw$predict_reg, plot=TRUE)
+print(paste("AUC: ", auc(roc1)))
+print(roc1)
 
   return(logistic_model)
 }
