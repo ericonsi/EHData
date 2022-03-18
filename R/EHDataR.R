@@ -503,7 +503,7 @@ EHModel_Regression_Logistic2 <-function(df, y, splitRatio = .8)
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
-  logistic_model <- glm(fla,
+  logistic_model <- train(fla,
                         data = df,
                         trControl = train_control,
                         method = "glm",
