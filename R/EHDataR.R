@@ -147,7 +147,9 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df[,interaction] <- as.factor(df[,interaction])
   
-  xtext = paste("Value counts: ", aggregate(data.frame(count = df[,interaction]), list(value = df[, interaction]), length))
+  v <- as.vector(df[,interaction])
+  
+  xtext = paste("Value counts: ", aggregate(data.frame(count = v), list(value = v), length))
   
   plot_list <- list()
   
