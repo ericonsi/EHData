@@ -147,6 +147,8 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df[,interaction] <- as.factor(df[,interaction])
   
+  xtext = paste("Value counts: ", aggregate(data.frame(count = v), list(value = v), length))
+  
   plot_list <- list()
   
   for(i in 1:ncol(df)) {     
@@ -154,7 +156,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
     p <- eval(substitute(ggplot(df, aes_string(df[ , i], y, color=interaction)) +
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
-                           xlab("") +
+                           xlab(xtext) +
                            theme(title = element_text(size=7), axis.title.x = element_text(size = 7), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
