@@ -490,3 +490,29 @@ print(roc1)
 
   return(logistic_model)
 }
+
+
+
+EHModel_Regression_Logistic2 <-function(df, y, splitRatio = .8)
+{
+  library(caTools)
+  library(ROCR)
+  
+  # define training control
+  train_control <- trainControl(method = "cv", number = 10)
+  
+  fla <- substitute(n ~ ., list(n = as.name(y)))
+  
+  logistic_model <- glm(fla,
+                        data = df,
+                        trControl = train_control,
+                        method = "glm",
+                        family = "binomial")
+  print(logistic_model)
+  
+  # Summary
+  print(summary(logistic_model))
+  print(logistic_model$result)
+  
+  return(logistic_model)
+}
