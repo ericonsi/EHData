@@ -146,20 +146,13 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   df <- select_if(df, is.numeric)
   
   df[,interaction] <- as.factor(df[,interaction])
+
+  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
   
-  v <- as.vector(df[,interaction])
-  
-  mydf <- df %>%
-    group_by(df[,interaction]) %>%
-    summarize(count = n())
-  
-  print(mydf)
-  
-  xtext = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
-  print(xtext)
-  xtext = as.character(xtext)
-  print(xtext)
-  
+  if (nrow(xtext1) = 2) {
+    xtext <- paste("Fequencies- ", xtext[1,value], ":", xtext[1,count], " | ", xtext[2,value], ":", xtext[2,count])
+  }
+
   plot_list <- list()
   
   for(i in 1:ncol(df)) {     
