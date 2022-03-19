@@ -154,7 +154,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
     #summarize(factor = n_distinct(interaction))
   
   xtext =aggregate(data.frame(count = v), list(value = v), length)
-  print(xtest)
+  print(xtext)
   
   plot_list <- list()
   
