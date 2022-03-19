@@ -146,6 +146,8 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   df <- select_if(df, is.numeric)
   
   df[,interaction] <- as.factor(df[,interaction])
+  
+  v <- as.vector(df[,interaction])
 
   xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
   
