@@ -149,7 +149,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   v <- as.vector(df[,interaction])
   
-  mydf %>%
+  mydf <- df %>%
     group_by(interaction) %>%
     summarize(factor = n_distinct(interaction))
   
