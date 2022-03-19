@@ -149,7 +149,12 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   v <- as.vector(df[,interaction])
   
-  xtext = aggregate(data.frame(count = v), list(value = v), length)
+  #mydf %>%
+    #group_by(interaction) %>%
+    #summarize(factor = n_distinct(interaction))
+  
+  xtext =aggregate(data.frame(count = v), list(value = v), length)
+  print(xtest)
   
   plot_list <- list()
   
@@ -159,7 +164,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
                            xlab(xtext) +
-                           theme(title = element_text(size=7), axis.title.x = element_text(size = 7), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
