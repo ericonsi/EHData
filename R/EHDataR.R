@@ -145,13 +145,14 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df <- select_if(df, is.numeric)
   
-  df[,interaction] <- as.factor(df[,interaction])
-  
   v <- as.vector(df[,interaction])
 
   xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
   df[interaction][df[interaction] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
   df[interaction][df[interaction] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+  
+  
+  df[,interaction] <- as.factor(df[,interaction])
   
   plot_list <- list()
   
