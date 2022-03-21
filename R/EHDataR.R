@@ -147,24 +147,20 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df[,interaction] <- as.factor(df[,interaction])
   
+  v <- as.vector(df[,interaction])
+
+  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+  df[interaction][df[interaction] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+  df[interaction][df[interaction] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+  
   plot_list <- list()
   
   for(i in 1:ncol(df)) {     
     
-    v <- as.vector(df[,interaction])
-    
-    xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
-    
-    if (nrow(xtext1) == 2) {
-      xtext <- paste("Fequencies- ", xtext1$value[1], ":", xtext1$count[1], " | ", xtext1$value[2], ":", xtext1$count[2])
-    } else {
-      xtext = "Too many factors to calculate frequencies"
-    }
-    
     p <- eval(substitute(ggplot(df, aes_string(df[ , i], y, color=interaction)) +
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
-                           xlab(xtext) +
+                           xlab(colnames(df)[i]) +
                            theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
