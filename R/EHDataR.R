@@ -147,19 +147,19 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df[,interaction] <- as.factor(df[,interaction])
   
-  v <- as.vector(df[,interaction])
-
-  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
-  
-  if (nrow(xtext1) == 2) {
-        xtext <- paste("Fequencies- ", xtext1$value[1], ":", xtext1$count[1], " | ", xtext1$value[2], ":", xtext1$count[2])
-  } else {
-    xtext = "Too many factors to calculate frequencies"
-  }
-  
   plot_list <- list()
   
   for(i in 1:ncol(df)) {     
+    
+    v <- as.vector(df[,interaction])
+    
+    xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+    
+    if (nrow(xtext1) == 2) {
+      xtext <- paste("Fequencies- ", xtext1$value[1], ":", xtext1$count[1], " | ", xtext1$value[2], ":", xtext1$count[2])
+    } else {
+      xtext = "Too many factors to calculate frequencies"
+    }
     
     p <- eval(substitute(ggplot(df, aes_string(df[ , i], y, color=interaction)) +
                            geom_point(alpha=.1) +
