@@ -523,3 +523,20 @@ EHModel_Regression_Logistic2 <-function(df, y, splitRatio = .8)
   
   return(logistic_model)
 }
+
+
+
+EHPrepare_ScaleAllButTarget <-function(df, y)
+{
+  
+  df1 <- df%>%
+    dplyr::select(-df[,y])
+  
+  df1 <- dataframe(scale(df1))
+  df2 <- df%>%
+    dplyr::select(df[,y])
+  
+  d3 <- cbind(df1,df2)
+  
+  return(df3)
+}
