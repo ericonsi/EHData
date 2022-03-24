@@ -536,7 +536,7 @@ EHPrepare_ScaleAllButTarget <-function(df, y)
   df2 <- df%>%
     dplyr::select(df[,y])
   
-  d3 <- cbind(df1,df2)
+  df3 <- cbind(df1,df2)
   
   return(df3)
 }
