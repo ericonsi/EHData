@@ -494,6 +494,7 @@ roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
 print(paste("AUC: ", auc(roc1)))
 print(roc1)
+print(mmps(logistic_model))
 
   return(logistic_model)
 }
