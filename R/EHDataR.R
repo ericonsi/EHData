@@ -494,7 +494,11 @@ roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
 print(paste("AUC: ", auc(roc1)))
 print(roc1)
-  return(logistic_model)
+
+listq = list()
+listq[1] <- logistic_model
+listq[2] <- roc1
+  return(listq)
 }
 
 
