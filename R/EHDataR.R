@@ -482,7 +482,8 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   dfPred$class <- as.factor(dfPred$class)
   dfPred$scored_class <- as.factor(dfPred$scored_class)
   
-  print(confusionMatrix(data = dfPred$scored_class, reference = dfPred$class))
+  q <-confusionMatrix(data = dfPred$scored_class, reference = dfPred$class)
+  print(q)
   
   dfPred_raw <- data.frame(class, predict_reg)
   
@@ -497,7 +498,7 @@ print(roc1)
 
 listq = list()
 listq[1] <- logistic_model
-listq[2] <- roc1
+listq[2] <- q
   return(listq)
 }
 
