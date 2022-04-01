@@ -497,13 +497,8 @@ listCM = list()
 
 listq = list()
 listq[1] <- logistic_model
-
-  listCM[1] <- q$overall['Accuracy']
-  listCM[2] <- stats::extractAIC(logistic_model)
-
-listq[2] <-listCM
-
-listq[3] <- summary(logistic_model)
+listq[2] <- q$overall['Accuracy']
+listq[3] <- stats::extractAIC(logistic_model)
 
   return(listq)
 }
