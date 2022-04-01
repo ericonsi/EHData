@@ -493,12 +493,10 @@ roc1 <- roc(dfPred_raw$class,
 print(paste("AUC: ", auc(roc1)))
 print(roc1)
 
-listCM = list()
-
 listq = list()
 listq[1] <- logistic_model
 listq[2] <- q$overall['Accuracy']
-listq[3] <- stats::extractAIC(logistic_model)
+listq[3] <- logistic_model$aic
 
   return(listq)
 }
