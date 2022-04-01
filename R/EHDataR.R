@@ -465,7 +465,6 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   logistic_model <- glm(fla,
                         data = df,
                         family = "binomial")
-  print(logistic_model)
   
   # Summary
   print(summary(logistic_model))
@@ -489,16 +488,23 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   
   roc(class ~ predict_reg, dfPred_raw)
   
-
-  
 roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
 print(paste("AUC: ", auc(roc1)))
 print(roc1)
 
+listCM = listCM()
+
 listq = list()
 listq[1] <- logistic_model
-listq[2] <- q$overall['Accuracy']
+
+  listCM[1] <- q$overall['Accuracy']
+  listCM[2] <- stats::extractAIC(logistic_model)
+
+listq[2] <-listCM
+
+listq[3] <- summary(logistic_model)
+
   return(listq)
 }
 
