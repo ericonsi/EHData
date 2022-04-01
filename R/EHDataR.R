@@ -484,6 +484,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   
   q <-confusionMatrix(data = dfPred$scored_class, reference = dfPred$class)
   print(q)
+  print(q$overall['Accuracy'])
   
   dfPred_raw <- data.frame(class, predict_reg)
   
