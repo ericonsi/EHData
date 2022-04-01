@@ -493,7 +493,7 @@ roc1 <- roc(dfPred_raw$class,
 print(paste("AUC: ", auc(roc1)))
 print(roc1)
 
-listCM = listCM()
+listCM = list()
 
 listq = list()
 listq[1] <- logistic_model
@@ -507,33 +507,6 @@ listq[3] <- summary(logistic_model)
 
   return(listq)
 }
-
-
-
-EHModel_Regression_Logistic2 <-function(df, y, splitRatio = .8)
-{
-  library(caTools)
-  library(ROCR)
-  
-  # define training control
-  train_control <- trainControl(method = "cv", number = 10)
-  
-  fla <- substitute(n ~ ., list(n = as.name(y)))
-  
-  logistic_model <- train(fla,
-                        data = df,
-                        trControl = train_control,
-                        method = "glm",
-                        family = "binomial")
-  print(logistic_model)
-  
-  # Summary
-  print(summary(logistic_model))
-  print(logistic_model$result)
-  
-  return(logistic_model)
-}
-
 
 
 EHPrepare_ScaleAllButTarget <-function(df, y)
