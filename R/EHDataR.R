@@ -469,6 +469,8 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
     listq[1] <- logistic_model
     listq[2] <- 0
     listq[3] <- 0
+    
+    return(listq)
   }
   
   split <- sample.split(df, SplitRatio = splitRatio)
