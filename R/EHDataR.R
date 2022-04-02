@@ -454,6 +454,23 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   library(caTools)
   library(ROCR)
   
+  
+  if(splitRatio==1) {
+    fla <- substitute(n ~ ., list(n = as.name(y)))
+    
+    logistic_model <- glm(fla,
+                          data = df,
+                          family = "binomial")
+    
+    # Summary
+    print(summary(logistic_model))
+    
+    listq = list()
+    listq[1] <- logistic_model
+    listq[2] <- 0
+    listq[3] <- 0
+  }
+  
   split <- sample.split(df, SplitRatio = splitRatio)
   split
   
