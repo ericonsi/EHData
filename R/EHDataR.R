@@ -449,11 +449,14 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   return (plot_list4)
 }
 
-EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
+EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0)
 {
   library(caTools)
   library(ROCR)
   
+  if(xseed>0) {
+    set.seed(xseed)
+  }
   
   if(splitRatio==1) {
     fla <- substitute(n ~ ., list(n = as.name(y)))
