@@ -463,7 +463,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8)
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
   logistic_model <- glm(fla,
-                        data = df,
+                        data = train_reg,
                         family = "binomial")
   
   # Summary
