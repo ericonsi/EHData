@@ -368,7 +368,6 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
   cor_res <- cor(my_matrix, use = "na.or.complete")
   
   if (run_all) {
-    psych::pairs.panels(df)
     print(dfCor)
     corrplot(cor_res, method = 'number')
   }
