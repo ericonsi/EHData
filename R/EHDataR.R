@@ -538,7 +538,7 @@ EHPrepare_ScaleAllButTarget <-function(df, y)
   return(df3)
 }
 
-EHM_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
+EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
 {
   
   acc = list()
