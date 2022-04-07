@@ -537,3 +537,28 @@ EHPrepare_ScaleAllButTarget <-function(df, y)
   
   return(df3)
 }
+
+EHM_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  acc = list()
+  AIC = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_Logistic(df, y)
+    acc[i]=q[2]
+    AIC[i]=q[3]
+  }
+  
+  accv <- unlist(acc)
+  aveq <- mean(accv)
+  
+  aicv <- unlist(AIC)
+  aicq <- mean(aicv)
+  
+  print(paste("Accuracy: ", aveq))
+  print(paste("AIC: ", aicq))
+  
+  
+}
