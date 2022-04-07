@@ -511,13 +511,16 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0)
   
 roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
-print(paste("AUC: ", auc(roc1)))
+
+xauc <- auc(roc1)
+print(paste("AUC: ", xauc))
 print(roc1)
 
 listq = list()
 listq[1] <- logistic_model
 listq[2] <- q$overall['Accuracy']
 listq[3] <- logistic_model$aic
+listq[4] <- xauc
 
   return(listq)
 }
@@ -543,12 +546,14 @@ EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
   
   acc = list()
   AIC = list()
+  AUC = list()
   
   for (i in 1:numOfIterations)
   {
     q <- EHModel_Regression_Logistic(df, y)
     acc[i]=q[2]
     AIC[i]=q[3]
+    AUC[i] = q[4]
   }
   
   accv <- unlist(acc)
@@ -557,8 +562,11 @@ EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
   aicv <- unlist(AIC)
   aicq <- mean(aicv)
   
+  aucv <- unlist(AUC)
+  aucq <- mean(aucv)
+  
   print(paste("Accuracy: ", aveq))
   print(paste("AIC: ", aicq))
-  
+  print(paste("AUC: ", aucq))
   
 }
