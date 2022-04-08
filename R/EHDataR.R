@@ -384,10 +384,15 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y, vif=TRUE, tests = TRUE, avplots = TRUE) {
+EHModel_Regression_StandardLM <- function(df, y, splitRatio=1, xseed = 0, vif=TRUE, tests = TRUE, avplots = TRUE) {
   
-  fla <- substitute(n ~ ., list(n = as.name(y)))
+  if(xseed>0) {
+    set.seed(xseed)
+  }
   
+  if(splitRatio==1) {
+    fla <- substitute(n ~ ., list(n = as.name(y)))
+
   par(mfcol=c(2,2))
   
   mod_4 <- lm(fla, df)
@@ -414,7 +419,7 @@ EHModel_Regression_StandardLM <- function(df, y, vif=TRUE, tests = TRUE, avplots
   }
   
   return(step3)
-  
+  }
 }
 
 EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
