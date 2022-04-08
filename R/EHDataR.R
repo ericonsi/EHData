@@ -384,7 +384,7 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y, splitRatio=1, xseed = 0, vif=TRUE, tests = TRUE, avplots = TRUE) {
+EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = TRUE) {
   
   library(caTools)
   library(Metrics)
@@ -439,7 +439,6 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=1, xseed = 0, vif=TR
     Adj_R2 <- 1-(mean_squared_error/var(Y_test))
     print(paste("Test Set adj R^2: ", Adj_R2))
   }
-  
   
   return(step3)
 }
