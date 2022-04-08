@@ -27,7 +27,7 @@ library(pROC)
 
 EHTheme <- function(){
   
-  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="cornsilk"))
+  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "cornsilk", color="darkslategray"))
   
   return (x)
   
@@ -162,7 +162,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
                            xlab(colnames(df)[i]) +
-                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="cornsilk")) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
@@ -191,7 +191,7 @@ for(i in 1:ncol(df)) {
                          coord_flip() +  
                          xlab(colnames(df)[i])  +
                          ylab(qk) +
-                         theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="cornsilk")) +
+                         theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "cornsilk", color="darkslategray")) +
                          geom_boxplot(), list(i=i)))
   
   plot_list2[[i]] <- p 
@@ -225,7 +225,7 @@ EHSummarize_SingleColumn_Histograms <- function(df, font_size = 7, hist_nbins = 
     p <- eval(substitute(ggplot(df, aes(df[,i])) +
                            ylab(colnames(df)[i])  +
                            xlab(qk) +
-                           theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(size=8),  panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank(), panel.background = element_rect(fill = "slategray2", color="cornsilk"))  + 
+                           theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(size=8),  panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank(), panel.background = element_rect(fill = "cornsilk", color="darkslategray"))  + 
                            geom_histogram(bins=hist_nbins, fill="white", aes(y = stat(density))) +
                            geom_density(col = "red"), list(i=i)))
     plot_list2[[i]] <- p 
@@ -261,7 +261,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
       geom_smooth(method = "loess", color="red", fill="lightcoral") +
       ylab(y) +
       xlab(xText) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="cornsilk")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "cornsilk", color="darkslategray")) +
       ggtitle(colnames(df)[i])
     
     p <- eval(substitute(p, list(i=i)))
@@ -293,7 +293,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
     p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
       xlab(colnames(df)[i])  +
       ylab(xText) +
-      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="cornsilk")) +
+      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+                     
       geom_boxplot()+
@@ -443,7 +443,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       scale_color_d3()+
       scale_fill_d3()+
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="cornsilk")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       ggtitle(colnames(df)[i])
     
     p <- eval(substitute(p, list(i=i)))
