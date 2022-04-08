@@ -433,6 +433,10 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=1, xseed = 0, vif=TR
     return(step3)
   } else {
     pred_linreg <- predict(step3,test_reg)
+    
+    Y_test<- test_reg[,y]
+    Adj_R2 <- 1-(mean_squared_error/var(Y_test))
+    print(paste("Test Set adj R^2: ", Adj_R2))
   }
   
   
