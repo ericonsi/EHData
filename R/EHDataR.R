@@ -439,11 +439,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     print(paste("RMSE: ", rmse1))
   }
   
-  return_list = list()
-  return_list[1] = step3
-  return_list[2]=rmse1
-  
-  return(return_list)
+  return(step3)
 }
   
 EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
