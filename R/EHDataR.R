@@ -645,7 +645,7 @@ EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
   for (i in 1:numOfIterations)
   {
     q <- EHModel_Regression_StandardLM(df, y, xstepAIC=FALSE)
-    rmse2=q[2]
+    rmse2[i]=q[2]
   }
   
   rsme2q <- unlist(rmse2)
@@ -663,7 +663,7 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   for (i in 1:numOfIterations)
   {
     q <- EHModel_Regression_Robust(df, y)
-    rmse2=q[2]
+    rmse2[i]=q[2]
   }
   
   rsme2q <- unlist(rmse2)
