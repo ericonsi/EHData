@@ -477,11 +477,12 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     print(m1_summary)
   
     pred_linreg <- predict(m1,test_reg)
+    resids <- test_reg[,y]-pred_linreg
     
     rmse1 <- rmse( test_reg[,y],pred_linreg)
     print(paste("RMSE: ", rmse1))
     
-    list_data <- list(c(m1), rmse1, m1_summary$sigma)
+    list_data <- list(c(m1), rmse1, m1_summary$sigma, resids)
     
     return(list_data)
 
