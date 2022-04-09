@@ -452,6 +452,8 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     set.seed(xseed)
   }
   
+  print("1")
+  
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
     split <- sample.split(df, SplitRatio = splitRatio)
@@ -459,14 +461,21 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     
     train_reg <- subset(df, split == "TRUE")
     test_reg <- subset(df, split == "FALSE")
-  
+    
+print("2")
+      
     m1 <- rlm(fla, train_reg)
     print(summary(m1))
   
     pred_linreg <- predict(m1,test_reg)
-    
+
+print("3")
+        
     Y_test<- test_reg[,y]
     mean_squared_error <- mse(test_reg[, y],pred_linreg)
+    
+print("4")
+    
     Adj_R2 <- 1-(mean_squared_error/var(Y_test))
     print(paste("Test Set adj R^2: ", Adj_R2))
 
