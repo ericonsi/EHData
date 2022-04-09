@@ -436,7 +436,11 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   }
   
   if (splitRatio==1){
-    return(step3)
+    
+    list_data <- list(c(step3), "0")
+    
+    return(list_data)
+    
   } else {
     pred_linreg <- predict(step3,test_reg)
     
