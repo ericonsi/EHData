@@ -414,7 +414,8 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     step3 <- mod_4
   }
   
-  print(summary(step3))
+  step3_summary <- summary(step3)
+  print(qsw)
   
   if (vif){
   print("VIF Analysis")
@@ -437,7 +438,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   
   if (splitRatio==1){
     
-    list_data <- list(c(step3), "0")
+    list_data <- list(c(step3), "0", "0")
     
     return(list_data)
     
@@ -448,7 +449,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     print(paste("RMSE: ", rmse1))
   }
   
-  list_data <- list(c(step3), rmse1)
+  list_data <- list(c(step3), rmse1, step3_summary$sigma)
   
   return(list_data)
 }
