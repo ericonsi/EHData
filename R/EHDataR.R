@@ -384,7 +384,7 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = FALSE, stepAIC=TRUE) {
+EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = FALSE, xstepAIC=TRUE) {
   
   library(caTools)
   library(Metrics)
@@ -640,14 +640,14 @@ EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100, xstepAIC=FALSE)
+EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
 {
   
   rmse2 = list()
   
   for (i in 1:numOfIterations)
   {
-    q <- EHModel_Regression_StandardLM(df, y)
+    q <- EHModel_Regression_StandardLM(df, y, xstepAIC=FALSE)
     rmse2=q[2]
   }
   
