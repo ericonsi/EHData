@@ -415,7 +415,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   }
   
   step3_summary <- summary(step3)
-  print(qsw)
+  print(step3_summary)
   
   if (vif){
   print("VIF Analysis")
@@ -473,14 +473,15 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     test_reg <- subset(df, split == "FALSE")
     
     m1 <- rlm(fm, train_reg)
-    print(summary(m1))
+    m1_summary <- summary(m1)
+    print(m1_summary)
   
     pred_linreg <- predict(m1,test_reg)
     
     rmse1 <- rmse( test_reg[,y],pred_linreg)
     print(paste("RMSE: ", rmse1))
     
-    list_data <- list(c(m1), rmse1)
+    list_data <- list(c(m1), rmse1, m1_summary$sigma)
     
     return(list_data)
 
@@ -646,17 +647,24 @@ EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
 {
   
   rmse2 = list()
+  rse = list()
   
   for (i in 1:numOfIterations)
   {
     q <- EHModel_Regression_StandardLM(df, y, xstepAIC=FALSE)
     rmse2[i]=q[2]
+    rse[i]=q[3]
   }
   
   rsme2q <- unlist(rmse2)
   rsme2m <- mean(rsme2q)
-
+  
+  rsev <- unlist(rse)
+  rsem <- mean(rsev)
+  
   print(paste("Average RSME: ", rsme2m))
+  print(paste("Average RSE: ", rsem))
+  
   
 }
 
@@ -664,16 +672,22 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
 {
   
   rmse2 = list()
+  rse = list()
   
   for (i in 1:numOfIterations)
   {
     q <- EHModel_Regression_Robust(df, y)
     rmse2[i]=q[2]
+    rse[i]=q[3]
   }
   
   rsme2q <- unlist(rmse2)
   rsme2m <- mean(rsme2q)
   
+  rsev <- unlist(rse)
+  rsem <- mean(rsev)
+  
   print(paste("Average RSME: ", rsme2m))
+  print(paste("Average RSE: ", rsem))
   
 }
