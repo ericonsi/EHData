@@ -475,12 +475,9 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     rmse1 <- rmse( test_reg[,y],pred_linreg)
     print(paste("RMSE: ", rmse1))
     
+    list_data <- list(c(m1), rmse1)
     
-    return_list = list()
-    return_list[1] = m1
-    return_list[2]=rmse1
-    
-    return(return_list)
+    return(list_data)
 
 }
 
@@ -651,9 +648,27 @@ EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
     rmse2=q[2]
   }
   
-  rsme2q <- unlist(rsme2)
+  rsme2q <- unlist(rmse2)
   rsme2m <- mean(rsme2q)
 
+  print(paste("Average RSME: ", rsme2m))
+  
+}
+
+EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  rmse2 = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_Robust(df, y)
+    rmse2=q[2]
+  }
+  
+  rsme2q <- unlist(rmse2)
+  rsme2m <- mean(rsme2q)
+  
   print(paste("Average RSME: ", rsme2m))
   
 }
