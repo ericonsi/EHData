@@ -388,7 +388,8 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   
   library(caTools)
   library(Metrics)
-
+  
+  
   if(xseed>0) {
     set.seed(xseed)
   }
@@ -438,7 +439,11 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     print(paste("RMSE: ", rmse1))
   }
   
-  return(step3)
+  return_list = list()
+  return_list[1] = step3
+  return_list[2]=rmse1
+  
+  return(return_list)
 }
   
 EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
@@ -463,11 +468,17 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
     print(summary(m1))
   
     pred_linreg <- predict(m1,test_reg)
-        
+    
     rmse1 <- rmse( test_reg[,y],pred_linreg)
     print(paste("RMSE: ", rmse1))
     
-  return(m1)
+    
+    return_list = list()
+    return_list[1] = m1
+    return_list[2]=rmse1
+    
+    return(return_list)
+
 }
 
 
@@ -623,5 +634,23 @@ EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
   print(paste("Accuracy: ", aveq))
   print(paste("AIC: ", aicq))
   print(paste("AUC: ", aucq))
+  
+}
+
+EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  rmse2 = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_StandardLM(df, y)
+    rmse2=q[2]
+  }
+  
+  rsme2q <- unlist(rsme2)
+  rsme2m <- mean(rsme2q)
+
+  print(paste("Average RSME: ", rsme2m))
   
 }
