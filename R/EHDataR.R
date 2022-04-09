@@ -453,22 +453,18 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
   }
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
+  fm <- as.formula(fla)
   
     split <- sample.split(df, SplitRatio = splitRatio)
     split
     
     train_reg <- subset(df, split == "TRUE")
     test_reg <- subset(df, split == "FALSE")
-    
-print("2")
       
-    m1 <- rlm(fla, train_reg)
-    print("2.1")
+    m1 <- rlm(fm, train_reg)
     print(summary(m1))
   
     pred_linreg <- predict(m1,test_reg)
-
-print("3")
         
     Y_test<- test_reg[,y]
     mean_squared_error <- mse(test_reg[, y],pred_linreg)
