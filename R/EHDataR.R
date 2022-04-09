@@ -411,7 +411,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   if(xstepAIC){
   step3 <- stepAIC(mod_4, trace=FALSE)
   } else {
-    step3 <- mod4
+    step3 <- mod_4
   }
   
   print(summary(step3))
