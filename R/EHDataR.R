@@ -272,7 +272,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 }
 
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, yCategorical=TRUE)
 {
   plot_list3 <- list()
   
@@ -290,7 +290,17 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y)
     
     xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
     
-    p <- ggplot(df, aes_string(x=df[,i], y, fill=y)) +
+    
+    x1 = df[[i]]
+    y1 =y
+    
+    if(!yCategorical)
+    {
+      x1=y
+      y1=df[[i]]
+    }
+    
+    p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
       xlab(colnames(df)[i])  +
       ylab(xText) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
