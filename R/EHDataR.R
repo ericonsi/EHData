@@ -272,7 +272,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 }
 
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, yCategorical=TRUE)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE)
 {
   plot_list3 <- list()
   
