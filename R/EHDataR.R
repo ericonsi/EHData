@@ -444,12 +444,13 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     
   } else {
     pred_linreg <- predict(step3,test_reg)
+    resids <- test_reg[,y]-pred_linreg
     
     rmse1 <- rmse( test_reg[,y],pred_linreg)
     print(paste("RMSE: ", rmse1))
   }
   
-  list_data <- list(c(step3), rmse1, step3_summary$sigma)
+  list_data <- list(c(step3), rmse1, step3_summary$sigma, resids)
   
   return(list_data)
 }
