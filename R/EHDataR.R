@@ -721,7 +721,7 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
   
   if(length(exclude>0)){
     
-    cols[names(cols) %in% exclude == FALSE]
+    cols <- cols[! cols %in% exclude]
   }
   
   df3 <- df %>%
