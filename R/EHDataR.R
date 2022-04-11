@@ -63,9 +63,6 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
-  dfNum <- select_if(dfNum, is.numeric)
-  dfNotNum <- select_if(dfNum, !is.numeric)
-  
   if(impute=="mean"){
     
     dfImputedMean <- df
