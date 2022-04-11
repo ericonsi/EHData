@@ -63,12 +63,9 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
-  l1 <- vector(mode = "list", length = 5)
-  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
-  
   if(impute=="mean"){
   dfImputedMean <- data.frame(
-    sapply(df, function(x) ifelse(!is.numeric(x) | !is.na(x), x, mean(x, na.rm = TRUE))))
+    sapply(df, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
   if(y==""){
     return(dfImputedMean)
   }
@@ -76,8 +73,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
 
   if(impute=="median"){
   dfImputedMedian <- data.frame(
-    #sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
-    sapply(df, function(x) ifelse(!is.numeric(x) | !is.na(x), x, mean(x, na.rm = TRUE))))
+    sapply(df, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
   if(y==""){
     return(dfImputedMedian)
   }
@@ -100,19 +96,13 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   step3 <- stepAIC(m3, trace=FALSE)
   s3 <- summary(step3)$adj.r.squared
   
-  #fla4 <- substitute(n ~ ., list(n = as.name(y)))
-  #m4 <- lm(fla4, dfMultiple)
-  #step4 <- stepAIC(m4, trace=FALSE)
-  #s4 <- summary(step4)$adj.r.squared
-  
-  
-  #l1 <- vector(mode = "list", length = 6)
-  #names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit", "r2multiple")
+  l1 <- vector(mode = "list", length = 5)
+  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
   
   l1$r2mean = s1
   l1$r2median = s2
   l1$r2omit = s3
-  #l1$r2multiple = s4
+
   
   if (impute == "mean") {
     l1$type = "mean"
@@ -126,24 +116,19 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
     l1$type = "omit"
     l1$df=dfOmit
   }
-  #else if (impute == "multiple") {
-  #  l1$type = "multiple"
-  #  l1$df=dfMultiple
-  #}
+  
   
   print(c("type:", l1$type))
   print(c("r2mean:", round(l1$r2mean,4)))
   print(c("r2median:", round(l1$r2median,4)))
   print(c("r2omit", round(l1$r2omit,4)))
- # print(c("r2multiple", round(l1$r2multiple,4)))
   
     if (print_all) {
       print(summary(step1))
       print(summary(step2))
       print(summary(step3))
-      #print(summary(step4))
     }
-  }
+  
     return (l1$df)
 }
 
