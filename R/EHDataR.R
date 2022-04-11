@@ -85,6 +85,8 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   
   if(y!=""){
   
+    print(head(dfImputedMean))
+    
   dfOmit <- na.omit(df)
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
@@ -738,7 +740,7 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
   }
   
   df3 <- df %>%
-    get_dummies.(cols,  drop_first = TRUE) %>%
+    get_dummies.(cols,  drop_first = TRUE, dummify_na=TRUE) %>%
     dplyr::select(-cols)
   
   df4 <- data.frame(df3) 
