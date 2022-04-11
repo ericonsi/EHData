@@ -55,22 +55,26 @@ EHSummarize_MissingValues <- function(df)
 
 EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all = FALSE)
 {
+  #FOR DATASETS WITH NO Y, PUT Y = ""
   
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
-  dfImputedMean <- data.frame(
-    sapply(df, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
   
+  if(impute=="mean"){
+  dfImputedMean <- data.frame(
+    sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), mean(x, na.rm = TRUE), x)),x))
+  }
+  
+  if(impute=="median")
   dfImputedMedian <- data.frame(
     sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
+  }
+  
+  if(y!=""){
   
   dfOmit <- na.omit(df)
-  
-  #set.seed(042760)
-  #dfMultiple <- Amelia::amelia(df, m=25)
-  
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
   m1 <- lm(fla, dfImputedMean)
@@ -132,12 +136,15 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
       print(summary(step3))
       #print(summary(step4))
     }
-    
+  }
     return (l1$df)
   
 }
 
 EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
+  
+  #Errors
+  #"Error: Unknown input: tbl_df' = you probably did not pass it a proper dataframe (probably a tibble instead)
   
   library(ggsci)
   
