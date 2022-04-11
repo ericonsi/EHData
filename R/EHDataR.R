@@ -22,6 +22,8 @@ library(ggsci)
 library(scales)
 library(naniar)
 library(Amelia)
+library(caret)
+library(pROC)
 
 EHTheme <- function(){
   
@@ -150,6 +152,13 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
   df <- select_if(df, is.numeric)
   
+  v <- as.vector(df[,interaction])
+
+  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+  df[interaction][df[interaction] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+  df[interaction][df[interaction] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+  
+  
   df[,interaction] <- as.factor(df[,interaction])
   
   plot_list <- list()
@@ -159,8 +168,8 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
     p <- eval(substitute(ggplot(df, aes_string(df[ , i], y, color=interaction)) +
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
-                           xlab("") +
-                           theme(title = element_text(size=7), axis.title.x = element_text(size = 7), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+                           xlab(colnames(df)[i]) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
@@ -199,37 +208,6 @@ for(i in 1:ncol(df)) {
 return (plot_list2)
 }
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, x)
-{  
-  library(ggsci)
-  df <- select_if(df, is.numeric)
-  
-  plot_list3 <- list()
-  
-  for(i in 1:ncol(df)) {
-    
-    print(colnames(df)[i])
-    print(colnames(df)[x])
-    ct <- cor.test(df[,i], df[,x])
-    
-    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
-    
-    df[,x] <- as.factor(df[,x])
-    p <- ggplot(df, aes_string(y=df[,i], x=x, fill=x)) +
-                           xlab(x)  +
-                           ylab(xText) +
-                           theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
-                            scale_color_d3()+
-                            scale_fill_d3()+                     
-                            geom_boxplot()
-    
-    
-    plot_list3[[i]] <- eval(substitute(p, list(i=i)))
-    
-    
-  }
-  return (plot_list3)
-}
 
 #dfTrain <- read.csv("C:\\Users\\erico\\Documents\\R\\CUNY_621\\Baseball\\moneyball-training-data.csv", header=TRUE)
 #dfTrain <- dfTrain %>%
@@ -301,12 +279,61 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
 }
 
 
-EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE)
+{
+  plot_list3 <- list()
+  
+  df <- select_if(df, is.numeric)
+  
+  df$NumericY <- as.numeric(df[,y])
+  
+  df[,y] <- as.factor(df[,y])
+  
+  for(i in 1:ncol(df)) {
+    
+    df$NumericX <- as.numeric(df[,i])
+    
+    ct <- cor.test(df$NumericX, df$NumericY)
+    
+    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    
+    
+    x1 = df[[i]]
+    y1 =y
+    
+    if(!yCategorical)
+    {
+      x1=y
+      y1=df[[i]]
+    }
+    
+    p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
+      xlab(colnames(df)[i])  +
+      ylab(xText) +
+      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+      scale_color_d3()+
+      scale_fill_d3()+                     
+      geom_boxplot()+
+      coord_flip() 
+    
+    plot_list3[[i]] <- eval(substitute(p, list(i=i)))
+    
+  }
+  return(plot_list3)
+}
+
+
+EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE, type="scatter")
 {  
   
   list1 <- EHSummarize_SingleColumn_Boxplots(data)
   list2 <- EHSummarize_SingleColumn_Histograms(data, hist_nbins =  h_nbins)
-  list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
+  
+  if(type=="scatter"){
+    list3 <- EHExplore_TwoContinuousColumns_Scatterplots(data, y)
+  } else if (type=="box"){
+    list3 <- EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots(data, y)
+  }
   
   zz2 <- list()
 
@@ -358,7 +385,6 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
   cor_res <- cor(my_matrix, use = "na.or.complete")
   
   if (run_all) {
-    pairs.panels(df)
     print(dfCor)
     corrplot(cor_res, method = 'number')
   }
@@ -375,30 +401,112 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y) {
+EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = FALSE, xstepAIC=TRUE) {
   
-  fla <- substitute(n ~ ., list(n = as.name(y)))
+  library(caTools)
+  library(Metrics)
+  
+  
+  if(xseed>0) {
+    set.seed(xseed)
+  }
   
   par(mfcol=c(2,2))
+  fla <- substitute(n ~ ., list(n = as.name(y)))
   
-  mod_4 <- lm(fla, df)
+  if(splitRatio==1) {
+    mod_4 <- lm(fla, df)
+  } else {
+    split <- sample.split(df, SplitRatio = splitRatio)
+    split
+    
+    train_reg <- subset(df, split == "TRUE")
+    test_reg <- subset(df, split == "FALSE")
+    mod_4 <- lm(fla, train_reg)
+  }
+  
+  if(xstepAIC){
   step3 <- stepAIC(mod_4, trace=FALSE)
-  print(summary(step3))
+  } else {
+    step3 <- mod_4
+  }
   
+  step3_summary <- summary(step3)
+  print(step3_summary)
+  
+  if (vif){
   print("VIF Analysis")
   vif_values <- car::vif(step3)
   print(vif_values)
+  }
   
   print(plot(step3))
   
+  if (tests) {
   library(lmtest)
   print(bptest(step3))
   
   print(shapiro.test(step3$residuals))
+  }
   
-  return(step3)
+  if (avplots) {
+    avPlots(step3)
+  }
   
+  if (splitRatio==1){
+    
+    list_data <- list(c(step3), "0", "0")
+    
+    return(list_data)
+    
+  } else {
+    pred_linreg <- predict(step3,test_reg)
+    resids <- test_reg[,y]-pred_linreg
+    
+    rmse1 <- rmse( test_reg[,y],pred_linreg)
+    print(paste("RMSE: ", rmse1))
+  }
+  
+  list_data <- list(c(step3), rmse1, step3_summary$sigma, resids)
+  
+  return(list_data)
 }
+  
+EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
+  
+  library(caTools)
+  library(Metrics)
+  
+  if(xseed>0) {
+    set.seed(xseed)
+  }
+  
+  fla <- substitute(n ~ ., list(n = as.name(y)))
+  fm <- as.formula(fla)
+  
+    split <- sample.split(df, SplitRatio = splitRatio)
+    split
+    
+    train_reg <- subset(df, split == "TRUE")
+    test_reg <- subset(df, split == "FALSE")
+    
+    m1 <- rlm(fm, train_reg)
+    m1_summary <- summary(m1)
+    print(m1_summary)
+  
+    pred_linreg <- predict(m1,test_reg)
+    resids <- test_reg[,y]-pred_linreg
+    
+    rmse1 <- rmse( test_reg[,y],pred_linreg)
+    print(paste("RMSE: ", rmse1))
+    
+    list_data <- list(c(m1), rmse1, m1_summary$sigma, resids)
+    
+    return(list_data)
+
+}
+
+
 
 EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
 {
@@ -429,4 +537,206 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   }
   
   return (plot_list4)
+}
+
+EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0)
+{
+  library(caTools)
+  library(ROCR)
+  
+  if(xseed>0) {
+    set.seed(xseed)
+  }
+  
+  if(splitRatio==1) {
+    fla <- substitute(n ~ ., list(n = as.name(y)))
+    
+    logistic_model <- glm(fla,
+                          data = df,
+                          family = "binomial")
+    
+    # Summary
+    print(summary(logistic_model))
+    
+    listq = list()
+    listq[1] <- logistic_model
+    listq[2] <- 0
+    listq[3] <- 0
+    
+    return(listq)
+  }
+  
+  split <- sample.split(df, SplitRatio = splitRatio)
+  split
+  
+  train_reg <- subset(df, split == "TRUE")
+  test_reg <- subset(df, split == "FALSE")
+  
+  fla <- substitute(n ~ ., list(n = as.name(y)))
+  
+  logistic_model <- glm(fla,
+                        data = train_reg,
+                        family = "binomial")
+  
+  # Summary
+  print(summary(logistic_model))
+  
+  # Predict test data based on model
+  predict_reg <- predict(logistic_model,
+                         test_reg, type = "response")
+
+  scored_class <- ifelse(predict_reg >0.5, 1, 0)
+  class <- test_reg[,y]
+  
+  dfPred <- data.frame(class, scored_class)
+  
+  dfPred$class <- as.factor(dfPred$class)
+  dfPred$scored_class <- as.factor(dfPred$scored_class)
+  
+  q <-confusionMatrix(data = dfPred$scored_class, reference = dfPred$class)
+  print(q)
+  
+  dfPred_raw <- data.frame(class, predict_reg)
+  
+  roc(class ~ predict_reg, dfPred_raw)
+  
+roc1 <- roc(dfPred_raw$class,
+              dfPred_raw$predict_reg, plot=TRUE)
+
+xauc <- auc(roc1)
+print(paste("AUC: ", xauc))
+print(roc1)
+
+listq = list()
+listq[1] <- logistic_model
+listq[2] <- q$overall['Accuracy']
+listq[3] <- logistic_model$aic
+listq[4] <- xauc
+
+  return(listq)
+}
+
+
+EHPrepare_ScaleAllButTarget <-function(df, y)
+{
+  
+  df1 <- df%>%
+    dplyr::select(-df[,y])
+  
+  df1 <- data.frame(scale(df1))
+  df2 <- df%>%
+    dplyr::select(df[,y])
+  
+  df3 <- cbind(df1,df2)
+  
+  return(df3)
+}
+
+EHModel_Regression_Logistic_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  acc = list()
+  AIC = list()
+  AUC = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_Logistic(df, y)
+    acc[i]=q[2]
+    AIC[i]=q[3]
+    AUC[i] = q[4]
+  }
+  
+  accv <- unlist(acc)
+  aveq <- mean(accv)
+  
+  aicv <- unlist(AIC)
+  aicq <- mean(aicv)
+  
+  aucv <- unlist(AUC)
+  aucq <- mean(aucv)
+  
+  print(paste("Accuracy: ", aveq))
+  print(paste("AIC: ", aicq))
+  print(paste("AUC: ", aucq))
+  
+}
+
+EHModel_Regression_Standard_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  rmse2 = list()
+  rse = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_StandardLM(df, y, xstepAIC=FALSE)
+    rmse2[i]=q[2]
+    rse[i]=q[3]
+  }
+  
+  rsme2q <- unlist(rmse2)
+  rsme2m <- mean(rsme2q)
+  
+  rsev <- unlist(rse)
+  rsem <- mean(rsev)
+  
+  print(paste("Average RSME: ", rsme2m))
+  print(paste("Average RSE: ", rsem))
+  
+  
+}
+
+EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
+{
+  
+  rmse2 = list()
+  rse = list()
+  
+  for (i in 1:numOfIterations)
+  {
+    q <- EHModel_Regression_Robust(df, y)
+    rmse2[i]=q[2]
+    rse[i]=q[3]
+  }
+  
+  rsme2q <- unlist(rmse2)
+  rsme2m <- mean(rsme2q)
+  
+  rsev <- unlist(rse)
+  rsem <- mean(rsev)
+  
+  print(paste("Average RSME: ", rsme2m))
+  print(paste("Average RSE: ", rsem))
+  
+}
+
+EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
+{
+  
+  library(tidytable)
+  
+  fact <- df %>%
+    dplyr::select(is.factor|is.character)
+  
+  cols <- colnames(fact)
+  
+  if(length(include>0)){
+    
+    cols <- include
+  }
+  
+  if(length(exclude>0)){
+    
+    cols <- cols[! cols %in% exclude]
+  }
+  
+  df3 <- df %>%
+    get_dummies.(cols,  drop_first = TRUE) %>%
+    dplyr::select(-cols)
+  
+  df4 <- data.frame(df3) 
+  
+  return(df4)
+  
 }
