@@ -703,3 +703,20 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   print(paste("Average RSE: ", rsem))
   
 }
+
+EHPrepare_CreateDummies <- function(df, columnVector)
+{
+  
+  library(tidytable)
+  
+  cols <- c('PARENT1', 'MSTATUS', 'SEX', 'CAR_TYPE', 'RED_CAR', 'REVOKED', 'JOB', 'CAR_USE', 'EDUCATION', 'URBANICITY')
+  
+  df2 <- df %>%
+    get_dummies.(columnVector,  drop_first = TRUE) %>%
+    dplyr::select(-cols)
+  
+  df3 <- data.frame(df2) 
+  
+  return(df3)
+  
+}
