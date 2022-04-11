@@ -451,7 +451,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   
   if (splitRatio==1){
     
-    list_data <- list(c(step3), "0", "0")
+    list_data <- list(step3)
     
     return(list_data)
     
@@ -463,7 +463,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     print(paste("RMSE: ", rmse1))
   }
   
-  list_data <- list(c(step3), rmse1, step3_summary$sigma, resids)
+  list_data <- list(c(step3, rmse1, step3_summary$sigma, resids))
   
   return(list_data)
 }
