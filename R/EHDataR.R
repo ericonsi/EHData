@@ -66,12 +66,13 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   
   if(impute=="mean"){
   dfImputedMean <- data.frame(
-    sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), mean(x, na.rm = TRUE), x)),x))
+    sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), mean(x, na.rm = TRUE), x), x)))
   }
   
   if(impute=="median"){
   dfImputedMedian <- data.frame(
-    sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
+    #sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
+    sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), median(x, na.rm = TRUE), x), x)))
   }
   
   if(y!=""){
@@ -145,7 +146,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
 
 EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   
-  #Errors
+  #If you get these Errors:
   #"Error: Unknown input: tbl_df' = you probably did not pass it a proper dataframe (probably a tibble instead)
   
   library(ggsci)
