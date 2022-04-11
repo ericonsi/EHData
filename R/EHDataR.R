@@ -704,15 +704,18 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, columnVector)
+EHPrepare_CreateDummies <- function(df)
 {
   
   library(tidytable)
   
-  cols <- c('PARENT1', 'MSTATUS', 'SEX', 'CAR_TYPE', 'RED_CAR', 'REVOKED', 'JOB', 'CAR_USE', 'EDUCATION', 'URBANICITY')
+  df_fact <- df %>% select_if(is.factor|is.character)
+  df_fact <- as.factor(df_fact)
   
-  df2 <- df %>%
-    get_dummies.(columnVector,  drop_first = TRUE) %>%
+  cols <- colnames(df_fact)
+  
+  df2 <- df_fact %>%
+    get_dummies.(cols,  drop_first = TRUE) %>%
     dplyr::select(-cols)
   
   df3 <- data.frame(df2) 
