@@ -704,22 +704,32 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df)
+EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
 {
   
   library(tidytable)
   
-  df_fact <- df %>% 
+  fact <- df %>%
     dplyr::select(is.factor|is.character)
   
-  cols <- colnames(df_fact)
+  cols <- colnames(fact)
   
-  df2 <- df_fact %>%
-    tidytable::get_dummies.(df, drop_first = TRUE) %>%
+  if(length(include>0)){
+    
+    cols <- include
+  }
+  
+  if(length(exclude>0)){
+    
+    cols[names(cols) %in% exclude == FALSE]
+  }
+  
+  df3 <- df %>%
+    get_dummies.(cols,  drop_first = TRUE) %>%
     dplyr::select(-cols)
   
-  df3 <- data.frame(df2) 
+  df4 <- data.frame(df3) 
   
-  return(df3)
+  return(df4)
   
 }
