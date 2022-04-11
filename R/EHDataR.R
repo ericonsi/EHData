@@ -63,19 +63,24 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
+  l1 <- vector(mode = "list", length = 5)
+  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
   
   if(impute=="mean"){
   dfImputedMean <- data.frame(
-    
-    #sapply(cy, function(x) sapply(yr, function(y) median(salience[country == x & year == y], na.rm=TRUE)))
-    #sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), mean(x, na.rm = TRUE), x), x)))
     sapply(df, function(x) ifelse(is.numeric(x), ifelse(is.na(x), mean(x, na.rm = TRUE), x), x)))
+  if(y==""){
+    return(dfImputedMean)
   }
-  
+  }
+
   if(impute=="median"){
   dfImputedMedian <- data.frame(
     #sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
-    sapply(df, function(x) ifelse(is.numeric, ifelse(is.na(x), median(x, na.rm = TRUE), x), x)))
+    sapply(df, function(x) ifelse(is.numeric(x), ifelse(is.na(x), median(x, na.rm = TRUE), x), x)))
+  if(y==""){
+    return(dfImputedMedian)
+  }
   }
   
   if(y!=""){
@@ -102,8 +107,6 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   #step4 <- stepAIC(m4, trace=FALSE)
   #s4 <- summary(step4)$adj.r.squared
   
-  l1 <- vector(mode = "list", length = 5)
-  names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit")
   
   #l1 <- vector(mode = "list", length = 6)
   #names(l1) <- c("df", "type", "r2mean", "r2median", "r2omit", "r2multiple")
@@ -144,7 +147,6 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
     }
   }
     return (l1$df)
-  
 }
 
 EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
