@@ -712,12 +712,10 @@ EHPrepare_CreateDummies <- function(df)
   df_fact <- df %>% 
     dplyr::select(is.factor|is.character)
   
-  df_fact <- as.factor(df_fact)
-  
   cols <- colnames(df_fact)
   
   df2 <- df_fact %>%
-    get_dummies.(cols,  drop_first = TRUE) %>%
+    tidytable::get_dummies.(df, drop_first = TRUE) %>%
     dplyr::select(-cols)
   
   df3 <- data.frame(df2) 
