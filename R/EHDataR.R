@@ -68,7 +68,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   
   if(impute=="mean"){
   dfImputedMean <- data.frame(
-    sapply(df, function(x) ifelse(is.numeric(x), ifelse(is.na(x), mean(x, na.rm = TRUE), x), x)))
+    sapply(df, function(x) ifelse(is.numeric(x) & is.na(x), median(x, na.rm = TRUE), x)))
   if(y==""){
     return(dfImputedMean)
   }
