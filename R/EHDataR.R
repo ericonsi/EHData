@@ -397,7 +397,7 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
 }
 
 
-EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = FALSE, xstepAIC=TRUE) {
+EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=TRUE, tests = TRUE, avplots = FALSE, xstepAIC=TRUE, returnLM=FALSE) {
   
   library(caTools)
   library(Metrics)
@@ -451,9 +451,14 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   
   if (splitRatio==1){
     
-    list_data <- list(step3)
+    list_data <- c(step3, 0, 0, 0)
     
-    return(list_data)
+    if(returnLM) {
+      return(list_data)
+    }else{
+      return (step3)
+    }
+
     
   } else {
     pred_linreg <- predict(step3,test_reg)
@@ -463,9 +468,13 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     print(paste("RMSE: ", rmse1))
   }
   
-  list_data <- list(c(step3, rmse1, step3_summary$sigma, resids))
+  list_data <- c(step3, rmse1, step3_summary$sigma, resids)
   
+  if(returnLM) {
   return(list_data)
+  }else{
+  return (step3)
+  }
 }
   
 EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
