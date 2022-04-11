@@ -69,7 +69,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
 
     for(i in colnames(df))
       if(is.numeric(df[,i])){
-        mean_val <- colMeans(df[,i],na.rm = TRUE)
+        meanv <- mean(df[,i], na.rm = TRUE)  
         dfImputedMean[,i][is.na(df[,i])] <- meanv
       }
     
