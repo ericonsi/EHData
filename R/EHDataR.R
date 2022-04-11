@@ -709,7 +709,9 @@ EHPrepare_CreateDummies <- function(df)
   
   library(tidytable)
   
-  df_fact <- df %>% select(is.factor|is.character)
+  df_fact <- df %>% 
+    dplyr::select(is.factor|is.character)
+  
   df_fact <- as.factor(df_fact)
   
   cols <- colnames(df_fact)
