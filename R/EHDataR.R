@@ -63,9 +63,16 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
   #2. Missing at Random (MAR):
   #3. Missing Not at Random (MNAR)
   
+  dfNum <- select_if(dfNum, is.numeric)
+  dfNotNum <- select_if(dfNum, !is.numeric)
+  
   if(impute=="mean"){
-  dfImputedMean <- data.frame(
-    sapply(df, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
+    
+    mean_val <- colMeans(df)
+    for(i in colnames(data))
+      if(is.numeric(df[,i])){
+        dfImputedMean <- df[,i][is.na(df[,i])] <- mean_val[i]
+      }
   if(y==""){
     return(dfImputedMean)
   }
@@ -73,7 +80,7 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
 
   if(impute=="median"){
   dfImputedMedian <- data.frame(
-    sapply(df, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x)))
+    sapply(df, function(x) ifelse(is.na(x), median(x, na.rm = TRUE), x)))
   if(y==""){
     return(dfImputedMedian)
   }
