@@ -745,3 +745,32 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
   return(df4)
   
 }
+
+EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2)
+{
+  
+  library(janitor)
+  cmp <- compare_df_cols(df1, df2)
+  
+  cmp_No1 <- cmp %>%
+    dplyr::filter(is.na(df1))
+  
+  cmp_1V <- cmp_No1$column_name
+  
+  df2R <- df2 %>%
+    dplyr::select(!any_of(cmp_No1V))
+  
+  
+  
+  cmp_No2 <- cmp %>%
+    dplyr::filter(is.na(df2))
+  
+  cmp_No2V <- cmp_No2$column_name
+  
+  df1R <- df1 %>%
+    dplyr::select(!any_of(cmp_No2V))
+  
+  rlist <- list(df1R, df2R)
+  return(rlist)
+  
+}
