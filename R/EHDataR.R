@@ -453,7 +453,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     
     list_data <- c(step3, 0, 0, 0)
     
-    if(returnLM) {
+    if(!returnLM) {
       return(list_data)
     }else{
       return (step3)
@@ -470,7 +470,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   
   list_data <- c(step3, rmse1, step3_summary$sigma, resids)
   
-  if(returnLM) {
+  if(!returnLM) {
   return(list_data)
   }else{
   return (step3)
