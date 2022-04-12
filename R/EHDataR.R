@@ -279,12 +279,22 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
 {
   plot_list3 <- list()
   
+  v <- as.vector(df[,y])
+  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+  df[interaction][df[interaction] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+  df[interaction][df[interaction] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+  
   df <- select_if(df, is.numeric)
   
   df$NumericY <- as.numeric(df[,y])
   
   if(yCategorical){
   df[,y] <- as.factor(df[,y])
+  
+  v <- as.vector(df[,y])
+  xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+  df[y][df[y] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+  df[y][df[y] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
   }
   
   for(i in 1:ncol(df)) {
@@ -303,6 +313,11 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     {
       x1=y
       y1=as.factor(df[[i]])
+      
+      v <- as.vector(df[,i])
+      xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+      df[i][df[i] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+      df[i][df[i] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
       
     }
     
