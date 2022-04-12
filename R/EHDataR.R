@@ -306,14 +306,16 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     
     if(!yCategorical)
     {
-      x1=y
-      y1=as.factor(df[[i]])
+      
+      df[[i]] <- as.factor(df[[i]])
       
       v <- as.vector(df[,i])
       xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
       df[i][df[i] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
       df[i][df[i] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
       
+      x1=y
+      y1=df[[i]]
     }
     
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
