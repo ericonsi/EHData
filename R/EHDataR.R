@@ -283,7 +283,9 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
   
   df$NumericY <- as.numeric(df[,y])
   
+  if(yCategorical){
   df[,y] <- as.factor(df[,y])
+  }
   
   for(i in 1:ncol(df)) {
     
@@ -300,7 +302,8 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     if(!yCategorical)
     {
       x1=y
-      y1=df[[i]]
+      y1=as.factor(df[[i]])
+      
     }
     
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
