@@ -563,7 +563,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   return (plot_list4)
 }
 
-EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0)
+EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, returnLM=FALSE)
 {
   library(caTools)
   library(ROCR)
@@ -587,7 +587,12 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0)
     listq[2] <- 0
     listq[3] <- 0
     
-    return(listq)
+    
+    if(!returnLM) {
+      return(listq)
+    }else{
+      return (logistic_model)
+    }
   }
   
   split <- sample.split(df, SplitRatio = splitRatio)
@@ -637,7 +642,12 @@ listq[2] <- q$overall['Accuracy']
 listq[3] <- logistic_model$aic
 listq[4] <- xauc
 
+if(!returnLM) {
   return(listq)
+}else{
+  return (logistic_model)
+}
+
 }
 
 
