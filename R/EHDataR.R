@@ -790,7 +790,6 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   df2R <- df2 %>%
     dplyr::select(!any_of(cmp_No1V))
   
-  
   cmp_No2 <- cmp %>%
     dplyr::filter(is.na(df2)) %>%
     dplyr::filter(!column_name %in% exclude)
