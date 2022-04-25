@@ -745,7 +745,7 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
+EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
 {
   
   library(tidytable)
@@ -766,7 +766,7 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list())
   }
   
   df3 <- df %>%
-    get_dummies.(cols,  drop_first = TRUE, dummify_na=TRUE) %>%
+    get_dummies.(cols,  drop_first = dropFirst, dummify_na=TRUE) %>%
     dplyr::select(-cols)
   
   df4 <- data.frame(df3) 
