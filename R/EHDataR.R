@@ -55,9 +55,8 @@ EHSummarize_MissingValues <- function(df)
 }
 
 
-EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all = FALSE)
+EHPrepare_MissingValues_Imputation <- function(df, y="", impute = "mean", print_all = FALSE)
 {
-  #FOR DATASETS WITH NO Y, PUT Y = ""
   
   #1. Missing Completely at Random (MCAR):
   #2. Missing at Random (MAR):
@@ -87,7 +86,6 @@ EHPrepare_MissingValues_Imputation <- function(df, y, impute = "mean", print_all
       } else if (impute=="median"){
         return(dfImputedMedian)
       }
-      
     }
     
   dfOmit <- na.omit(df)
