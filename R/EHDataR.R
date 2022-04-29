@@ -652,11 +652,11 @@ if(!returnLM) {
 EHPrepare_ScaleAllButTarget <-function(df, y)
 {
   
-  df1 <- df%>%
+  df1 <- df %>%
     dplyr::select(-df[,y])
   
   df1 <- data.frame(scale(df1))
-  df2 <- df%>%
+  df2 <- df %>%
     dplyr::select(df[,y])
   
   df3 <- cbind(df1,df2)
