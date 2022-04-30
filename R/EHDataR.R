@@ -466,6 +466,8 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     avPlots(step3)
   }
   
+  print(AIC(paste(AIC: step3)))
+  
   if (splitRatio==1){
     
     list_data <- c(step3, 0, 0, 0)
