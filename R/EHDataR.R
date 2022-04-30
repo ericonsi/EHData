@@ -653,7 +653,7 @@ EHPrepare_ScaleAllButTarget <-function(df, y)
 {
   
   df1 <- df %>%
-    dplyr::select({{y}})
+    dplyr::select(-{{y}})
   
   df1 <- data.frame(scale(df1))
   df2 <- df %>%
