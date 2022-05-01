@@ -427,9 +427,8 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, printHeatMap = TRUE, t
     }
   }
 
-  
- rlist(c(dfCor, dfmm))
-  
+
+ rlist <- list(dfCor, dfmm)
   return (rlist)
   
 }
