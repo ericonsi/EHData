@@ -389,7 +389,7 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
   
 }
 
-EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Multicollinearity Analysis") {
+EHExplore_Multicollinearity <-function(df, run_all=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   dfCor <- as.data.frame(cor(df))
   
@@ -408,8 +408,34 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, title="Heatmap for Mul
   
   z <- corrplot(cor_res, title = title, mar=c(0,0,2,0), 
                 diag=FALSE, type = "upper", order = "original", tl.col = "black", tl.srt = 45, tl.cex = 0.55)
+
+  mult2 <- as.data.frame(mult)
   
-  #return (z)
+  dfmm <- data.frame(col1=character(),
+                     col2=character(),
+                     correlation=double())
+  
+  mult2 <- as.data.frame(dfCor)
+  
+  for(i in 1:ncol(mult2)) {       # for-loop over columns
+    for(j in 1:nrow(mult2)) {
+      
+      if(mult2[i,j] >.75 & mult2[i,j] != 1){
+        v <- c(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j])
+        #print(paste(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j]))
+        dfmm <- rbind(dfmm, v)
+      }
+    }
+  }
+
+  
+  rlist <- list(dfCorrelations = data.frame,
+            dfHighestMatches = data.frame)
+  
+  rlist[1] <- dfCor
+  rlist2[2] <- dfmm
+  
+  return (rlist)
   
 }
 
