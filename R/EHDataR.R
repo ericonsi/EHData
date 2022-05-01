@@ -389,7 +389,7 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
   
 }
 
-EHExplore_Multicollinearity <-function(df, run_all=FALSE, printHeatMap = TRUE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
+EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   dfCor <- as.data.frame(cor(df))
   
@@ -397,9 +397,8 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, printHeatMap = TRUE, t
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
   
-  if (run_all) {
+  if (printCorrs) {
     print(dfCor)
-    corrplot(cor_res, method = 'number')
   }
   
   if (printHeatMap) {
@@ -427,6 +426,9 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, printHeatMap = TRUE, t
     }
   }
 
+  if (printHighest){
+    print(dfmm)
+  }
 
  rlist <- list(dfCor, dfmm)
   return (rlist)
