@@ -432,7 +432,7 @@ EHExplore_Multicollinearity <-function(df, run_all=FALSE, printHeatMap = TRUE, t
             dfHighestMatches = data.frame)
   
   rlist[1] <- dfCor
-  rlist2[2] <- dfmm
+  rlist[2] <- dfmm
   
   return (rlist)
   
