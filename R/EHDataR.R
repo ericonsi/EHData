@@ -420,12 +420,17 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
       
       if((mult2[i,j] >threshold | mult2[i,j] < -1*threshold) & mult2[i,j] != 1){
         v <- c(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j])
-        #print(paste(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j]))
-        dfmm <- rbind(dfmm, v)
-      }
+        dfmm <- rbind(dfmm, data.frame(col1 =colnames(mult2[i]), col2 = colnames(mult2[j]), correlation= 
+        mult2[i,j], stringsAsFactors = FALSE))
+        }
     }
   }
 
+  for (i in 1:nrow(dfmm)){
+    
+    dfmm <- subset(dfmm, dfmm[i, col1]!=col2 | dfmm[i,col2]!=col1)
+  }
+  
   if (printHighest){
     print(dfmm)
   }
