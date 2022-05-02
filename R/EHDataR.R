@@ -418,7 +418,7 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
   for(i in 1:ncol(mult2)) {       # for-loop over columns
     for(j in 1:nrow(mult2)) {
       
-      if((mult2[i,j] >threshold | mutl2[i,j] < -1*threshold) & mult2[i,j] != 1){
+      if((mult2[i,j] >threshold | mult2[i,j] < -1*threshold) & mult2[i,j] != 1){
         v <- c(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j])
         #print(paste(colnames(mult2[i]), colnames(mult2[j]), mult2[i,j]))
         dfmm <- rbind(dfmm, v)
