@@ -426,9 +426,11 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
     }
   }
 
+  print (dfmm)
+  
   for (i in 1:nrow(dfmm)){
     
-    dfmm <- subset(dfmm, dfmm[i, col1]!=col2 | dfmm[i,col2]!=col1)
+    dfmm <- subset(dfmm, dfmm[i, col1]!=dfmm[i, col2] | dfmm[i,col2]!=dfmm[i,col1])
   }
   
   if (printHighest){
