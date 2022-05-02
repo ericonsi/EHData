@@ -433,7 +433,7 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
     cl1 <- dfmm[j,1]
     cl2 <- dfmm[j,2]
     
-    dfmm <- subset(dfmm, dfmm[,1]!=cl2 | dfmm[,2]!=cli1)
+    dfmm <- subset(dfmm, dfmm[,1]!=cl2 | dfmm[,2]!=cl1)
   }
 
   
