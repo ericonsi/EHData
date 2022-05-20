@@ -838,13 +838,18 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-
-EHPrepare_BoxCox <- function(df2, col)
+EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
-  b <- boxcox(lm(df2[, col] ~ 1))
+  #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
+  
+  hist(df2[,col])
+  fla <- substitute(n ~ 1, list(n = as.name(col)))
+  
+  b <- boxcox(lm(fla, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
+  hist(df2[,col])
   return(df2)
   
 }
