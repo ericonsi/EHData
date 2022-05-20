@@ -839,13 +839,13 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
 }
 
 
-EHPrepare_BoxCox <- function(df, col)
+EHPrepare_BoxCox <- function(df2, col)
 {
   
-  b <- boxcox(lm(df[, col] ~ 1))
+  b <- boxcox(lm(df2[, col] ~ 1))
   lambda <- b$x[which.max(b$y)]
-  df[, col] <- (df[,col] ^ lambda - 1) / lambda
-  return(df)
+  df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
+  return(df2)
   
 }
 
