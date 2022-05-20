@@ -839,7 +839,7 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
 }
 
 
-EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df, col)
+EHPrepare_BoxCox <- function(df, col)
 {
   
   b <- boxcox(lm(df[, col] ~ 1))
