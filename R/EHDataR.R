@@ -409,6 +409,7 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
                 diag=FALSE, type = "upper", order = "original", tl.col = "black", tl.srt = 45, tl.cex = 0.55)
   }
   
+  if (printHighest){
   dfmm <- data.frame(col1=character(),
                      col2=character(),
                      correlation=double())
@@ -436,9 +437,7 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
     dfmm <- subset(dfmm, dfmm[,1]!=cl2 | dfmm[,2]!=cl1)
   }
 
-  
-  if (printHighest){
-    print(dfmm)
+    print(dfmm)  
   }
 
  rlist <- list(dfCor, dfmm)
