@@ -427,7 +427,7 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
     }
   }
 
-  
+if (nrow(dfmm)>0){
     nrow1 <- nrow(dfmm)/2
     
   for (j in 1:nrow1){
@@ -435,8 +435,9 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
     cl2 <- dfmm[j,2]
     
     dfmm <- subset(dfmm, dfmm[,1]!=cl2 | dfmm[,2]!=cl1)
-  }
-
+} else {
+  dfmm[nrow(df) + 1,] = c("No Values", 0, 0)
+}
     print(dfmm)  
   }
 
