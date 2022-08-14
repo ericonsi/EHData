@@ -409,7 +409,6 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
                 diag=FALSE, type = "upper", order = "original", tl.col = "black", tl.srt = 45, tl.cex = 0.55)
   }
   
-  if (printHighest){
   dfmm <- data.frame(col1=character(),
                      col2=character(),
                      correlation=double())
@@ -438,6 +437,8 @@ if (nrow(dfmm)>0){
 } else {
   dfmm[nrow(df) + 1,] = c("No Values", 0, 0)
 }
+    
+    if (printHighest){
     print(dfmm)  
   }
 
