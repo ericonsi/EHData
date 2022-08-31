@@ -190,7 +190,7 @@ EHSummarize_SingleColumn_Countplots <- function(df, font_size=7)
                            coord_flip() +  
                            xlab(colnames(df)[i])  +
                            #ylab(qk) +
-                           theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "white", color="darkslategray")) +
+                           theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
                            geom_bar(), list(i=i)))
     
     plot_list2[[i]] <- p 
