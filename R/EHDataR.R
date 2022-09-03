@@ -812,7 +812,7 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirs
   library(tidytable)
   
   fact <- df %>%
-    dplyr::select(where(is.factor|is.character))
+    dplyr::select(is.factor|is.character)
   
   cols <- colnames(fact)
   
