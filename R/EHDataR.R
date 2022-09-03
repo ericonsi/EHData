@@ -193,7 +193,7 @@ EHSummarize_SingleColumn_Countplots <- function(df, font_size=7)
                            theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
                            #geom_text(size = 3, position = position_stack(vjust = 0.5)) +
                            #geom_bar(stat = "identity", col="white", border="black"), list(i=i)))
-                           geom_bar(color="white", fill="black"), list(i=i)))
+                           geom_bar(color="black", fill="white"), list(i=i)))
     
     plot_list2[[i]] <- p 
     
