@@ -598,7 +598,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
   
   plot_list4 <- list()
   
-  df <- select_if(df, is.numeric)
+  df <- select_if(df, is.character)
   
   df[,y] <- as.factor(df[,y])
   
