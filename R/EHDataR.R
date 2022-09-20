@@ -469,7 +469,8 @@ if (nrow(dfmm)>0){
     print(dfmm)  
   }
 
- rlist <- list(dfCor, dfmm)
+ #rlist <- list(dfCor, dfmm)
+  rlist <- list("x","y")
   return (rlist)
   
 }
