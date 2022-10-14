@@ -903,7 +903,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
   
-  dfTrain %>% count(targ123)
+count(df4[targ123])
   
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
