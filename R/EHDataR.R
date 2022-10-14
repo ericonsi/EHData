@@ -888,7 +888,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
 {
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
 
-  targ123 <- target
+  targ123 = target
   
   if (categorical) {
     df4[, targ123] <- as.factor(df4[, targ123])
