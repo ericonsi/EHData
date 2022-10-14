@@ -902,18 +902,6 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   metric <- "Accuracy"
   
   
-  predictions <- predict(rf, dfEval)
-  dfPred <- as.data.frame(predictions)
-  
-  if (categorical) {
-    x <- factor(dfEval[, target])
-    confusionMatrix(predictions, x)    
-  } else {
-    
-    RMSE(predictions,dfEval$ptratio)
-    print(RMSE)
-  }
-  
   #densityplot(rf, adjust = 1.25)
   
   
@@ -947,7 +935,17 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   library(rpart.plot)
   rpart.plot(dt$finalModel)
   
+  predictions <- predict(dt, dfEval)
+  dfPred <- as.data.frame(predictions)
   
+  if (categorical) {
+    x <- factor(dfEval[, target])
+    confusionMatrix(predictions, x)    
+  } else {
+    
+    RMSE(predictions,dfEval[, target])
+    print(RMSE)
+  }
 
 return(dt)
 
