@@ -416,6 +416,8 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
 
 EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
+  #To print out only what you want, set the function to a variable, i.e. x <- EHExplore_Multicollinearity
+  
   dfCor <- as.data.frame(cor(df))
   
   library(corrplot)
@@ -592,19 +594,18 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
 }
 
 
-
 EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
 {
   
   plot_list4 <- list()
   
-  df <- select_if(df, is.character)
+  df <- df %>% select_if(function(x) is.character(x)|is.factor(x))
   
   df[,y] <- as.factor(df[,y])
   
   for(i in 1:ncol(df)) {
     
-  
+    
     df[,i] <- as.factor(df[ ,i])
     
     p <- ggplot(df, aes_string(x=df[ , i], fill=y)) +
@@ -615,7 +616,8 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       scale_color_d3()+
       scale_fill_d3()+
       theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
-      ggtitle(colnames(df)[i])
+      ggtitle(paste("Number and Proportion of ", y, " by ", names(df)[i])) + 
+      coord_flip()
     
     p <- eval(substitute(p, list(i=i)))
     plot_list4[[i]] <- p
