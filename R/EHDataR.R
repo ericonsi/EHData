@@ -929,7 +929,9 @@ count(df4[targ123])
   
   fancyRpartPlot(output.tree)
   
-  dt <- train(targ123~., data=dfTrain, method="rpart")
+  Formula  = reformulate(".",response=targ123)
+  dt <- train(Formula, data=dfTrain, method="rpart")
+  
   library(rpart.plot)
   rpart.plot(dt$finalModel)
   
@@ -975,7 +977,9 @@ EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
   
-  rf <- train(targ123~., data=dfTrain, method="rf", trControl = tc)
+  
+  Formula  = reformulate(".",response=targ123)
+  rf <- train(Formula, data=dfTrain, method="rf", trControl = tc)
   rf
   
   print(rf)
