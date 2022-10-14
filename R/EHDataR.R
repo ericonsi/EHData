@@ -886,22 +886,24 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 
 EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE)
 {
-  #"Need to be the same factors" - Make sure to designate categorical=false if the target is continuous
+  #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
 
+  targ123 <- target
+  
   if (categorical) {
-    df4[, target] <- as.factor(df4[, target])
+    df4[, targ123] <- as.factor(df4[, targ123])
   } 
   
-  fla <- substitute(n ~ ., list(n = as.name(target)))
+  fla <- substitute(n ~ ., list(n = as.name(targ123)))
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,target], p=0.8, list=FALSE)
+  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
   
-  dfTrain %>% count(target)
+  dfTrain %>% count(targ123)
   
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
@@ -927,7 +929,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   
   fancyRpartPlot(output.tree)
   
-  dt <- train(target~., data=dfTrain, method="rpart")
+  dt <- train(targ123~., data=dfTrain, method="rpart")
   library(rpart.plot)
   rpart.plot(dt$finalModel)
   
@@ -935,14 +937,14 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   dfPred <- as.data.frame(predictions)
   
   if (categorical) {
-    x <- factor(dfEval[, target])
+    x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
     print(y)
   } else {
     
     #load Metrics package
     library(Metrics)
-    rmseval <- rmse(dfEval[,target], dfPred$predictions)
+    rmseval <- rmse(dfEval[,targ123], dfPred$predictions)
     print(paste('Decision tree - RMSE on evaluation set: ', rmseval))
   }
 
@@ -950,29 +952,30 @@ return(dt)
 
 }
 
-EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
+EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
 {
   
-  #"Need to be the same factors" - Make sure to designate categorical=false if the target is continuous
+  #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
   
+  targ123 <- targ123
 
   if (categorical) {
-    df4[, target] <- as.factor(df4[, target])
+    df4[, targ123] <- as.factor(df4[, targ123])
   } 
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,target], p=0.8, list=FALSE)
+  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
   
-  dfTrain %>% count(target)
+  dfTrain %>% count(targ123)
   
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
   
-  rf <- train(target~., data=dfTrain, method="rf", trControl = tc)
+  rf <- train(targ123~., data=dfTrain, method="rf", trControl = tc)
   rf
   
   print(rf)
@@ -983,13 +986,13 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   dfPred <- as.data.frame(predictions)
   
   if (categorical) {
-    x <- factor(dfEval[, target])
+    x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
     print(y)
   } else {
     
     library(Metrics)
-    rmseval <- rmse(dfEval[,target], dfPred$predictions)
+    rmseval <- rmse(dfEval[,targ123], dfPred$predictions)
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
