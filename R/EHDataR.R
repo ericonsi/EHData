@@ -979,7 +979,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   
   
   Formula  = reformulate(".",response=targ123)
-  rf <- train(nox~., data=dfTrain, method="rf", trControl = tc)
+  rf <- train(Formula, data=dfTrain, method="rf", trControl = tc)
   rf
   
   print(rf)
