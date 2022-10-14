@@ -992,7 +992,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
     print(paste('RMSE on valuation set: ', rmseval))
   }
   
-  return(dt)
+  return(rf)
   
 }
 
