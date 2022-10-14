@@ -882,3 +882,73 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
+EHModel_DecisionTree <- function(df4, target, seed=042760, depth=100)
+{
+
+  fla <- substitute(n ~ ., list(n = as.name(target)))
+  
+  set.seed(seed)
+  
+  i <- createDataPartition(df4[,target], p=0.8, list=FALSE)
+  
+  dfEval <- df4[-i,]
+  dfTrain <- df4[i,]
+  
+  dfTrain %>% count(target)
+  
+  tc <- trainControl(method="cv", number=10)
+  metric <- "Accuracy"
+  
+  
+  #predictions <- predict(rf, dfEval)
+  #dfPred <- as.data.frame(predictions)
+  
+  #  model performance
+  #x <- factor(dfEval$ptratio)
+  #confusionMatrix(predictions, x)
+  #RMSE(predictions,dfEval$ptratio)
+  #print(RMSE)
+  
+  #load Metrics package
+  #library(Metrics)
+  #rmse(dfEval$ptratio, dfPred$predictions)
+  
+  #densityplot(rf, adjust = 1.25)
+  
+  
+  #dfPred <- as.data.frame(predictions)
+  #ggplot(dfPred, aes(predictions)) +
+  #  geom_bar() +
+  #  coord_flip()
+  
+  #varImp(rf)
+  
+  
+  library(rpart)
+  
+  output.tree <- rpart(fla, data = dfTrain, control = rpart.control(maxdepth = levels-1))
+  
+  
+  library(rpart.plot)
+  
+  library(RColorBrewer)
+  
+  library(rattle)
+  
+  plot(output.tree)
+  
+  text(output.tree,pretty=0)
+  
+  summary(output.tree)
+  
+  fancyRpartPlot(output.tree)
+  
+  dt <- train(target~., data=dfTrain, method="rpart")
+  library(rpart.plot)
+  rpart.plot(dt$finalModel)
+  
+  
+
+return(dt)
+
+}
