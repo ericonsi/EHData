@@ -928,7 +928,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31)
   
   library(rpart)
   
-  levels2=levels-1
+  levels2= as.integer(levels-1)
   output.tree <- rpart(fla, data = dfTrain, control = rpart.control(maxdepth = levels2))
   
   
