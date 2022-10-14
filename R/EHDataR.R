@@ -960,8 +960,6 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
     df4[, target] <- as.factor(df4[, target])
   } 
   
-  fla <- substitute(n ~ ., list(n = as.name(target)))
-  
   set.seed(seed)
   
   i <- createDataPartition(df4[,target], p=0.8, list=FALSE)
@@ -974,7 +972,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
   
-  rf <- train(ptratio~., data=dfTrain, method="rf")
+  rf <- train(target~., data=dfTrain, method="rf")
   rf
   
   print(rf)
