@@ -943,7 +943,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
     #load Metrics package
     library(Metrics)
     rmseval <- rmse(dfEval[,target], dfPred$predictions)
-    print(paste('RMSE on valuation set: ', rmseval))
+    print(paste('RMSE on evaluation set: ', rmseval))
   }
 
 return(dt)
@@ -952,6 +952,9 @@ return(dt)
 
 EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
 {
+  
+  #"Need to be the same factors" - Make sure to designate categorical=false if the target is continuous
+  
 
   if (categorical) {
     df4[, target] <- as.factor(df4[, target])
@@ -990,7 +993,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
     #load Metrics package
     library(Metrics)
     rmseval <- rmse(dfEval[,target], dfPred$predictions)
-    print(paste('RMSE on valuation set: ', rmseval))
+    print(paste('RMSE on evaluation set: ', rmseval))
   }
   
   return(rf)
