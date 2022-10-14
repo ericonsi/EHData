@@ -976,6 +976,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   
   print(rf)
   plot(rf)
+  varImp(rf)
   
   predictions <- predict(rf, dfEval)
   dfPred <- as.data.frame(predictions)
