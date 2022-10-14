@@ -949,3 +949,50 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
 return(dt)
 
 }
+
+EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
+{
+
+  if (categorical) {
+    df4[, target] <- as.factor(df4[, target])
+  } 
+  
+  fla <- substitute(n ~ ., list(n = as.name(target)))
+  
+  set.seed(seed)
+  
+  i <- createDataPartition(df4[,target], p=0.8, list=FALSE)
+  
+  dfEval <- df4[-i,]
+  dfTrain <- df4[i,]
+  
+  dfTrain %>% count(target)
+  
+  tc <- trainControl(method="cv", number=10)
+  metric <- "Accuracy"
+  
+  rf <- train(ptratio~., data=dfTrain, method="rf")
+  rf
+  
+  print(rf)
+  plot(rf)
+  
+  predictions <- predict(rf, dfEval)
+  dfPred <- as.data.frame(predictions)
+  
+  if (categorical) {
+    x <- factor(dfEval[, target])
+    y <- confusionMatrix(predictions, x) 
+    print(y)
+  } else {
+    
+    #load Metrics package
+    library(Metrics)
+    rmseval <- rmse(dfEval[,target], dfPred$predictions)
+    print(paste('RMSE on valuation set: ', rmseval))
+  }
+  
+  return(dt)
+  
+}
+
