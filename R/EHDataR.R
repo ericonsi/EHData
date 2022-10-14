@@ -884,7 +884,7 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
-EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31)
+EHModel_DecisionTree <- function(df4, target, seed=042760, depth=31)
 {
   
   fla <- substitute(n ~ ., list(n = as.name(target)))
@@ -928,7 +928,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31)
   
   library(rpart)
   
-  levels2= as.integer(levels-1)
+  levels2= as.integer(depth-1)
   output.tree <- rpart(fla, data = dfTrain, control = rpart.control(maxdepth = levels2))
   
   
