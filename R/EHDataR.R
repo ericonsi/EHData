@@ -1000,7 +1000,7 @@ EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
-  x <- c(dfPred, dfEval)
+  x <- as.data.frame(cbind(dfPred, dfEval))
   return(x)
   
 }
