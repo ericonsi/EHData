@@ -957,7 +957,7 @@ EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
   
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
   
-  targ123 <- targ123
+  targ123 <- target
 
   if (categorical) {
     df4[, targ123] <- as.factor(df4[, targ123])
