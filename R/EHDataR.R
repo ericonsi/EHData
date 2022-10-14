@@ -887,6 +887,10 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE)
 {
 
+  if (categorical) {
+    df4[, target] <- as.factor(df4[, target])
+  } 
+  
   fla <- substitute(n ~ ., list(n = as.name(target)))
   
   set.seed(seed)
@@ -900,15 +904,6 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
-  
-  
-  #densityplot(rf, adjust = 1.25)
-  
-  
-  #dfPred <- as.data.frame(predictions)
-  #ggplot(dfPred, aes(predictions)) +
-  #  geom_bar() +
-  #  coord_flip()
   
   
   library(rpart)
@@ -940,11 +935,14 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   
   if (categorical) {
     x <- factor(dfEval[, target])
-    confusionMatrix(predictions, x)    
+    y <- confusionMatrix(predictions, x) 
+    print(y)
   } else {
     
-    RMSE(predictions,dfEval[, target])
-    print(RMSE)
+    #load Metrics package
+    library(Metrics)
+    rmseval <- rmse(dfEval[,target], dfPred$predictions)
+    print(paste('RMSE on test set: ', rmseval))
   }
 
 return(dt)
