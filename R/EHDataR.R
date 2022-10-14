@@ -979,12 +979,12 @@ EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
   
   
   Formula  = reformulate(".",response=targ123)
-  rf <- train(nox~., data=dfTrain, method="rf")
+  rf <- train(nox~., data=dfTrain, method="rf", trControl = tc)
   rf
   
   print(rf)
-  plot(rf)
-  varImp(rf)
+  print(plot(rf))
+  print(varImp(rf))
   
   predictions <- predict(rf, dfEval)
   dfPred <- as.data.frame(predictions)
@@ -1000,7 +1000,7 @@ EHModel_RandomForest <- function(df4, targ123, seed=042760, categorical=TRUE)
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
-  return(rf)
+  return(dfPred)
   
 }
 
