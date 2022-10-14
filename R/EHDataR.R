@@ -972,7 +972,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
   
-  rf <- train(target~., data=dfTrain, method="rf")
+  rf <- train(target~., data=dfTrain, method="rf", trControl = tc)
   rf
   
   print(rf)
@@ -988,7 +988,6 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
     print(y)
   } else {
     
-    #load Metrics package
     library(Metrics)
     rmseval <- rmse(dfEval[,target], dfPred$predictions)
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
