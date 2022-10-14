@@ -943,7 +943,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
     #load Metrics package
     library(Metrics)
     rmseval <- rmse(dfEval[,target], dfPred$predictions)
-    print(paste('RMSE on evaluation set: ', rmseval))
+    print(paste('Decision tree - RMSE on evaluation set: ', rmseval))
   }
 
 return(dt)
@@ -993,7 +993,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
     #load Metrics package
     library(Metrics)
     rmseval <- rmse(dfEval[,target], dfPred$predictions)
-    print(paste('RMSE on evaluation set: ', rmseval))
+    print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
   return(rf)
