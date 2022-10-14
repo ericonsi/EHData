@@ -884,7 +884,7 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
-EHModel_DecisionTree <- function(df4, target, seed=042760, depth=100)
+EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31)
 {
   
   fla <- substitute(n ~ ., list(n = as.name(target)))
