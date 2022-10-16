@@ -957,7 +957,18 @@ count(dfTrain[targ123])
     rmseval <- rmse(dfEval[,targ123], dfPred$predictions)
     print(paste('Decision tree - RMSE on evaluation set: ', rmseval))
   }
-}
+  }
+  
+  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  
+  x1 <- x %>%
+    rename("observeds" = 2) %>%
+    mutate(observeds <- as.double(observeds)) %>%
+    mutate(residuals <- observeds - predictions)
+  
+  
+  newList <- list("dt" = dt, "errors" = x1)
+  return(newList)
 
 return(dt)
 
