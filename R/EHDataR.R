@@ -39,7 +39,7 @@ EH_Theme_Histogram <- function(font_size=7, hist_nbins=30){
     
   geom_histogram <- geom_histogram(bins=hist_nbins, fill="white", aes(y = stat(density))) 
     
-  desnity_histogram <- geom_density(col = "red")
+  density_histogram <- geom_density(col = "red")
 
   newList <- list("theme_histogram" = dt, "geom_histogram" = geom_histogram, "density_Histogram" = density_histogram)
   return(newList)
