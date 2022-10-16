@@ -982,7 +982,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   rf <- train(Formula, data=dfTrain, method="rf", trControl = tc)
   
   if (printRF){
-    rint(rf)
+    print(rf)
   }
 
   if (printPlot){
