@@ -945,6 +945,7 @@ count(dfTrain[targ123])
   predictions <- predict(dt, dfEval)
   dfPred <- as.data.frame(predictions)
   
+  if(!printFancyTreeOnly) {
   if (categorical) {
     x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
@@ -956,6 +957,7 @@ count(dfTrain[targ123])
     rmseval <- rmse(dfEval[,targ123], dfPred$predictions)
     print(paste('Decision tree - RMSE on evaluation set: ', rmseval))
   }
+}
 
 return(dt)
 
