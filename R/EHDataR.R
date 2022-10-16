@@ -33,7 +33,7 @@ EHTheme <- function(){
   
 }
 
-EH_Theme_Histogram <- function(){
+EH_Theme_Histogram <- function(font_size=7){
   
   x <- theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_text(size=8),  panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank(), panel.background = element_rect(fill = "slategray2", color="darkslategray"))  + 
     geom_histogram(bins=hist_nbins, fill="white", aes(y = stat(density))) +
