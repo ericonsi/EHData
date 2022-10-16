@@ -963,8 +963,8 @@ count(dfTrain[targ123])
   
   x1 <- x %>%
     rename("observeds" = 2) %>%
-    mutate(observeds <- as.double(observeds)) %>%
-    mutate(residuals <- observeds - predictions)
+    mutate(observeds = as.double(observeds)) %>%
+    mutate(residuals = observeds - predictions)
   
   
   newList <- list("dt" = dt, "errors" = x1)
@@ -1032,8 +1032,8 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
   x1 <- x %>%
   rename("observeds" = 2) %>%
-  mutate(observeds <- as.double(observeds)) %>%
-  mutate(residuals <- observeds - predictions)
+  mutate(observeds = as.double(observeds)) %>%
+  mutate(residuals = observeds - predictions)
 
   
   newList <- list("rf" = rf, "errors" = x1)
