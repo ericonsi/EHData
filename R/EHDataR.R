@@ -954,7 +954,7 @@ return(dt)
 
 }
 
-EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
+EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, printRF = TRUE, printVarimp=TRUE, printPlot=TRUE)
 {
   
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
@@ -980,11 +980,18 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE)
   
   Formula  = reformulate(".",response=targ123)
   rf <- train(Formula, data=dfTrain, method="rf", trControl = tc)
-  rf
   
-  print(rf)
-  print(plot(rf))
-  print(varImp(rf))
+  if (printRF){
+    rf
+  }
+
+  if (printPlot){
+    print(plot(rf))
+  }
+  if (printVarimp){
+    print(varImp(rf))
+  }
+  
   
   predictions <- predict(rf, dfEval)
   dfPred <- as.data.frame(predictions)
