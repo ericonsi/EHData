@@ -1008,7 +1008,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   }
   
   x <- as.data.frame(cbind(dfPred, dfEval))
-  return(x)
+  return(rf)
   
 }
 
