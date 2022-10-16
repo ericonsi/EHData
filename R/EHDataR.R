@@ -1016,7 +1016,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
-  x <- as.data.frame(cbind(dfPred, dfEval))
+
+  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  newList <- list("rf" = rf, "errors" = x)
   return(rf)
   
 }
