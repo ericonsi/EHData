@@ -1018,7 +1018,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 
   x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
-  x <- x %>%
+  x1 <- x %>%
     mutate(residuals <- dfEval[,targ123]- predictions) %>%
     rename(dfEval[,targ123] = "actual")
   
