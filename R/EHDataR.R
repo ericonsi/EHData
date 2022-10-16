@@ -1018,11 +1018,13 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 
   x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  x$dfEval[,targ123] <- as.double(x$dfEval[,targ123])
+  
   x1 <- x %>%
   mutate(residuals <- dfEval[,targ123]- predictions) %>%
   rename("actual" = dfEval[,targ123])
   
-  newList <- list("rf" = rf, "errors" = x)
+  newList <- list("rf" = rf, "errors" = x1)
   return(newList)
   
 }
