@@ -1047,6 +1047,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
     print(paste('Random Forest - RMSE on evaluation set: ', rmseval))
   }
   
+  print(paste("Parameters:   mtry = ", b$rf$finalModel$mtry, ", ntree = ", b$rf$finalModel$ntree, ", nrnodes = ", b$rf$finalModel$forest$nrnodes))
 
   x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
   
