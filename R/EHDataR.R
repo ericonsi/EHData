@@ -1088,7 +1088,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   method1 <- paste("SVM", method)
   Formula  = reformulate(".",response=targ123)
-  svm <- train(Formula, data=dfTrain, method="svmLinear", trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
+  svm <- train(Formula, data=dfTrain, method=method1, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
   
   if (printSVM){
     print(svm)
