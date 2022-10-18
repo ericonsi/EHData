@@ -1068,7 +1068,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   targ123 <- target
   
-    df4[, targ123] <- as.factor(df4[, targ123])
+    #df4[, targ123] <- as.factor(df4[, targ123])
 
   
   set.seed(seed)
