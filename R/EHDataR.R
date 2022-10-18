@@ -1061,3 +1061,60 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
+EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=TRUE)
+{
+  
+  
+  targ123 <- target
+  
+    df4[, targ123] <- as.factor(df4[, targ123])
+
+  
+  set.seed(seed)
+  
+  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  
+  dfEval <- df4[-i,]
+  dfTrain <- df4[i,]
+  
+  count(dfTrain[targ123])
+  
+  #tc <- trainControl(method="cv", number=10)
+  #metric <- "Accuracy"
+  
+  
+  Formula  = reformulate(".",response=targ123)
+  svm <- train(Formula, data=dfTrain, method="svmLinear", trControl = tc, preProcess = c("center","scale"))
+  svm
+  
+  if (printSVM){
+    print(svm)
+  }
+  
+  if (printPlot){
+    print(plot(svm))
+  }
+ 
+  
+  predictions <- predict(svm, dfEval)
+  dfPred <- as.data.frame(predictions)
+  
+    x <- factor(dfEval[, targ123])
+    y <- confusionMatrix(predictions, x) 
+    print(y)
+  
+  #print(paste("Parameters:   mtry = ", rf$finalModel$mtry, ", ntree = ", rf$finalModel$ntree, ", nrnodes = ", rf$finalModel$forest$nrnodes))
+  
+  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  
+  x1 <- x %>%
+    rename("observeds" = 2) %>%
+    mutate(observeds = as.double(observeds)) %>%
+    mutate(residuals = observeds - predictions)
+  
+  
+  newList <- list("svm" = svm, "errors" = x1)
+  return(newList)
+  
+}
+
