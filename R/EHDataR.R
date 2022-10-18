@@ -1053,6 +1053,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   x1 <- x %>%
   rename("observeds" = 2) %>%
   mutate(observeds = as.double(observeds)) %>%
+  mutate(predictions = as.double(predictions)) %>%
   mutate(residuals = observeds - predictions)
 
   
@@ -1116,6 +1117,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   x1 <- x %>%
     rename("observeds" = 2) %>%
     mutate(observeds = as.double(observeds)) %>%
+    mutate(predictions = as.double(predictions)) %>%
     mutate(residuals = observeds - predictions)
   
   
