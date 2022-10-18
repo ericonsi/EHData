@@ -1061,7 +1061,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=TRUE)
+EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=FALSE)
 {
   
   
@@ -1084,8 +1084,7 @@ EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=TRU
   
   
   Formula  = reformulate(".",response=targ123)
-  svm <- train(Formula, data=dfTrain, method="svmLinear", trControl = tc, preProcess = c("center","scale"))
-  svm
+  svm <- train(Formula, data=dfTrain, method="svmLinear", trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
   
   if (printSVM){
     print(svm)
