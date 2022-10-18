@@ -1061,8 +1061,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=FALSE)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE)
 {
+  
   
   
   targ123 <- target
@@ -1082,12 +1083,16 @@ EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=FAL
   tc <- trainControl(method="cv", number=10)
   metric <- "Accuracy"
   
+  library("stringi")     
+  stri_trans_totitle(method)  
   
+  method1 <- paste("SVM", method)
   Formula  = reformulate(".",response=targ123)
   svm <- train(Formula, data=dfTrain, method="svmLinear", trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
   
   if (printSVM){
     print(svm)
+    print(svm$bestTune)
   }
   
   if (printPlot){
