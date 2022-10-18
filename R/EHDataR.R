@@ -1079,8 +1079,8 @@ EHModel_SVM <- function(df4, target, seed=042760, printSVM = TRUE, printPlot=TRU
   
   count(dfTrain[targ123])
   
-  #tc <- trainControl(method="cv", number=10)
-  #metric <- "Accuracy"
+  tc <- trainControl(method="cv", number=10)
+  metric <- "Accuracy"
   
   
   Formula  = reformulate(".",response=targ123)
