@@ -1086,7 +1086,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   library("stringi")     
   method1 <- stri_trans_totitle(method)  
   
-  method2 <- paste0("SVM", method1)
+  method2 <- paste0("svm", method1)
   Formula  = reformulate(".",response=targ123)
   svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
   
