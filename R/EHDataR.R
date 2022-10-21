@@ -1065,14 +1065,12 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
 EHModel_SVM <- function(df3, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE)
 {
   
-  
+  #Scaling is done as part of preprocessing in train, so need not be done by hand.
   
   targ123 <- target
   
     df3[, targ123] <- as.factor(df3[, targ123])
 
-   df4 <- EHPrepare_ScaleAllButTarget(df3, targ123)
-   
   set.seed(seed)
   
   i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
