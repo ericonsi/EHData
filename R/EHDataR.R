@@ -1141,7 +1141,7 @@ EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfus
   library(caTools)
   library(ROCR)
   
-  dfPred <- dfpredictions %>%
+  dfPred <- dfPredictions %>%
     rename("obs1a"=1, "pred1a"=2) %>%
     dplyr::select(obs1a, pred1a)
   
