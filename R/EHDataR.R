@@ -978,7 +978,7 @@ count(dfTrain[targ123])
   }
   }
   
-  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
     rename("observeds" = 2) %>%
@@ -1048,7 +1048,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
   print(paste("Parameters:   mtry = ", rf$finalModel$mtry, ", ntree = ", rf$finalModel$ntree, ", nrnodes = ", rf$finalModel$forest$nrnodes))
 
-  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+  x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
   rename("observeds" = 2) %>%
@@ -1120,7 +1120,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   #print(paste("Parameters:   mtry = ", rf$finalModel$mtry, ", ntree = ", rf$finalModel$ntree, ", nrnodes = ", rf$finalModel$forest$nrnodes))
   
-  x <- as.data.frame(cbind(dfPred, dfEval[,targ123]))
+    x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
     rename("observeds" = 2) %>%
@@ -1136,27 +1136,25 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
 EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfusionMatrix=FALSE)
 {
   
+  #Predictions come first, then observed!
+  
   library(caTools)
   library(ROCR)
   
-  predict_reg <- dfPredictions
-  
-  scored_class <- ifelse(predict_reg >0.5, 1, 0)
-  class <- test_reg[,y]
-  
-  dfPred <- data.frame(class, scored_class)
-  
-  dfPred$class <- as.factor(dfPred$class)
-  dfPred$scored_class <- as.factor(dfPred$scored_class)
+  dfPred <- dfPredictions %>%
+    rename("observed"=1, "predictions"=2) %>%
+    dplyr::select(observed, predictions)
   
   if (printConfusionMatrix){
-  q <-confusionMatrix(data = dfPred$scored_class, reference = dfPred$class)
+    dfPred1 <- dfPred
+  dfPred1$observed <- as.factor(dfPred1$observed)
+  dfPred1$predictions <- as.factor(dfPred1$predictions)
+  q <-confusionMatrix(data = dfPred1$predictions, reference = dfPred1$observed)
   print(q)
   }
   
-  dfPred_raw <- data.frame(class, predict_reg)
-  roc1 <- roc(dfPred_raw$class,
-              dfPred_raw$predict_reg, plot=TRUE)
+  roc1 <- roc(dfPred$observed,
+              dfPred$predictions, plot=TRUE)
   xauc <- auc(roc1)
 
   return(xauc)
