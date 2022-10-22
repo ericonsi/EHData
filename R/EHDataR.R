@@ -1085,7 +1085,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   metric <- "Accuracy"
   
   library("stringi")     
-  method1 <- stri_tans_totitle(method)
+  method1 <- stri_trans_totitle(method)
   method2 <- paste0("svm", method1)
   
   Formula  = reformulate(".",response=targ123)
