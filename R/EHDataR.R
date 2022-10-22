@@ -1133,7 +1133,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   return(newList)
   
 }
-EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfusionMatrix=FALSE)
+EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, printConfusionMatrix=FALSE)
 {
   
   #Observed come first, then Predictions!
@@ -1145,18 +1145,22 @@ EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfus
     rename("obs1a"=1, "pred1a"=2) %>%
     dplyr::select(obs1a, pred1a)
   
-  if (printConfusionMatrix){
-    dfPred1 <- dfPred
+
+  dfPred1 <- dfPred
   dfPred1$obs1a <- as.factor(dfPred1$obs1a)
   dfPred1$pred1a <- as.factor(dfPred1$pred1a)
   q <-confusionMatrix(data = dfPred1$pred1a, reference = dfPred1$obs1a)
+  
+  if (printConfusionMatrix){
   print(q)
   }
   
   roc1 <- roc(dfPred$obs1a,
-              dfPred$pred1a, plot=TRUE)
+              dfPred$pred1a, plot=printPlot)
   xauc <- auc(roc1)
-
-  return(xauc)
+  
+  newList <- list("AUC" = xauc, "ConfusionMatrix" = q)
+  return(newList)
+  
   
 }
