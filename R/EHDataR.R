@@ -1080,21 +1080,26 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   count(dfTrain[targ123])
   
-  tc <- trainControl(method="cv", number=10)
+  tc <- trainControl(method="repeatedcv", number=10, repeats=3)
   metric <- "Accuracy"
   
   library("stringi")     
   method1 <- stri_trans_totitle(method)  
   
-  method2 <- paste0("svm", method1)
   Formula  = reformulate(".",response=targ123)
-  #svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
+  
+  if (method1 == "linear") {
+    method2 <- paste0("svm", method1)
+    svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0, 2, length = 20)))
+  }
+    
   svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"))
   
   
   if (printSVM){
     print(svm)
     print(svm$bestTune)
+    print(as_tibble(svm$results[which.min(svm$results[,2]),]))
   }
   
   if (printPlot){
