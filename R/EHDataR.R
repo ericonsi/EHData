@@ -1089,10 +1089,12 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   Formula  = reformulate(".",response=targ123)
   
   if (method1 == "Linear") {
+    print("YES!!!!!!")
     method2 <- paste0("svm", method1)
     svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
   } else {
   svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"))
+  print("NO!!!!!!!!!")
   }
   
   if (printSVM){
