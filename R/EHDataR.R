@@ -1133,4 +1133,32 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   return(newList)
   
 }
+EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfusionMatrix=FALSE)
+{
+  
+  library(caTools)
+  library(ROCR)
+  
+  predict_reg <- dfPredicitions
+  
+  scored_class <- ifelse(predict_reg >0.5, 1, 0)
+  class <- test_reg[,y]
+  
+  dfPred <- data.frame(class, scored_class)
+  
+  dfPred$class <- as.factor(dfPred$class)
+  dfPred$scored_class <- as.factor(dfPred$scored_class)
+  
+  if (printConfusionMatrix){
+  q <-confusionMatrix(data = dfPred$scored_class, reference = dfPred$class)
+  print(q)
+  }
+  
+  dfPred_raw <- data.frame(class, predict_reg)
+  roc1 <- roc(dfPred_raw$class,
+              dfPred_raw$predict_reg, plot=TRUE)
+  xauc <- auc(roc1)
 
+  return(xauc)
+  
+}
