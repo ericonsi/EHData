@@ -1065,7 +1065,8 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
 EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE)
 {
   
-  #Scaling is done as part of preprocessing in train, so need not be done by hand.
+  #Scaling is done as part of pre-processing in train, so need not be done by hand.
+  #For linear, c is tuned by the grid: expand.grid(C = seq(0.01, 2, length = 20).  For radial and poly, sigma and c are optimized automatically.
   
   targ123 <- target
   
@@ -1084,18 +1085,20 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   metric <- "Accuracy"
   
   library("stringi")     
-  method1 <- stri_trans_totitle(method)  
+  method1 <- stri_tans_totitle(method)
+  method2 <- paste0("svm", method1)
   
   Formula  = reformulate(".",response=targ123)
   
   if (method1 == "Linear") {
-    print("YES!!!!!!")
-    method2 <- paste0("svm", method1)
     svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
-  } else {
+  } else if (method1=="Radial"|method1=="Poly") {
   svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"))
-  print("NO!!!!!!!!!")
+  } else {
+    print("Unkown kernel. The choices are linear, radial or poly.")
+    retun()
   }
+    
   
   if (printSVM){
     print(svm)
