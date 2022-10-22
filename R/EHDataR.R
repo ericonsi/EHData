@@ -983,6 +983,7 @@ count(dfTrain[targ123])
   x1 <- x %>%
     rename("observeds" = 1) %>%
     mutate(observeds = as.double(observeds)) %>%
+    mutate(predictions = as.double(predictions)) %>%
     mutate(residuals = observeds - predictions)
   
   
