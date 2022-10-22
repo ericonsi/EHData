@@ -1139,7 +1139,7 @@ EHCalculate_AUC_ForBinary <- function(dfPredictions, printPlot=TRUE, printConfus
   library(caTools)
   library(ROCR)
   
-  predict_reg <- dfPredicitions
+  predict_reg <- dfPredictions
   
   scored_class <- ifelse(predict_reg >0.5, 1, 0)
   class <- test_reg[,y]
