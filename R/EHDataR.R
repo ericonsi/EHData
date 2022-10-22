@@ -981,7 +981,7 @@ count(dfTrain[targ123])
   x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-    rename("observeds" = 2) %>%
+    rename("observeds" = 1) %>%
     mutate(observeds = as.double(observeds)) %>%
     mutate(residuals = observeds - predictions)
   
@@ -1051,7 +1051,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-  rename("observeds" = 2) %>%
+  rename("observeds" = 1) %>%
   mutate(observeds = as.double(observeds)) %>%
   mutate(predictions = as.double(predictions)) %>%
   mutate(residuals = observeds - predictions)
@@ -1123,7 +1123,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
     x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-    rename("observeds" = 2) %>%
+    rename("observeds" = 1) %>%
     mutate(observeds = as.double(observeds)) %>%
     mutate(predictions = as.double(predictions)) %>%
     mutate(residuals = observeds - predictions)
