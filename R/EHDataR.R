@@ -715,8 +715,6 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, return
 roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
 
-xauc <- roc1$AUC
-print(paste("AUC: ", xauc))
 print(roc1)
 
 listq = list()
@@ -1143,22 +1141,22 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
   library(ROCR)
   
   dfPred <- dfPredictions %>%
-    rename("obs1a"=1, "pred1a"=2) %>%
-    dplyr::select(obs1a, pred1a)
+    rename("obs1"=1, "pred1"=2) %>%
+    dplyr::select(obs1, pred1)
   
 
   dfPred1 <- dfPred
-  dfPred1$obs1a <- as.factor(dfPred1$obs1a)
-  dfPred1$pred1a <- as.factor(dfPred1$pred1a)
+  dfPred1$obs1a <- as.factor(dfPred1$obs1)
+  dfPred1$pred1a <- as.factor(dfPred1$pred1)
   q <-confusionMatrix(data = dfPred1$pred1a, reference = dfPred1$obs1a)
   
   if (printConfusionMatrix){
   print(q)
   }
   
-  roc1 <- roc(dfPred$obs1a,
-              dfPred$pred1a, plot=printPlot)
-  xauc <- roc1$AUC
+  roc1 <- roc(dfPred$obs1,
+              dfPred$pred1, plot=printPlot)
+  xauc <- AUC(roc1)
   
   newList <- list("AUC" = xauc, "ConfusionMatrix" = q)
   return(newList)
