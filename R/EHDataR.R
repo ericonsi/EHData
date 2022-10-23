@@ -1156,7 +1156,7 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
   
   roc1 <- roc(dfPred$obs1,
               dfPred$pred1, plot=printPlot)
-  xauc <- AUC(roc1)
+  xauc <- roc1$auc
   
   newList <- list("AUC" = xauc, "ConfusionMatrix" = q)
   return(newList)
