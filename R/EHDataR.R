@@ -910,7 +910,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
 
-  If (printDTOnly){
+  if (printDTOnly){
     printFancyTreeOnly=TRUE
   }
   
