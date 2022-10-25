@@ -714,6 +714,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, return
   
 roc1 <- roc(dfPred_raw$class,
               dfPred_raw$predict_reg, plot=TRUE)
+xauc <- roc1$auc
 
 print(roc1)
 
