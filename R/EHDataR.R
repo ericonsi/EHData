@@ -903,17 +903,13 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
-EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE, printFancyTreeOnly=FALSE, printDTOnly=FALSE)
+EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE, printFancyTree=TRUE, printConfusionMatrix = TRUE, printDT=TRUE)
 {
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
 
-  if (printDTOnly){
-    printFancyTreeOnly=TRUE
-  }
-  
     targ123 = target
   
   if (categorical) {
@@ -946,13 +942,14 @@ count(dfTrain[targ123])
   library(RColorBrewer)
   
   library(rattle)
-  
+  if(printFancyTree){
   fancyRpartPlot(output.tree)
+  }
   
   Formula  = reformulate(".",response=targ123)
   dt <- train(Formula, data=dfTrain, method="rpart")
   
-  if (printDTOnly) {
+  if (printDT) {
     library(rpart.plot)
     rpart.plot(dt$finalModel)
   }  
@@ -964,7 +961,9 @@ count(dfTrain[targ123])
   if (categorical) {
     x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
+    if(printConfusionMatrix) {
     print(y)
+    }
   } else {
     
     #load Metrics package
