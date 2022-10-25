@@ -993,7 +993,7 @@ return(dt)
 
 }
 
-EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, printRF = TRUE, printVarimp=TRUE, printPlot=TRUE)
+EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, printRF = TRUE, printVarimp=TRUE, printPlot=TRUE, printConfusionMatrix=TRUE)
 {
   
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
@@ -1038,7 +1038,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   if (categorical) {
     x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
+    if (printConfusionMatrix){
     print(y)
+    }
   } else {
     
     library(Metrics)
@@ -1062,7 +1064,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE)
 {
   
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
@@ -1114,7 +1116,10 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
     x <- factor(dfEval[, targ123])
     y <- confusionMatrix(predictions, x) 
-    print(y)
+    
+    if (printConfusionMatrix){
+      print(y)
+    }
   
   #print(paste("Parameters:   mtry = ", rf$finalModel$mtry, ", ntree = ", rf$finalModel$ntree, ", nrnodes = ", rf$finalModel$forest$nrnodes))
   
