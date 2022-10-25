@@ -1102,8 +1102,6 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   if (printSVM){
     print(svm)
-    print(svm$bestTune)
-    print(as_tibble(svm$results[which.min(svm$results[,2]),]))
   }
   
   if (printPlot){
