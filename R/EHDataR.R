@@ -827,10 +827,10 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
+EHPrepare_CreateDummies_Old <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
 {
   
-  library(tidytable)
+  #library(tidytable)
   
   fact <- df %>%
     dplyr::select(is.factor|is.character)
@@ -856,6 +856,34 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirs
   return(df4)
   
 }
+EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
+{
+  
+  
+  fact <- df %>%
+    dplyr::select(is.factor|is.character)
+  
+  cols <- colnames(fact)
+  
+  if(length(include>0)){
+    
+    cols <- include
+  }
+  
+  if(length(exclude>0)){
+    
+    cols <- cols[! cols %in% exclude]
+  }
+  
+  df3 <- fastDummies::dummy_cols(df, remove_first_dummy = TRUE)
+  
+  df4 <- data.frame(df3) 
+  
+  return(df4)
+  
+}
+
+
 
 EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=list())
 {
