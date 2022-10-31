@@ -843,6 +843,7 @@ EHPrepare_CreateDummies <- function(df, target)
 
   df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
 
+  colnames(df4) <- make.names(colnames(df4))
   return(df4)
   
 }
@@ -895,14 +896,16 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
-EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE, printFancyTree=TRUE, printConfusionMatrix = TRUE, printDT=TRUE)
+EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical=TRUE, printFancyTree=TRUE, printConfusionMatrix = TRUE, printDT=TRUE)
 {
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
-
+  # Make sure to specify catgorical=TRUE if it is
+  
     targ123 = target
+    df4 <- df
   
   if (categorical) {
     df4[, targ123] <- as.factor(df4[, targ123])
@@ -975,8 +978,6 @@ count(dfTrain[targ123])
   
   newList <- list("dt" = dt, "errors" = x1)
   return(newList)
-
-return(dt)
 
 }
 
