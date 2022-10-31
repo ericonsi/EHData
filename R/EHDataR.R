@@ -875,7 +875,8 @@ EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirs
     cols <- cols[! cols %in% exclude]
   }
   
-  df3 <- fastDummies::dummy_cols(df, remove_first_dummy = TRUE)
+  df3 <- fastDummies::dummy_cols(df, remove_first_dummy = TRUE) %>%
+  dplyr::select(-cols)
   
   df4 <- data.frame(df3) 
   
