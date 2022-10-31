@@ -827,58 +827,22 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies_Old <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
+
+EHPrepare_CreateDummies <- function(df, target)
 {
   
-  #library(tidytable)
+  targ123 <- target
   
-  fact <- df %>%
+  df3 <-  df %>%
+    dplyr::select(-matches(targ123))
+  
+  fact <- df3 %>%
     dplyr::select(is.factor|is.character)
   
   cols <- colnames(fact)
-  
-  if(length(include>0)){
-    
-    cols <- include
-  }
-  
-  if(length(exclude>0)){
-    
-    cols <- cols[! cols %in% exclude]
-  }
-  
-  df3 <- df %>%
-    get_dummies.(cols,  drop_first = dropFirst, dummify_na=TRUE) %>%
-    dplyr::select(-cols)
-  
-  df4 <- data.frame(df3) 
-  
-  return(df4)
-  
-}
-EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
-{
-  
-  
-  fact <- df %>%
-    dplyr::select(is.factor|is.character)
-  
-  cols <- colnames(fact)
-  
-  if(length(include>0)){
-    
-    cols <- include
-  }
-  
-  if(length(exclude>0)){
-    
-    cols <- cols[! cols %in% exclude]
-  }
-  
-  df3 <- fastDummies::dummy_cols(df, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
-  
-  df4 <- data.frame(df3) 
-  
+
+  df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
+
   return(df4)
   
 }
