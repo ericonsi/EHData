@@ -830,6 +830,8 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
 
 EHPrepare_CreateDummies <- function(df, target)
 {
+  #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
+  #may simply mean one of your categorical variables only has one value
   
   targ123 <- target
   
