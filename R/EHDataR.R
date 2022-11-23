@@ -1163,20 +1163,21 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
 }
 
 
-EHModel_Predict <- function(model, dfTestData, TestData_IDColumn, PredictionColumn="Predictions", writeFile="")
+EHModel_Predict <- function(model, dftestData, testData_IDColumn, threshold=0, writeFile="")
 {
   
-  predictions <- predict(model,newdata=dfTestData)
+  predictions <- predict(model,newdata=dftestData)
   predictions <- data.frame(as.vector(predictions)) 
-  predictions[, TestData_IDColumn] <- dfTestData[, TestData_IDColumn]
+  predictions[, testData_IDColumn] <- dftestData[, testData_IDColumn]
   predictions[,c(1,2)] <- predictions[,c(2,1)]
-  colnames(predictions) <- c(TestData_IDColumn, "Predicitions")
+  colnames(predictions) <- c(testData_IDColumn, "Predictions")
   
-  #predictions <- predictions %>%
-  #  mutate(Transported=ifelse(Transported>.5,'True','False'))
+  if (threshold>0){
+  predictions$Predictions <- ifelse(Predictions>threshold,1,0)
+  }
   
   if (writeFile!="") {
-    write_csv(predictions, writeFile)
+    write_csv(predictions, writeFile) 
   }
   
   return(predictions)
