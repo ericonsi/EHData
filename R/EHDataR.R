@@ -827,36 +827,46 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, include=list(), exclude=list(), dropFirst=TRUE)
+EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
 {
-  
-  library(tidytable)
-  
-  fact <- df %>%
-    dplyr::select(is.factor|is.character)
-  
-  cols <- colnames(fact)
-  
-  if(length(include>0)){
+    #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
+    #may simply mean one of your categorical variables only has one value
     
-    cols <- include
-  }
-  
-  if(length(exclude>0)){
     
-    cols <- cols[! cols %in% exclude]
-  }
-  
-  df3 <- df %>%
-    get_dummies.(cols,  drop_first = dropFirst, dummify_na=TRUE) %>%
-    dplyr::select(-cols)
-  
-  df4 <- data.frame(df3) 
-  
-  return(df4)
-  
-}
+    targ123 <- target
 
+    df3 <-  df %>%
+      dplyr::select(-matches(targ123))
+    
+      fact <- df3 %>%
+      dplyr::select(is.factor|is.character)
+    
+    
+    cols <- colnames(fact)
+    
+    
+    if(length(include>0)){
+      
+      
+      cols <- include
+    }
+    
+    
+    if(length(exclude>0)){
+      
+      
+      cols <- cols[! cols %in% exclude]
+    }
+    
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
+    
+    
+    colnames(df4) <- make.names(colnames(df4))
+    return(df4)
+    
+  }
+  
+  
 EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=list())
 {
   
@@ -903,7 +913,7 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
 }
 
-EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorical=TRUE, printFancyTree=TRUE, printConfusionMatrix = TRUE, printDT=TRUE)
+EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical=TRUE, printFancyTree=TRUE, printConfusionMatrix = TRUE, printDT=TRUE)
 {
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
@@ -911,6 +921,7 @@ EHModel_DecisionTree <- function(df4, target, seed=042760, levels=31, categorica
   # I believe the fancy tree is also the one with all the stats.
 
     targ123 = target
+    df4 <- df
   
   if (categorical) {
     df4[, targ123] <- as.factor(df4[, targ123])
@@ -975,7 +986,7 @@ count(dfTrain[targ123])
   x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-    rename("observeds" = 1) %>%
+    dplyr::rename("observeds" = 1) %>%
     mutate(observeds = as.double(observeds)) %>%
     mutate(predictions = as.double(predictions)) %>%
     mutate(residuals = observeds - predictions)
@@ -983,8 +994,6 @@ count(dfTrain[targ123])
   
   newList <- list("dt" = dt, "errors" = x1)
   return(newList)
-
-return(dt)
 
 }
 
@@ -1048,7 +1057,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-  rename("observeds" = 1) %>%
+  dplyr::rename("observeds" = 1) %>%
   mutate(observeds = as.double(observeds)) %>%
   mutate(predictions = as.double(predictions)) %>%
   mutate(residuals = observeds - predictions)
@@ -1121,7 +1130,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
     x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
   
   x1 <- x %>%
-    rename("observeds" = 1) %>%
+    dplyr::rename("observeds" = 1) %>%
     mutate(observeds = as.double(observeds)) %>%
     mutate(predictions = as.double(predictions)) %>%
     mutate(residuals = observeds - predictions)
@@ -1140,7 +1149,7 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
   library(ROCR)
   
   dfPred <- dfPredictions %>%
-    rename("obs1"=1, "pred1"=2) %>%
+    dplyr::rename("obs1"=1, "pred1"=2) %>%
     dplyr::select(obs1, pred1)
   
 
