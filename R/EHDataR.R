@@ -591,11 +591,10 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
   fla <- substitute(n ~ ., list(n = as.name(y)))
   fm <- as.formula(fla)
   
-    split <- sample.split(df, SplitRatio = splitRatio)
-    split
-    
-    train_reg <- subset(df, split == "TRUE")
-    test_reg <- subset(df, split == "FALSE")
+  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+  
+  test_reg <- df[-i,]
+  train_reg <- df[i,]
     
     m1 <- rlm(fm, train_reg)
     m1_summary <- summary(m1)
@@ -678,11 +677,10 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, return
     }
   }
   
-  split <- sample.split(df, SplitRatio = splitRatio)
-  split
+  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
   
-  train_reg <- subset(df, split == "TRUE")
-  test_reg <- subset(df, split == "FALSE")
+  test_reg <- df[-i,]
+  train_reg <- df[i,]
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
