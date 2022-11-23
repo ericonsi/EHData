@@ -1166,7 +1166,7 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
 EHModel_Predict <- function(model, dfTestData, TestData_IDColumn, PredictionColumn="Predictions", writeFile="")
 {
   
-  predictions <- predict(model,newdata=dfNewData)
+  predictions <- predict(model,newdata=dfTestData)
   predictions <- data.frame(as.vector(predictions)) 
   predictions[, TestData_IDColumn] <- dfTestData[, TestData_IDColumn]
   predictions[,c(1,2)] <- predictions[,c(2,1)]
