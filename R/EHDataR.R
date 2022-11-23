@@ -1179,6 +1179,6 @@ EHModel_Predict <- function(model, dfTestData, TestData_IDColumn, PredictionColu
     write_csv(predictions, writeFile)
   }
   
-  return(predicitons)
+  return(predictions)
 }
 
