@@ -1159,6 +1159,24 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
   
   newList <- list("AUC" = xauc, "ConfusionMatrix" = q)
   return(newList)
-  
-  
 }
+
+EHModel_Predict <- function(model, dfTestData, TestData_IDColumn, PredictionColumn="Predictions", writeFile="")
+{
+  
+  predictions <- predict(model,newdata=dfNewData)
+  predictions <- data.frame(as.vector(predictions)) 
+  predictions[, TestData_IDColumn] <- dfTestData[, TestData_IDColumn]
+  predictions[,c(1,2)] <- predictions[,c(2,1)]
+  colnames(predictions) <- c(TestData_IDColumn, "Predicitions")
+  
+  #predictions <- predictions %>%
+  #  mutate(Transported=ifelse(Transported>.5,'True','False'))
+
+  if (writeFile!="") {
+  write_csv(predictions, writeFile)
+  }
+  
+  return(predicitons)
+}
+
