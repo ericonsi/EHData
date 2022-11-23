@@ -1056,9 +1056,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
   x1 <- x %>%
   dplyr::rename("observeds" = 1) %>%
-  mutate(observeds = as.double(observeds)) %>%
-  mutate(predictions = as.double(predictions)) %>%
-  mutate(residuals = observeds - predictions)
+  dplyr::mutate(observeds = as.double(observeds)) %>%
+  dplyr::mutate(predictions = as.double(predictions)) %>%
+  dplyr::mutate(residuals = observeds - predictions)
 
   
   newList <- list("rf" = rf, "errors" = x1)
