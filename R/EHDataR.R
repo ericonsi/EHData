@@ -1170,14 +1170,14 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
 }
 
 
-EHModel_Predict <- function(model, dftestData, testData_IDColumn, threshold=0, writeFile="")
+EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsColumnName ="Predicitions", threshold=0, writeFile="")
 {
   
   predictions <- predict(model,newdata=dftestData)
   predictions <- data.frame(as.vector(predictions)) 
   predictions[, testData_IDColumn] <- dftestData[, testData_IDColumn]
   predictions[,c(1,2)] <- predictions[,c(2,1)]
-  colnames(predictions) <- c(testData_IDColumn, "Predictions")
+  colnames(predictions) <- c(testData_IDColumn, predictionsColumnName)
   
   if (threshold>0){
   predictions$Predictions <- ifelse(predictions$Predictions>threshold,1,0)
