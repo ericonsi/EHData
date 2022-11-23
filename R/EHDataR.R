@@ -513,11 +513,11 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   if(splitRatio==1) {
     mod_4 <- lm(fla, df)
   } else {
-    split <- sample.split(df, SplitRatio = splitRatio)
-    split
     
-    train_reg <- subset(df, split == "TRUE")
-    test_reg <- subset(df, split == "FALSE")
+    i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+    
+    test_reg <- df[-i,]
+    train_reg <- df[i,]
     mod_4 <- lm(fla, train_reg)
   }
   
