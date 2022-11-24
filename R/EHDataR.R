@@ -1180,7 +1180,7 @@ EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsCol
   colnames(predictions) <- c(testData_IDColumn, predictionsColumnName)
   
   if (threshold>0){
-  predictions[, testData_IDColumn] <- ifelse(predictions[, testData_IDColumn]>threshold,1,0)
+  predictions[, predictionsColumnName] <- ifelse(predictions[, predictionsColumnName]>threshold,1,0)
   }
   
   if (writeFile!="") {
