@@ -513,11 +513,11 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
   if(splitRatio==1) {
     mod_4 <- lm(fla, df)
   } else {
-    split <- sample.split(df, SplitRatio = splitRatio)
-    split
     
-    train_reg <- subset(df, split == "TRUE")
-    test_reg <- subset(df, split == "FALSE")
+    i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+    
+    test_reg <- df[-i,]
+    train_reg <- df[i,]
     mod_4 <- lm(fla, train_reg)
   }
   
@@ -591,11 +591,10 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
   fla <- substitute(n ~ ., list(n = as.name(y)))
   fm <- as.formula(fla)
   
-    split <- sample.split(df, SplitRatio = splitRatio)
-    split
-    
-    train_reg <- subset(df, split == "TRUE")
-    test_reg <- subset(df, split == "FALSE")
+  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+  
+  test_reg <- df[-i,]
+  train_reg <- df[i,]
     
     m1 <- rlm(fm, train_reg)
     m1_summary <- summary(m1)
@@ -678,11 +677,10 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, return
     }
   }
   
-  split <- sample.split(df, SplitRatio = splitRatio)
-  split
+  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
   
-  train_reg <- subset(df, split == "TRUE")
-  test_reg <- subset(df, split == "FALSE")
+  test_reg <- df[-i,]
+  train_reg <- df[i,]
   
   fla <- substitute(n ~ ., list(n = as.name(y)))
   
@@ -827,31 +825,46 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-
-EHPrepare_CreateDummies <- function(df, target)
+EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
 {
-  #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
-  #may simply mean one of your categorical variables only has one value
-  
-  targ123 <- target
-  
-  df3 <-  df %>%
-    dplyr::select(-matches(targ123))
-  
-  fact <- df3 %>%
-    dplyr::select(is.factor|is.character)
-  
-  cols <- colnames(fact)
+    #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
+    #may simply mean one of your categorical variables only has one value
+    
+    
+    targ123 <- target
 
-  df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
-
-  colnames(df4) <- make.names(colnames(df4))
-  return(df4)
+    df3 <-  df %>%
+      dplyr::select(-matches(targ123))
+    
+      fact <- df3 %>%
+      dplyr::select(is.factor|is.character)
+    
+    
+    cols <- colnames(fact)
+    
+    
+    if(length(include>0)){
+      
+      
+      cols <- include
+    }
+    
+    
+    if(length(exclude>0)){
+      
+      
+      cols <- cols[! cols %in% exclude]
+    }
+    
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
+    
+    
+    colnames(df4) <- make.names(colnames(df4))
+    return(df4)
+    
+  }
   
-}
-
-
-
+  
 EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=list())
 {
   
@@ -904,8 +917,7 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
-  # Make sure to specify catgorical=TRUE if it is
-  
+
     targ123 = target
     df4 <- df
   
@@ -1044,9 +1056,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
   x1 <- x %>%
   dplyr::rename("observeds" = 1) %>%
-  mutate(observeds = as.double(observeds)) %>%
-  mutate(predictions = as.double(predictions)) %>%
-  mutate(residuals = observeds - predictions)
+  dplyr::mutate(observeds = as.double(observeds)) %>%
+  dplyr::mutate(predictions = as.double(predictions)) %>%
+  dplyr::mutate(residuals = observeds - predictions)
 
   
   newList <- list("rf" = rf, "errors" = x1)
@@ -1165,5 +1177,26 @@ EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, prin
   newList <- list("AUC" = xauc, "ConfusionMatrix" = q)
   return(newList)
   
-  
 }
+
+
+EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsColumnName ="Predictions", threshold=0, writeFile="")
+{
+  
+  predictions <- predict(model,newdata=dftestData)
+  predictions <- data.frame(as.vector(predictions)) 
+  predictions[, testData_IDColumn] <- dftestData[, testData_IDColumn]
+  predictions[,c(1,2)] <- predictions[,c(2,1)]
+  colnames(predictions) <- c(testData_IDColumn, predictionsColumnName)
+  
+  if (threshold>0){
+  predictions[, predictionsColumnName] <- ifelse(predictions[, predictionsColumnName]>threshold,1,0)
+  }
+  
+  if (writeFile!="") {
+    write_csv(predictions, writeFile) 
+  }
+  
+  return(predictions)
+}
+
