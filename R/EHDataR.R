@@ -1054,7 +1054,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
@@ -1083,9 +1083,19 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   Formula  = reformulate(".",response=targ123)
   
   if (method1 == "Linear") {
-    svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+    if(cValue==0){
+      svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue))
+      } else {
+        svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+      } 
+    
+    
   } else if (method1=="Radial"|method1=="Poly") {
-  svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"))
+      if (cValue==0 && sigmaValue==0) {
+        svm <- train(Formula, data=dfTrain, method=method2, trControl = tc, preProcess = c("center","scale"))
+      } else if (cValue!=0 && sigmaValue==0){
+        svm <- train(Formula, data=dfTrain, method=method2, trControl=tc, preProcess = c("center","scale"), C = cValue))  
+      } 
   } else {
     print("Unkown kernel. The choices are linear, radial or poly.")
     retun()
