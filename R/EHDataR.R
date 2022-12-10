@@ -1102,7 +1102,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
       } else {
         svm <- train(Formula, data=dfTrain, method=method2, trControl=tc, preProcess = c("center","scale")) 
       } 
-  } else {
+  } else if{
     print("Unkown kernel. The choices are linear, radial or poly.")
     retun()
   }
