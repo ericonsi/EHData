@@ -929,10 +929,10 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  split <- sample.split(df4, SplitRatio = .8)
   
-  dfEval <- df4[-i,]
-  dfTrain <- df4[i,]
+  dfTrain <- subset(df4, split == "TRUE")
+  dfEval <- subset(df4, split == "FALSE")
   
 count(dfTrain[targ123])
   
