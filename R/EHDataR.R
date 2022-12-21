@@ -917,6 +917,8 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
+  
+  library(caTools)
 
     targ123 = target
     df4 <- df
