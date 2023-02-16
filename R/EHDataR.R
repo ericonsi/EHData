@@ -24,7 +24,6 @@ library(naniar)
 #library(Amelia)
 library(caret)
 library(pROC)
-library(caret)
 
 EHTheme <- function(){
   
@@ -445,9 +444,13 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
   
+  print("1")
+  
   if (printCorrs) {
     print(dfCor)
   }
+  
+  print("2")
   
   if (printHeatMap) {
   my_matrix <- df[]
@@ -457,11 +460,15 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
                 diag=FALSE, type = "upper", order = "original", tl.col = "black", tl.srt = 45, tl.cex = 0.55)
   }
   
+  print("3")
+  
   dfmm <- data.frame(col1=character(),
                      col2=character(),
                      correlation=double())
   
   mult2 <- as.data.frame(dfCor)
+  
+  print("4")
   
   for(i in 1:ncol(mult2)) {       # for-loop over columns
     for(j in 1:nrow(mult2)) {
@@ -492,6 +499,8 @@ if (nrow(dfmm)>0){
     print(dfmm)  
   }
 
+  print("5")
+  
  rlist <- list(dfCor, dfmm)
   return (rlist)
   
@@ -918,8 +927,6 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   # There are two trees - the tree from caret (train(formula, ...)) is what the rmse is based on.  
   # The other tree is not - it is also the one influenced by the number of levels.This is the 'fancy tree.'
   # I believe the fancy tree is also the one with all the stats.
-  
-  library(caTools)
 
     targ123 = target
     df4 <- df
@@ -932,10 +939,10 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   
   set.seed(seed)
   
-  split <- sample.split(df4, SplitRatio = .8)
+  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
   
-  dfTrain <- subset(df4, split == "TRUE")
-  dfEval <- subset(df4, split == "FALSE")
+  dfEval <- df4[-i,]
+  dfTrain <- df4[i,]
   
 count(dfTrain[targ123])
   
