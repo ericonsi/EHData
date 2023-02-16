@@ -443,14 +443,11 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
   library(corrplot)
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
-  
-  print("1")
+
   
   if (printCorrs) {
     print(dfCor)
   }
-  
-  print("2")
   
   if (printHeatMap) {
   my_matrix <- df[]
@@ -460,15 +457,11 @@ EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE
                 diag=FALSE, type = "upper", order = "original", tl.col = "black", tl.srt = 45, tl.cex = 0.55)
   }
   
-  print("3")
-  
   dfmm <- data.frame(col1=character(),
                      col2=character(),
                      correlation=double())
   
   mult2 <- as.data.frame(dfCor)
-  
-  print("4")
   
   for(i in 1:ncol(mult2)) {       # for-loop over columns
     for(j in 1:nrow(mult2)) {
@@ -498,8 +491,6 @@ if (nrow(dfmm)>0){
     if (printHighest){
     print(dfmm)  
   }
-
-  print("5")
   
  rlist <- list(dfCor, dfmm)
   return (rlist)
