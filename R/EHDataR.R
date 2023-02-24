@@ -437,6 +437,7 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
 EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   #To print out only what you want, set the function to a variable, i.e. x <- EHExplore_Multicollinearity
+  #If you see: Error in if ((mult2[i, j] > threshold | mult2[i, j] < -1 * threshold) &  : missing value where TRUE/FALSE needed it means there are missing values
   
   dfCor <- as.data.frame(cor(df))
   
