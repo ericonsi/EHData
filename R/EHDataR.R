@@ -900,6 +900,7 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
+  library(MASS)
   
   hist(df2[,col])
   fla <- substitute(n ~ 1, list(n = as.name(col)))

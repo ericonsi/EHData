@@ -1,0 +1,28 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-12-19'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+
+#install.packages("caret")
+library(caret)
+library(EHData)
+data <- read.csv("D:\\Rstudio\\Cuny_622\\Space\\train.csv")
+test_data <- read.csv("D:\\Rstudio\\Cuny_622\\Space\\test.csv")
+set.seed(123)
+
+model <- EHModel_Regression_Logistic(data, "Transported")
+
+predictions <- predict(model, test_data)
+confusion_matrix <- confusionMatrix(predictions, test_data$Transported)
+print(confusion_matrix)
+
+
+
+```
+
