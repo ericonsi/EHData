@@ -1066,7 +1066,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1144,7 +1144,7 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM_ReplacementButNotChecked <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1176,7 +1176,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   ydf <- as.numeric(dfTrain[,targ123])
   
   if (method1 == "Linear") {
-    svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+    svm <- train(xdf, ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
   } else if (method1=="Radial"|method1=="Poly") {
     if (cValue!=0 && sigmaValue!=0) {
       svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
