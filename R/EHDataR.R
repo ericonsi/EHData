@@ -437,12 +437,14 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
 EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   #To print out only what you want, set the function to a variable, i.e. x <- EHExplore_Multicollinearity
+  #If you see: Error in if ((mult2[i, j] > threshold | mult2[i, j] < -1 * threshold) &  : missing value where TRUE/FALSE needed it means there are missing values
   
   dfCor <- as.data.frame(cor(df))
   
   library(corrplot)
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
+
   
   if (printCorrs) {
     print(dfCor)
@@ -490,7 +492,7 @@ if (nrow(dfmm)>0){
     if (printHighest){
     print(dfmm)  
   }
-
+  
  rlist <- list(dfCor, dfmm)
   return (rlist)
   
@@ -899,14 +901,22 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
+  library(MASS)
   
-  hist(df2[,col])
+  if(print) {
+  hist(df2[,col], main=paste(col, "- Before"))
+  }
+  
   fla <- substitute(n ~ 1, list(n = as.name(col)))
   
   b <- boxcox(lm(fla, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-  hist(df2[,col])
+  
+  if(print) {
+  hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
+  }
+  
   return(df2)
   
 }
