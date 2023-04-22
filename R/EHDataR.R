@@ -1066,8 +1066,9 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
+  #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
   #For linear, c is tuned by the grid: expand.grid(C = seq(0.01, 2, length = 20).  For radial and poly, sigma and c are optimized automatically, UNLESS YOU SPECIFY BOTH (WOULD BE BETTER IN A LIST)
@@ -1142,6 +1143,87 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   return(newList)
   
 }
+
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+{
+  #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
+  
+  #Scaling is done as part of pre-processing in train, so need not be done by hand.
+  #For linear, c is tuned by the grid: expand.grid(C = seq(0.01, 2, length = 20).  For radial and poly, sigma and c are optimized automatically, UNLESS YOU SPECIFY BOTH (WOULD BE BETTER IN A LIST)
+  
+  targ123 <- target
+  
+  df4[, targ123] <- as.factor(df4[, targ123])
+  
+  set.seed(seed)
+  
+  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  
+  dfEval <- df4[-i,]
+  dfTrain <- df4[i,]
+  
+  count(dfTrain[targ123])
+  
+  tc <- trainControl(method="repeatedcv", number=10, repeats=3)
+  metric <- "Accuracy"
+  
+  library("stringi")     
+  method1 <- stri_trans_totitle(method)
+  method2 <- paste0("svm", method1)
+  
+  xdf <- dfTrain %>%
+    dplyr::select(-targ123)
+  ydf <- as.numeric(dfTrain[,targ123])
+  
+  if (method1 == "Linear") {
+    svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+  } else if (method1=="Radial"|method1=="Poly") {
+    if (cValue!=0 && sigmaValue!=0) {
+      svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
+    } else {
+      svm <- train(xfd,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
+    } 
+  } else {
+    print("Unkown kernel. The choices are linear, radial or poly.")
+    retun()
+  }
+  
+  
+  if (printSVM){
+    print(svm)
+  }
+  
+  if (printPlot){
+    print(plot(svm))
+  }
+  
+  
+  predictions <- predict(svm, dfEval)
+  dfPred <- as.data.frame(predictions)
+  
+  x <- factor(dfEval[, targ123])
+  y <- confusionMatrix(predictions, x) 
+  
+  if (printConfusionMatrix){
+    print(y)
+  }
+  
+  #print(paste("Parameters:   mtry = ", rf$finalModel$mtry, ", ntree = ", rf$finalModel$ntree, ", nrnodes = ", rf$finalModel$forest$nrnodes))
+  
+  x <- as.data.frame(cbind(dfEval[,targ123], dfPred))
+  
+  x1 <- x %>%
+    dplyr::rename("observeds" = 1) %>%
+    mutate(observeds = as.double(observeds)) %>%
+    mutate(predictions = as.double(predictions)) %>%
+    mutate(residuals = observeds - predictions)
+  
+  
+  newList <- list("svm" = svm, "errors" = x1)
+  return(newList)
+  
+}
+
 EHCalculate_AUC_ForBinaryClasses <- function(dfPredictions, printPlot=TRUE, printConfusionMatrix=FALSE)
 {
   
