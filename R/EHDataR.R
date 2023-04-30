@@ -1286,3 +1286,12 @@ EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsCol
   return(predictions)
 }
 
+
+EHPrepare_RemoveRecordsByRowNumber <- function(df, num)
+{
+
+  #num can be a single number or a c() of numbers
+  df <- df[-c(num), ]
+  return (df)
+  
+}
