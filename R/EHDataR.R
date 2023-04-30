@@ -858,7 +858,7 @@ EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
       cols <- cols[! cols %in% exclude]
     }
     
-    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE, ignore_na=FALSE)
     
     
     colnames(df4) <- make.names(colnames(df4))
