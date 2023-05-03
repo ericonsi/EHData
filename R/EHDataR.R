@@ -897,7 +897,7 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
