@@ -918,7 +918,7 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
   m2 <- lm(fla2, df2)
   
 
-  b <- boxcox(m2)
+  #b <- boxcox(m2)
   
   
   if(print) {
