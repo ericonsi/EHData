@@ -911,8 +911,9 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
     hist(df2[,col], main=paste(col, "- Before"))
   }
   
-  fla2 <- as.formula(substitute(n ~ 1, list(n = as.name(col))))
-  b <- boxcox(lm(fla2, df2))
+  .env <- environment() ## identify the environment
+  fla <- substitute(n ~ 1, list(n = as.name(col)), env=.env)
+  b <- boxcox(lm(fla, df2))
   
   return(df2)
   
