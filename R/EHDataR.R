@@ -911,8 +911,10 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
     hist(df2[,col], main=paste(col, "- Before"))
   }
   
-  .env <- environment() ## identify the environment
   fla7 <- substitute(n ~ 1, list(n = as.name(col)))
+  
+  fla36 <- substitute(n ~ ., list(n = as.name(col)))
+  m3 <- lm(fla36, df2)
   
   fla2 <- substitute(n ~ 1, list(n = as.name(col)))
   m2 <- lm(fla2, df2)
