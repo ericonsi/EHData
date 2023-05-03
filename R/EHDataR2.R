@@ -437,14 +437,12 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
 EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   #To print out only what you want, set the function to a variable, i.e. x <- EHExplore_Multicollinearity
-  #If you see: Error in if ((mult2[i, j] > threshold | mult2[i, j] < -1 * threshold) &  : missing value where TRUE/FALSE needed it means there are missing values
   
   dfCor <- as.data.frame(cor(df))
   
   library(corrplot)
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
-
   
   if (printCorrs) {
     print(dfCor)
@@ -492,7 +490,7 @@ if (nrow(dfmm)>0){
     if (printHighest){
     print(dfmm)  
   }
-  
+
  rlist <- list(dfCor, dfmm)
   return (rlist)
   
@@ -858,7 +856,7 @@ EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
       cols <- cols[! cols %in% exclude]
     }
     
-    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE, ignore_na=FALSE)
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
     
     
     colnames(df4) <- make.names(colnames(df4))
@@ -897,31 +895,18 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
-  #The before and after don't always print for some reason
   
-  #Error in stats::model.frame(formula = fla, data = df2, drop.unused.levels = TRUE) : object 'fla' not found - this error suddenly disappears when you define df2 outside the call. try df2= in the call.
-  library(MASS)
-  
-  df2 <- df
-  
-  if(print) {
-  hist(df2[,col], main=paste(col, "- Before"))
-  }
-  
+  hist(df2[,col])
   fla <- substitute(n ~ 1, list(n = as.name(col)))
   
   b <- boxcox(lm(fla, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-  
-  if(print) {
-  hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
-  }
-  
+  hist(df2[,col])
   return(df2)
   
 }
@@ -1081,7 +1066,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1159,7 +1144,7 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM_ReplacementButNotChecked <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1191,12 +1176,12 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   ydf <- as.numeric(dfTrain[,targ123])
   
   if (method1 == "Linear") {
-    svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+    svm <- train(xdf, ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
   } else if (method1=="Radial"|method1=="Poly") {
     if (cValue!=0 && sigmaValue!=0) {
-      svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
+      svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
     } else {
-      svm <- train(xfd,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
+      svm <- train(xdf,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
     } 
   } else {
     print("Unkown kernel. The choices are linear, radial or poly.")
@@ -1291,12 +1276,3 @@ EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsCol
   return(predictions)
 }
 
-
-EHPrepare_RemoveRecordsByRowNumber <- function(df, num)
-{
-
-  #num can be a single number or a c() of numbers
-  df <- df[-c(num), ]
-  return (df)
-  
-}
