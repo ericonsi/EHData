@@ -916,8 +916,10 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
   
   fla6 <- formula(fla3) 
   environment(fla6) <- environment()
+  
+  lmm <- lm(fla6, df2)
 
-  b <- boxcox(lm(fla6, df2))
+  b <- boxcox(lmm)
   
   
   if(print) {
