@@ -896,46 +896,12 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   return(rlist)
   
 }
-EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
+
+EHPrepare_BoxCox <- function(df, col, xformula, print=TRUE, newcol=FALSE)
 {
   
-
-  #The before and after don't always print for some reason
+  #For some reason you must pass the formula - there are environment issues without it
   
-  #Error in stats::model.frame(formula = fla, data = df2, drop.unused.levels = TRUE) : object 'fla' not found - this error suddenly disappears when you define df2 outside the call. try df2= in the call.
-  library(MASS)
-  
-  df2 <- as.data.frame(df)
-  
-  if(print) {
-    hist(df2[,col], main=paste(col, "- Before"))
-  }
-  
-  
-  fla37 <- substitute(n ~ 1, list(n = as.name(col)))
-  m3 <- lm(fla37, df2)
-  
-
-  b <- boxcox(m3$terms)
-#  lambda <- b$x[which.max(b$y)]
- # df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-  
-  
-  if(print) {
-    hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
-  }
-  
-  return(df2)
-  
-}
-
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
-{
-  
-  #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
-  #The before and after don't always print for some reason
-  
-  #Error in stats::model.frame(formula = fla, data = df2, drop.unused.levels = TRUE) : object 'fla' not found - this error suddenly disappears when you define df2 outside the call. try df2= in the call.
   library(MASS)
   
   df2 <- as.data.frame(df)
@@ -944,9 +910,7 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   hist(df2[,col], main=paste(col, "- Before"))
   }
   
-  fla <- substitute(n ~ 1, list(n = as.name(col)))
-  
-  b <- boxcox(lm(fla, df2))
+  b <- boxcox(lm(xformula, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
   
