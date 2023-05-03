@@ -896,8 +896,27 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   return(rlist)
   
 }
-
 EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
+{
+  
+  #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
+  #The before and after don't always print for some reason
+  
+  #Error in stats::model.frame(formula = fla, data = df2, drop.unused.levels = TRUE) : object 'fla' not found - this error suddenly disappears when you define df2 outside the call. try df2= in the call.
+  library(MASS)
+  
+  df2 <- as.data.frame(df)
+  
+  if(print) {
+    hist(df2[,col], main=paste(col, "- Before"))
+  }
+  
+  
+  return(df2)
+  
+}
+
+EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
