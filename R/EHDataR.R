@@ -916,7 +916,7 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
   m3 <- lm(fla37, df2)
   
 
-  #b <- boxcox(m3)
+  b <- boxcox(m3$terms)
 #  lambda <- b$x[which.max(b$y)]
  # df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
   
