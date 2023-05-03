@@ -908,7 +908,7 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   hist(df2[,col], main=paste(col, "- Before"))
   }
   
-  fla <- substitute(n ~ ., list(n = as.name(targ123)))
+  fla <- substitute(n ~ 1, list(n = as.name(col)))
   fmla <- as.formula(fla )
 
   localEnvir <- new.env(parent=environment(fmla))
