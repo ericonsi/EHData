@@ -911,6 +911,7 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
     hist(df2[,col], main=paste(col, "- Before"))
   }
   
+  fla <- substitute(n ~ 1, list(n = as.name(col)))
   
   return(df2)
   
