@@ -912,7 +912,7 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
   }
   
   .env <- environment() ## identify the environment
-  fla <- substitute(n ~ 1, list(n = as.name(col)), env=.env)
+  fla <- as.formula(substitute(n ~ 1, list(n = as.name(col))), env=.env)
   b <- boxcox(lm(fla, df2))
   
   return(df2)
