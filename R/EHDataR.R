@@ -897,12 +897,11 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
   #For some reason you have to generate the formula in a line before the call. I can't generate it in the method because of environment reasons.
   #So that means putting, e.g. "xformula = terget ~ 1" as a line before the call.  Target is whatever the target is, the rest stays the same.
-  df2 <- df
   
   if(print) {
   hist(df2[,col], main=paste(col, "- Before"))
