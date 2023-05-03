@@ -912,8 +912,8 @@ EHPrepare_BoxCox2 <- function(df, col, print=TRUE, newcol=FALSE)
   }
   
   
-  fla36 <- substitute(n ~ 1, list(n = as.name(col)))
-  m3 <- lm(fla36, df2)
+  fla37 <- substitute(n ~ 1, list(n = as.name(col)))
+  m3 <- lm(fla37, df2)
   
 
   #b <- boxcox(m3)
