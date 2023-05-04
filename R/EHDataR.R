@@ -902,7 +902,9 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   print("DO NOT USE!")
   #For some reason you have to generate the formula in a line before the call. I can't generate it in the method because of environment reasons.
   #So that means putting, e.g. "xformula = terget ~ 1" as a line before the call.  Target is whatever our target is, the rest stays the same
-  #This sisn't fix it: https://stackoverflow.com/questions/74527907/r-how-do-i-pass-a-formula-to-the-linear-model-constructor-and-the-resulting-lin
+  #This doesn't fix it: https://stackoverflow.com/questions/74527907/r-how-do-i-pass-a-formula-to-the-linear-model-constructor-and-the-resulting-lin
+  
+  #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
   if(print) {
   hist(df2[,col], main=paste(col, "- Before"))
   }
