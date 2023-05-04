@@ -897,7 +897,7 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
 {
   print("DO NOT USE!")
   #For some reason you have to generate the formula in a line before the call. I can't generate it in the method because of environment reasons.
@@ -906,20 +906,20 @@ EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
   
   #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
   if(print) {
-  hist(df2[,col], main=paste(col, "- Before"))
+  hist(df[,col], main=paste(col, "- Before"))
   }
   
   #a<- qq #breaks the method - so it isn't used.
   
-  b <- boxcox(lm(xformula, df2))
+  b <- boxcox(lm(xformula, df))
   lambda <- b$x[which.max(b$y)]
-  df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
+  df[, col] <- (df[,col] ^ lambda - 1) / lambda
   
   if(print) {
-  hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
+  hist(df[,col], main=paste(col, "- After, lambda =", lambda))
   }
   
-  return(df2)
+  return(df)
   
 }
 
