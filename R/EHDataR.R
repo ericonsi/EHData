@@ -907,7 +907,7 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   hist(df2[,col], main=paste(col, "- Before"))
   }
   
-  a<- qq #breaks the method - so it isn't used.
+  #a<- qq #breaks the method - so it isn't used.
   
   b <- boxcox(lm(xformula, df2))
   lambda <- b$x[which.max(b$y)]
