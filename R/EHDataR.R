@@ -897,7 +897,7 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   print("DO NOT USE!")
   #For some reason you have to generate the formula in a line before the call. I can't generate it in the method because of environment reasons.
