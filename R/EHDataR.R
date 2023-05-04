@@ -905,21 +905,24 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   #This doesn't fix it: https://stackoverflow.com/questions/74527907/r-how-do-i-pass-a-formula-to-the-linear-model-constructor-and-the-resulting-lin
   
   #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
+  
+  df2 <- as.data.frame(df)
+  
   if(print) {
   hist(df[,col], main=paste(col, "- Before"))
   }
   
   #a<- qq #breaks the method - so it isn't used.
   
-  b <- boxcox(lm(xformula, df))
+  b <- boxcox(lm(xformula, df2))
   lambda <- b$x[which.max(b$y)]
-  df[, col] <- (df[,col] ^ lambda - 1) / lambda
+  df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
   
   if(print) {
-  hist(df[,col], main=paste(col, "- After, lambda =", lambda))
+  hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
   }
   
-  return(df)
+  return(df2)
   
 }
 
