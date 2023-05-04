@@ -909,7 +909,7 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   df2 <- as.data.frame(df)
   
   if(print) {
-  hist(df[,col], main=paste(col, "- Before"))
+  hist(df2[,col], main=paste(col, "- Before"))
   }
   
   #a<- qq #breaks the method - so it isn't used.
