@@ -197,7 +197,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   return(plot_list)
 }
 
-EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7)
+EHSummarize_SingleColumn_BarCharts <- function(df, font_size=7)
 {  
   
   dfBar2<-data.frame(lapply(df,factor))
