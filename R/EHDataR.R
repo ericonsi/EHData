@@ -918,7 +918,7 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
+EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list(), removeColumn=TRUE)
 {
     #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
     #may simply mean one of your categorical variables only has one value
@@ -949,7 +949,7 @@ EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
       cols <- cols[! cols %in% exclude]
     }
     
-    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE, ignore_na=FALSE)
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = removeColumn, remove_most_frequent_dummy = removeColumn, ignore_na=FALSE)
     
     
     colnames(df4) <- make.names(colnames(df4))
