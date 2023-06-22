@@ -390,6 +390,28 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
   return(plot_list)
 }
 
+EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
+  
+  #Also works for one continuous and one binary
+{
+  df <- select_if(df, is.numeric)
+  dfResult <- data.frame()
+  
+  
+  for(i in 1:ncol(df)) {
+    
+    ct <- cor.test(df[,i], df[,y])
+    #print (df[[i]])
+    rw <- c(colnames(df)[i], round(ct$estimate,2), round(ct$p.value,2))
+    dfResult <- rbind(dfResult, rw)
+  }
+  
+  colnames(dfResult) = c("column", "correlation", "p")   
+    
+  return(dfResult)
+  
+}
+
 
 EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE)
 {
