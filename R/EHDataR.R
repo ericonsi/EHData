@@ -420,36 +420,32 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
 {
   plot_list3 <- list()
   
-  #At this point, y has to be categorical and the only one
+  #At this point, y has to be categorical, the only one and the last one
   
+  zz <- ncol(df) - 1
   
-  
-  for(i in 1:ncol(df)) {
+  for(i in 1:zz) {
     
     x1 = df[[i]]
     y1 =y
     
-    if(!yCategorical)
-    {
-      
-      x1=y
-      y1=as.factor(df[[i]])
-      
-
-    }
     
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
       #xlab(colnames(df)[i])  +
       #ylab(xText) +
-      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
-      scale_fill_d3()+                     
-      geom_boxplot()+
-      coord_flip() 
+      scale_fill_d3()+   
+      theme(legend.position = "none") +
+      ggtitle(colnames(df)[i]) +
+      geom_boxplot()
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
     
   }
+  
+  plot_list3[1]
+  
   return(plot_list3)
 }
 
