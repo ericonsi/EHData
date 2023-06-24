@@ -257,7 +257,7 @@ EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7)
                            scale_fill_brewer(type = "qual", palette = 4)+  
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="ivory"), panel.background = element_rect(fill = "ivory")) +
+                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="ivory"), panel.background = element_rect(fill = "gray90")) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
                                      hjust = 1.5), list(i=i)))
     
@@ -391,6 +391,28 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
     
   }
   return(plot_list)
+}
+
+EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
+  
+  #Also works for one continuous and one binary
+{
+  df <- select_if(df, is.numeric)
+  dfResult <- data.frame()
+  
+  
+  for(i in 1:ncol(df)) {
+    
+    ct <- cor.test(df[,i], df[,y])
+    #print (df[[i]])
+    rw <- c(colnames(df)[i], round(ct$estimate,2), round(ct$p.value,2))
+    dfResult <- rbind(dfResult, rw)
+  }
+  
+  colnames(dfResult) = c("column", "correlation", "p")   
+    
+  return(dfResult)
+  
 }
 
 
@@ -899,7 +921,7 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
+EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list(), removeColumn=TRUE)
 {
     #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
     #may simply mean one of your categorical variables only has one value
@@ -930,7 +952,7 @@ EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
       cols <- cols[! cols %in% exclude]
     }
     
-    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE, ignore_na=FALSE)
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = removeColumn, remove_most_frequent_dummy = removeColumn, ignore_na=FALSE)
     
     
     colnames(df4) <- make.names(colnames(df4))
