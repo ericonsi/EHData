@@ -252,11 +252,9 @@ EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder
                       levels = dfBar3$Selection[order(dfBar3$Count)])
     }
     
-    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill=Selection)) +
+    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill="steelblue1")) +
                            coord_flip() +
                            geom_col() +
-                           scale_color_brewer(palette = 1)+
-                           scale_fill_brewer(palette = 1)+  
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
                            theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="ivory"), panel.background = element_rect(fill = "ivory")) +
