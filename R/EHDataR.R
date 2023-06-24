@@ -423,6 +423,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
   #At this point, y has to be categorical and the only one
   
   
+  
   for(i in 1:ncol(df)) {
     
     x1 = df[[i]]
@@ -438,8 +439,8 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     }
     
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
-      xlab(colnames(df)[i])  +
-      ylab(xText) +
+      #xlab(colnames(df)[i])  +
+      #ylab(xText) +
       theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+                     
