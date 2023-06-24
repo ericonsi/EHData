@@ -231,7 +231,7 @@ EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7)
 }
 
 
-EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7)
+EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE)
 {  
   
   dfBar2<-data.frame(lapply(df,factor))
@@ -247,17 +247,19 @@ EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7)
     dfBar3 <- as.data.frame(dfBar3) |>
       dplyr::rename(Selection = 1)
     
+    if (decreasingOrder){
     dfBar3$Selection <- factor(dfBar3$Selection,                                  
-                      levels = dfBar3$Selection[order(dfBar3$Count, decreasing = TRUE)])
+                      levels = dfBar3$Selection[order(dfBar3$Count)])
+    }
     
     p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill=Selection)) +
                            coord_flip() +
                            geom_col() +
-                           scale_color_brewer(type = "qual", palette = 4)+
-                           scale_fill_brewer(type = "qual", palette = 4)+  
+                           scale_color_brewer(palette = 1)+
+                           scale_fill_brewer(palette = 1)+  
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="ivory"), panel.background = element_rect(fill = "gray90")) +
+                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="ivory"), panel.background = element_rect(fill = "ivory")) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
                                      hjust = 1.5), list(i=i)))
     
