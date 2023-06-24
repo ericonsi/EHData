@@ -247,6 +247,9 @@ EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7)
     dfBar3 <- as.data.frame(dfBar3) |>
       dplyr::rename(Selection = 1)
     
+    dfBar3$Selection <- factor(dfBar3$Selection,                                  
+                      levels = dfBar3$Selection[order(dfBar3$Count, decreasing = TRUE)])
+    
     p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill=Selection)) +
                            coord_flip() +
                            geom_col() +
