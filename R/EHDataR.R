@@ -27,7 +27,7 @@ library(pROC)
 
 EHTheme <- function(){
   
-  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray"))
+  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue2", color="darkslategray"))
   
   return (x)
   
@@ -187,7 +187,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
                            xlab(colnames(df)[i]) +
-                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskybue1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
@@ -433,7 +433,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
       #xlab(colnames(df)[i])  +
       #ylab(xText) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskybue1", color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+   
       theme(legend.position = "none") +
@@ -705,7 +705,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       scale_color_d3()+
       scale_fill_d3()+
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskybue1", color="darkslategray")) +
       ggtitle(paste("Number and Proportion of ", y, " by ", names(df)[i])) + 
       coord_flip()
     
