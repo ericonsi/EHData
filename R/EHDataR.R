@@ -231,7 +231,7 @@ EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slate
 }
 
 
-EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE)
+EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2")
 {  
   
   dfBar2<-data.frame(lapply(df,factor))
@@ -257,7 +257,7 @@ EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder
                            geom_col(color="black", size=.1, fill="ivory", width=.7) +
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color="lightskyblue1"), panel.background = element_rect(fill = "lightskyblue1", color="black", size = .3 )) +
+                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = rectfill, color="black", size = .3 )) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="red", hjust = 1.5), list(i=i)))
     
     plot_list2[[i]] <- p 
