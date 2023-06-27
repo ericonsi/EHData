@@ -219,7 +219,7 @@ EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slate
                            scale_fill_brewer(type = "div", palette = 8)+  
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = "slategray2")) +
+                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = rectfill)) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
                                      vjust = 1), list(i=i)))
     
