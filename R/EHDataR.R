@@ -25,9 +25,9 @@ library(naniar)
 library(caret)
 library(pROC)
 
-EHTheme <- function(){
+EHTheme <- function(rectfill="slategray2"){
   
-  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue2", color="lightskyblue2"))
+  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray"))
   
   return (x)
   
@@ -197,7 +197,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   return(plot_list)
 }
 
-EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7)
+EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slategray2")
 {  
   
   dfBar2<-data.frame(lapply(df,factor))
@@ -219,7 +219,7 @@ EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7)
                            scale_fill_brewer(type = "div", palette = 8)+  
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="slategray2"), panel.background = element_rect(fill = "slategray2")) +
+                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = "slategray2")) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
                                      vjust = 1), list(i=i)))
     
@@ -416,7 +416,7 @@ EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
 }
 
 
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE)
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE, rectfill="slategray2")
 {
   plot_list3 <- list()
   
@@ -433,7 +433,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
       #xlab(colnames(df)[i])  +
       #ylab(xText) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray")) +
       scale_color_d3()+
       scale_fill_d3()+   
       theme(legend.position = "none") +
