@@ -197,7 +197,41 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
   return(plot_list)
 }
 
-EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slategray2", decreasingOrder=TRUE)
+EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slategray2")
+{  
+  
+  dfBar2<-data.frame(lapply(df,factor))
+  
+  plot_list2 <- list()
+  
+  for(i in 1:ncol(df)) {   
+    
+    dfBar3 <- dfBar2 %>% 
+      dplyr::group_by(dfBar2[,i]) %>% 
+      dplyr::summarise(Count = n())
+    
+    dfBar3 <- as.data.frame(dfBar3) |>
+      dplyr::rename(Selection = 1)
+    
+    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill=Selection)) +
+                           geom_col() +
+                           scale_color_brewer(type = "div", palette = 8)+
+                           scale_fill_brewer(type = "div", palette = 8)+  
+                           theme(legend.position="none") +
+                           ggtitle(colnames(df)[i]) +
+                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="darkslategray"), panel.background = element_rect(fill = rectfill)) +
+                           geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
+                                     vjust = 1), list(i=i)))
+    
+    plot_list2[[i]] <- p 
+    
+    
+  }
+  return (plot_list2)
+}
+
+
+EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE)
 {  
   
   dfBar2<-data.frame(lapply(df,factor))
@@ -223,47 +257,8 @@ EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slate
                            geom_col(color="black", size=.1, fill="ivory", width=.7) +
                            theme(legend.position="none") +
                            ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color="lightskyblue1"), panel.background = element_rect(fill = rectfill, color="black", size = .3 )) +
+                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color="lightskyblue1"), panel.background = element_rect(fill = "lightskyblue1", color="black", size = .3 )) +
                            geom_text(aes(label = Count), size=(3), fontface="bold", color="red", hjust = 1.5), list(i=i)))
-    
-    plot_list2[[i]] <- p 
-    
-    
-  }
-  return (plot_list2)
-  return (plot_list2)
-}
-
-
-EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE)
-{  
-  
-  dfBar2<-data.frame(lapply(df,factor))
-  
-  plot_list2 <- list()
-  
-  for(i in 1:ncol(df)) {   
-    
-    dfBar3 <- dfBar2 %>% 
-      dplyr::group_by(dfBar2[,i]) %>% 
-      dplyr::summarise(Count = n())
-    
-    dfBar3 <- as.data.frame(dfBar3) |>
-      dplyr::rename(Selection = 1)
-    
-    if (decreasingOrder){
-    dfBar3$Selection <- factor(dfBar3$Selection,                                  
-                      levels = dfBar3$Selection[order(dfBar3$Count)])
-    }
-    
-    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill="steelblue1")) +
-                           coord_flip() +
-                           geom_col() +
-                           theme(legend.position="none") +
-                           ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="slategray2"), panel.background = element_rect(fill = "slategray2")) +
-                           geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
-                                     hjust = 1.5), list(i=i)))
     
     plot_list2[[i]] <- p 
     
