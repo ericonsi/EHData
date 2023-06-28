@@ -405,10 +405,12 @@ EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
     ct <- cor.test(df[,i], df[,y])
     #print (df[[i]])
     rw <- c(colnames(df)[i], round(ct$estimate,2), round(ct$p.value,2))
-    dfResult <- rbind(dfResult, rw)
+    dfResult <- rbind(dfResult, rw) 
   }
   
   colnames(dfResult) = c("column", "correlation", "p")   
+  dfResult <- dfResult |>
+    dplyr::arrange(p)
     
   return(dfResult)
   
