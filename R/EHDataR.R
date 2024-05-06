@@ -80,8 +80,6 @@ EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
   
 }
 
-```
-
 EHSummarize_MissingValues <- function(df)
 {
 
