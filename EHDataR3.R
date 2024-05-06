@@ -25,9 +25,9 @@ library(naniar)
 library(caret)
 library(pROC)
 
-EHTheme <- function(rectfill="slategray2"){
+EHTheme <- function(){
   
-  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray"))
+  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray"))
   
   return (x)
   
@@ -53,34 +53,6 @@ EH_Theme_Histogram <- function(font_size=7, hist_nbins=30){
   
 }
 
-EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
-{
-  library(kableExtra)
-  t <- table(df[,column1], df[,column2])
-  test <- chisq.test(t)
-  
-  if (print=="table")
-  {
-    kableExtra::kable(t)
-  }
-  
-  if (print=="result")
-  {
-    test
-  }
-  
-  if (print=="both")
-  {
-    kableExtra::kable(t)
-    test
-  }
-  
-  xlist=list(t, test)
-  return (xlist)
-  
-}
-
-```
 
 EHSummarize_MissingValues <- function(df)
 {
@@ -215,7 +187,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
                            xlab(colnames(df)[i]) +
-                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue1", color="darkslategray")) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
@@ -223,113 +195,6 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
     
   }
   return(plot_list)
-}
-
-EHSummarize_SingleColumn_BarCharts1 <- function(df, font_size=7, rectfill="slategray2")
-{  
-  
-  dfBar2<-data.frame(lapply(df,factor))
-  
-  plot_list2 <- list()
-  
-  for(i in 1:ncol(df)) {   
-    
-    dfBar3 <- dfBar2 %>% 
-      dplyr::group_by(dfBar2[,i]) %>% 
-      dplyr::summarise(Count = n())
-    
-    dfBar3 <- as.data.frame(dfBar3) |>
-      dplyr::rename(Selection = 1)
-    
-    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count, fill=Selection)) +
-                           geom_col() +
-                           scale_color_brewer(type = "div", palette = 8)+
-                           scale_fill_brewer(type = "div", palette = 8)+  
-                           theme(legend.position="none") +
-                           ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size)), axis.title.x = element_blank(), axis.title.y = element_text(size = font_size), axis.text.x = element_text(size = font_size, angle=30, vjust=.5), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = rectfill, color="black", size = .3)) +
-                           geom_text(aes(label = Count), size=(3), fontface="bold", color="black",
-                                     vjust = 1), list(i=i)))
-    
-    plot_list2[[i]] <- p 
-    
-    
-  }
-  return (plot_list2)
-}
-
-
-EHSummarize_SingleColumn_BarCharts2 <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2")
-{  
-  
-  dfBar2<-data.frame(lapply(df,factor))
-  
-  plot_list2 <- list()
-  
-  for(i in 1:ncol(df)) {   
-    
-    dfBar3 <- dfBar2 %>% 
-      dplyr::group_by(dfBar2[,i]) %>% 
-      dplyr::summarise(Count = n())
-    
-    dfBar3 <- as.data.frame(dfBar3) |>
-      dplyr::rename(Selection = 1)
-    
-    if (decreasingOrder){
-      dfBar3$Selection <- factor(dfBar3$Selection,                                  
-                                 levels = dfBar3$Selection[order(dfBar3$Count)])
-    }
-    
-    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count)) +
-                           coord_flip() +
-                           geom_col(color="black", size=.1, fill="ivory", width=.7) +
-                           theme(legend.position="none") +
-                           ggtitle(colnames(df)[i]) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size = font_size), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = rectfill, color="black", size = .3 )) +
-                           geom_text(aes(label = Count), size=(3), fontface="bold", color="red", hjust = 1.5), list(i=i)))
-    
-    plot_list2[[i]] <- p 
-    
-    
-  }
-  return (plot_list2)
-}
-
-EHSummarize_SingleColumn_BarCharts3 <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", title="")
-{  
-  
-  dfBar2<-data.frame(lapply(df,factor))
-  
-  plot_list2 <- list()
-  
-  for(i in 1:ncol(df)) {   
-    
-    dfBar3 <- dfBar2 %>% 
-      dplyr::group_by(dfBar2[,i]) %>% 
-      dplyr::summarise(Count = n())
-    
-    dfBar3 <- as.data.frame(dfBar3) |>
-      dplyr::rename(Selection = 1)
-    
-    if (decreasingOrder){
-      dfBar3$Selection <- factor(dfBar3$Selection,                                  
-                                 levels = dfBar3$Selection[order(dfBar3$Count)])
-    }
-    
-    p <- eval(substitute(ggplot(dfBar3, aes(x=Selection, y=Count)) +
-                           coord_flip() +
-                           geom_col(color="black", size=.1, fill="ivory", width=.7) +
-                           theme(legend.position="none") +
-                           ylab(colnames(df)[i]) + 
-                           ggtitle(title) +
-                           theme(title = element_text(size =(font_size), face="bold"), axis.title.x = element_text(size = font_size), axis.title.y = element_blank(), axis.text.x = element_blank(), axis.text.y = element_text(size = font_size), axis.ticks.x = element_blank(), axis.ticks.y = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(),  panel.grid.major.y=element_line(color=rectfill), panel.background = element_rect(fill = rectfill, color="black", size = .3 )) +
-                           geom_text(aes(label = Count), size=(3), fontface="bold", color="red", hjust = 1.5), list(i=i)))
-    
-    plot_list2[[i]] <- p 
-    
-    
-  }
-  return (plot_list2)
 }
 
 EHSummarize_SingleColumn_Countplots <- function(df, font_size=7)
@@ -456,61 +321,62 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
   return(plot_list)
 }
 
-EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
-  
-  #Also works for one continuous and one binary
-{
-  df <- select_if(df, is.numeric)
-  dfResult <- data.frame()
-  
-  
-  for(i in 1:ncol(df)) {
-    
-    ct <- cor.test(df[,i], df[,y])
-    #print (df[[i]])
-    rw <- c(colnames(df)[i], round(ct$estimate,2), round(ct$p.value,2))
-    dfResult <- rbind(dfResult, rw) 
-  }
-  
-  colnames(dfResult) = c("column", "correlation", "p")   
-  dfResult <- dfResult |>
-    dplyr::arrange(p)
-    
-  return(dfResult)
-  
-}
 
-
-EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE, rectfill="slategray2")
+EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCategorical=TRUE)
 {
   plot_list3 <- list()
   
-  #At this point, y has to be categorical, the only one and the last one
+  df <- select_if(df, is.numeric)
   
-  zz <- ncol(df) - 1
+  df$NumericY <- as.numeric(df[,y])
   
-  for(i in 1:zz) {
+  if(yCategorical){
+    
+  df[,y] <- as.factor(df[,y])
+  
+  #v <- as.vector(df[,y])
+  #xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+  #df[y][df[y] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+  #df[y][df[y] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+  
+  }
+  
+  for(i in 1:ncol(df)) {
+    
+    df$NumericX <- as.numeric(df[,i])
+    
+    ct <- cor.test(df$NumericX, df$NumericY)
+    
+    xText <- str_c("Correlation: ", round(ct$estimate,2), "   p value: ", round(ct$p.value,2))
+    
     
     x1 = df[[i]]
     y1 =y
     
+    if(!yCategorical)
+    {
+      
+      x1=y
+      y1=as.factor(df[[i]])
+      
+      #v <- as.vector(df[,i])
+      #xtext1 = as.data.frame(aggregate(data.frame(count = v), list(value = v), length))
+      #df[i][df[i] == "0"] <- paste0("0 (n=", xtext1$count[1], ")")
+      #df[i][df[i] == "1"] <- paste0("1 (n=", xtext1$count[2], ")")
+    }
     
     p <- ggplot(df, aes_string(x1, y1, fill=y1)) +
-      #xlab(colnames(df)[i])  +
-      #ylab(xText) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray")) +
+      xlab(colnames(df)[i])  +
+      ylab(xText) +
+      theme(axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       scale_color_d3()+
-      scale_fill_d3()+   
-      theme(legend.position = "none") +
-      ggtitle(colnames(df)[i]) +
-      geom_boxplot()
+      scale_fill_d3()+                     
+      geom_boxplot()+
+      coord_flip() 
     
     plot_list3[[i]] <- eval(substitute(p, list(i=i)))
     
   }
-  
-  plot_list3[1]
-  
   return(plot_list3)
 }
 
@@ -571,14 +437,12 @@ EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20,
 EHExplore_Multicollinearity <-function(df, printCorrs=FALSE, printHeatMap = TRUE, printHighest=FALSE, threshold=.85,  title="Heatmap for Multicollinearity Analysis") {
   
   #To print out only what you want, set the function to a variable, i.e. x <- EHExplore_Multicollinearity
-  #If you see: Error in if ((mult2[i, j] > threshold | mult2[i, j] < -1 * threshold) &  : missing value where TRUE/FALSE needed it means there are missing values
   
   dfCor <- as.data.frame(cor(df))
   
   library(corrplot)
   my_matrix <- df[]
   cor_res <- cor(my_matrix, use = "na.or.complete")
-
   
   if (printCorrs) {
     print(dfCor)
@@ -626,7 +490,7 @@ if (nrow(dfmm)>0){
     if (printHighest){
     print(dfmm)  
   }
-  
+
  rlist <- list(dfCor, dfmm)
   return (rlist)
   
@@ -770,7 +634,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       scale_color_d3()+
       scale_fill_d3()+
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskybue1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray1", color="darkslategray")) +
       ggtitle(paste("Number and Proportion of ", y, " by ", names(df)[i])) + 
       coord_flip()
     
@@ -961,7 +825,7 @@ EHModel_Regression_Robust_Iterations <- function(df, y, numOfIterations=100)
   
 }
 
-EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list(), removeColumn=TRUE)
+EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list())
 {
     #Error in top_vals$vals : $ operator is invalid for atomic vectors - this 
     #may simply mean one of your categorical variables only has one value
@@ -992,7 +856,7 @@ EHPrepare_CreateDummies <- function(df, target, include=list(), exclude=list(), 
       cols <- cols[! cols %in% exclude]
     }
     
-    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = removeColumn, remove_most_frequent_dummy = removeColumn, ignore_na=FALSE)
+    df4 <- fastDummies::dummy_cols(df, select_columns=cols, remove_selected_columns = TRUE, remove_most_frequent_dummy = TRUE)
     
     
     colnames(df4) <- make.names(colnames(df4))
@@ -1031,43 +895,18 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
   
 }
 
-EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
+EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
-  print("DO NOT USE!")
-  #For some reason you have to generate the formula in a line before the call. I can't generate it in the method because of environment reasons.
-  #So that means putting, e.g. "xformula = terget ~ 1" as a line before the call.  Target is whatever our target is, the rest stays the same
-  #This doesn't fix it: https://stackoverflow.com/questions/74527907/r-how-do-i-pass-a-formula-to-the-linear-model-constructor-and-the-resulting-lin
   
-<<<<<<< HEAD
-  library(MASS)
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
   
-  hist(df2[,col], main=paste(col, "- Before"))
+  hist(df2[,col])
   fla <- substitute(n ~ 1, list(n = as.name(col)))
-=======
-  #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
   
-  df2 <- as.data.frame(df)
->>>>>>> 8472a57cd9e005e6e58e9c59864380e4febe9d79
-  
-  if(print) {
-  hist(df2[,col], main=paste(col, "- Before"))
-  }
-  
-  #a<- qq #breaks the method - so it isn't used.
-  
-  b <- boxcox(lm(xformula, df2))
+  b <- boxcox(lm(fla, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-<<<<<<< HEAD
-  hist(df2[,col], main=paste(col, "- After"))
-=======
-  
-  if(print) {
-  hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
-  }
-  
->>>>>>> 8472a57cd9e005e6e58e9c59864380e4febe9d79
+  hist(df2[,col])
   return(df2)
   
 }
@@ -1227,7 +1066,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
 }
 
-EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1305,7 +1144,7 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
   
 }
 
-EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
+EHModel_SVM_ReplacementButNotChecked <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
@@ -1337,12 +1176,12 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   ydf <- as.numeric(dfTrain[,targ123])
   
   if (method1 == "Linear") {
-    svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+    svm <- train(xdf, ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
   } else if (method1=="Radial"|method1=="Poly") {
     if (cValue!=0 && sigmaValue!=0) {
-      svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
+      svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
     } else {
-      svm <- train(xfd,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
+      svm <- train(xdf,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
     } 
   } else {
     print("Unkown kernel. The choices are linear, radial or poly.")
@@ -1437,12 +1276,3 @@ EHModel_Predict <- function(model, dftestData, testData_IDColumn, predictionsCol
   return(predictions)
 }
 
-
-EHPrepare_RemoveRecordsByRowNumber <- function(df, num)
-{
-
-  #num can be a single number or a c() of numbers
-  df <- df[-c(num), ]
-  return (df)
-  
-}
