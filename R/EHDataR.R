@@ -53,6 +53,34 @@ EH_Theme_Histogram <- function(font_size=7, hist_nbins=30){
   
 }
 
+EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
+{
+  library(kableExtra)
+  t <- table(df[,column1], df[,column2])
+  test <- chisq.test(t)
+  
+  if (print=="table")
+  {
+    kableExtra::kable(t)
+  }
+  
+  if (print=="result")
+  {
+    test
+  }
+  
+  if (print=="both")
+  {
+    kableExtra::kable(t)
+    test
+  }
+  
+  xlist=list(t, test)
+  return (xlist)
+  
+}
+
+```
 
 EHSummarize_MissingValues <- function(df)
 {
@@ -898,15 +926,16 @@ EHPrepare_RestrictDataFrameColumnsToThoseInCommon <- function(df1, df2, exclude=
 EHPrepare_BoxCox <- function(df2, col, print=TRUE, newcol=FALSE)
 {
   
+  library(MASS)
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
   
-  hist(df2[,col])
+  hist(df2[,col], main=paste(col, "- Before"))
   fla <- substitute(n ~ 1, list(n = as.name(col)))
   
   b <- boxcox(lm(fla, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-  hist(df2[,col])
+  hist(df2[,col], main=paste(col, "- After"))
   return(df2)
   
 }
