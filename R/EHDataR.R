@@ -1036,17 +1036,15 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   #So that means putting, e.g. "xformula = terget ~ 1" as a line before the call.  Target is whatever our target is, the rest stays the same
   #This doesn't fix it: https://stackoverflow.com/questions/74527907/r-how-do-i-pass-a-formula-to-the-linear-model-constructor-and-the-resulting-lin
   
-<<<<<<< HEAD
   library(MASS)
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
   
   hist(df2[,col], main=paste(col, "- Before"))
   fla <- substitute(n ~ 1, list(n = as.name(col)))
-=======
+  
   #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
   
   df2 <- as.data.frame(df)
->>>>>>> 8472a57cd9e005e6e58e9c59864380e4febe9d79
   
   if(print) {
   hist(df2[,col], main=paste(col, "- Before"))
@@ -1057,15 +1055,13 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   b <- boxcox(lm(xformula, df2))
   lambda <- b$x[which.max(b$y)]
   df2[, col] <- (df2[,col] ^ lambda - 1) / lambda
-<<<<<<< HEAD
+
   hist(df2[,col], main=paste(col, "- After"))
-=======
-  
+
   if(print) {
   hist(df2[,col], main=paste(col, "- After, lambda =", lambda))
   }
-  
->>>>>>> 8472a57cd9e005e6e58e9c59864380e4febe9d79
+
   return(df2)
   
 }
