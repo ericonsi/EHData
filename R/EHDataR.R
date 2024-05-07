@@ -368,6 +368,8 @@ EHSummarize_SingleColumn_Countplots2 <- function(df, font_size=7)
       group_by(df[,i]) |>
       dplyr::summarize(n=n())
     
+    return(df2)
+    
     p <- eval(substitute(ggplot(df2, aes(x=df2[1], y=n)) +
                            coord_flip() +  
                            xlab(colnames(df2)[1])  +
