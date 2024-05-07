@@ -365,12 +365,12 @@ EHSummarize_SingleColumn_Countplots2 <- function(df, font_size=7)
   for(i in 1:ncol(df)) {   
     
     df2 <- df |>
-      group_by(d[,i]) |>
+      group_by(df[,i]) |>
       dplyr::summarize(n=n())
     
-    p <- eval(substitute(ggplot(df2, aes(x=df[,i], y=n)) +
+    p <- eval(substitute(ggplot(df2, aes(x=df2[1], y=n)) +
                            coord_flip() +  
-                           xlab(colnames(df)[i])  +
+                           xlab(colnames(df2)[1])  +
                            #ylab(qk) +
                            theme(axis.title.x = element_text(size = font_size), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2")) +
                            #geom_text(size = 3, position = position_stack(vjust = 0.5)) +
