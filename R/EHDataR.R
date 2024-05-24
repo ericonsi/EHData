@@ -781,7 +781,7 @@ EHExplore_TwoCategoricalColumns_Barcharts <- function(df, y)
       stat_count(geom="text", aes(label=stat(count)), position=position_fill(vjust=.5), color="black") +
       scale_color_d3()+
       scale_fill_d3()+
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskybue1", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue1", color="darkslategray")) +
       ggtitle(paste("Number and Proportion of ", y, " by ", names(df)[i])) + 
       coord_flip()
     
