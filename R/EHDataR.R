@@ -83,11 +83,11 @@ EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
 
 
 #' @exportClass EH_SummarizeData
-EH_SummarizeData <- setRefClass("EH_Summarize", fields = list(df = "data.frame",  
+EH_SummarizeData <- setRefClass("EH_Summarize", fields = list(df = "data.frame", 
                                               font_size = "numeric", y = "character"), methods = list( 
                                                 StandardPlots = function() 
                                                 { 
-                                                  EHSummarize_StandardPlots(df, y)
+                                                  EHSummarize_StandardPlots(df=df, y=y)
                                                 }, 
                                                   Histogram = function() 
                                                 { 
@@ -95,18 +95,6 @@ EH_SummarizeData <- setRefClass("EH_Summarize", fields = list(df = "data.frame",
                                                 } 
                                               )) 
 
-
-movies <- setRefClass("movies", fields = list(name = "character",  
-                                              leadActor = "character", rating = "numeric"), methods = list( 
-                                                increment_rating = function() 
-                                                { 
-                                                  rating <<- rating + 1
-                                                }, 
-                                                decrement_rating = function() 
-                                                { 
-                                                  rating <<- rating - 1
-                                                } 
-                                              )) 
 
 EHSummarize_MissingValues <- function(df)
 {
