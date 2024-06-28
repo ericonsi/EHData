@@ -81,6 +81,8 @@ EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
   
 }
 
+
+#' @exportClass EH_movies
 EH_movies <- setRefClass("movies", fields = list(name = "character",  
                                               leadActor = "character", rating = "numeric"), methods = list( 
                                                 increment_rating = function() 
@@ -92,6 +94,7 @@ EH_movies <- setRefClass("movies", fields = list(name = "character",
                                                   rating <<- rating - 1
                                                 } 
                                               )) 
+
 
 
 EHSummarize_MissingValues <- function(df)
