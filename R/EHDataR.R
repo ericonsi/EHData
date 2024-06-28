@@ -87,7 +87,7 @@ EH_SummarizeData <- setRefClass("EH_Summarize", fields = list(df = "data.frame",
                                               font_size = "numeric", y = "character"), methods = list( 
                                                 StandardPlots = function() 
                                                 { 
-                                                  EHSummarize_StandardPlots(df=df, y=y)
+                                                  EHSummarize_StandardPlots(df, y)
                                                 }, 
                                                   Histogram = function() 
                                                 { 
