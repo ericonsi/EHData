@@ -24,6 +24,7 @@ library(naniar)
 #library(Amelia)
 library(caret)
 library(pROC)
+library(methods) 
 
 EHTheme <- function(rectfill="slategray2"){
   
@@ -79,6 +80,22 @@ EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
   return (xlist)
   
 }
+
+
+movies <- setRefClass("movies", fields = list(name = "character",  
+                                              leadActor = "character", rating = "numeric"), methods = list( 
+                                                increment_rating = function() 
+                                                { 
+                                                  rating <<- rating + 1
+                                                }, 
+                                                decrement_rating = function() 
+                                                { 
+                                                  rating <<- rating - 1
+                                                } 
+                                              )) 
+movieList <- movies(name = "Iron Man",  
+                    leadActor = "Robert downey Jr", rating = 7) 
+
 
 EHSummarize_MissingValues <- function(df)
 {
