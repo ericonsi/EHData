@@ -81,8 +81,7 @@ EHModel_ChiSquare <- function(df, column1, column2, print="Nothing")
   
 }
 
-
-movies <- setRefClass("movies", fields = list(name = "character",  
+EH_movies <- setRefClass("movies", fields = list(name = "character",  
                                               leadActor = "character", rating = "numeric"), methods = list( 
                                                 increment_rating = function() 
                                                 { 
@@ -93,8 +92,6 @@ movies <- setRefClass("movies", fields = list(name = "character",
                                                   rating <<- rating - 1
                                                 } 
                                               )) 
-movieList <- movies(name = "Iron Man",  
-                    leadActor = "Robert downey Jr", rating = 7) 
 
 
 EHSummarize_MissingValues <- function(df)
