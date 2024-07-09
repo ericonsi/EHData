@@ -348,7 +348,7 @@ EHSummarize_SingleColumn_BarCharts3 <- function(df, font_size=7, decreasingOrder
 
 EHSummarize_SingleColumn_Countplots <- function(df, font_size=7, rectfill="slategray2", title="", decreasingOrder=TRUE)
 {  
-  df <- select_if(df, is.character)
+  df <- df |> dplyr::select(is.character|is.factor)
   
   df <- as.data.frame(unclass(df), stringsAsFactors = TRUE)
   
