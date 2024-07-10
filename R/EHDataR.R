@@ -1360,12 +1360,12 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   ydf <- as.numeric(dfTrain[,targ123])
   
   if (method1 == "Linear") {
-    svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
+    svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = seq(0.01, 2, length = 20)))
   } else if (method1=="Radial"|method1=="Poly") {
     if (cValue!=0 && sigmaValue!=0) {
-      svm <- train(xfd,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
+      svm <- train(xdf,ydf, method=method2, trControl = tc, preProcess = c("center","scale"), tuneGrid = expand.grid(C = cValue, sigma=sigmaValue))
     } else {
-      svm <- train(xfd,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
+      svm <- train(xdf,ydf, method=method2, trControl=tc, preProcess = c("center","scale")) 
     } 
   } else {
     print("Unkown kernel. The choices are linear, radial or poly.")
