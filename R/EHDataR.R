@@ -1335,6 +1335,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
   #For linear, c is tuned by the grid: expand.grid(C = seq(0.01, 2, length = 20).  For radial and poly, sigma and c are optimized automatically, UNLESS YOU SPECIFY BOTH (WOULD BE BETTER IN A LIST)
   
+
   targ123 <- target
   
   df4[, targ123] <- as.factor(df4[, targ123])
@@ -1386,6 +1387,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   dfPred <- as.data.frame(predictions)
   
   x <- factor(dfEval[, targ123])
+  
   y <- confusionMatrix(predictions, x) 
   
   if (printConfusionMatrix){
