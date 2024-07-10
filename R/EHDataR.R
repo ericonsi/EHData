@@ -1068,12 +1068,12 @@ EHPrepare_BoxCox <- function(df, col, print=TRUE, newcol=FALSE)
   library(MASS)
   #For some reason boxcox fails if you use df as a parameter - so that's why it's df2
   
+  df2 <- as.data.frame(df)
+  
   hist(df2[,col], main=paste(col, "- Before"))
   fla <- substitute(n ~ 1, list(n = as.name(col)))
   
   #The problem is , that line stays in there so if you forget to change it you keep running the algorithm on the old variable even though you have sepcified a new one.
-  
-  df2 <- as.data.frame(df)
   
   if(print) {
   hist(df2[,col], main=paste(col, "- Before"))
