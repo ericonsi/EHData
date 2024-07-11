@@ -1330,11 +1330,14 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
 
 EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
+  
+  Print "Use the 'TOReplace' one - this doesn't work right - it can't make predictions"
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
   #For linear, c is tuned by the grid: expand.grid(C = seq(0.01, 2, length = 20).  For radial and poly, sigma and c are optimized automatically, UNLESS YOU SPECIFY BOTH (WOULD BE BETTER IN A LIST)
   
+  #"Error: `data` and `reference` should be factors with the same levels." may mean that the model cannot generate predicitons.  
 
   targ123 <- target
   
