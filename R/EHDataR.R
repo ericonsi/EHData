@@ -1331,7 +1331,7 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
 EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = TRUE, printPlot=FALSE, printConfusionMatrix =TRUE, cValue=0, sigmaValue=0)
 {
   
-  Print "Use the 'TOReplace' one - this doesn't work right - it can't make predictions"
+  Print ("Use the 'TOReplace' one - this doesn't work right - it can't make predictions")
   #PROBLEM- formula (y ~ ) and a df takes 100 times longer than an x df and a y df!! Need to change. 
   
   #Scaling is done as part of pre-processing in train, so need not be done by hand.
