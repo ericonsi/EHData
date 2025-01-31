@@ -1474,3 +1474,13 @@ EHPrepare_RemoveRecordsByRowNumber <- function(df, num)
   return (df)
   
 }
+
+EHPrepare_RemoveColumnsWithAllNA <- function(df)
+{
+  
+  #num can be a single number or a c() of numbers
+  df <- df |>
+    dplyr::select(where(~!all(is.na(.x))))
+  return (df)
+  
+}
