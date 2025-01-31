@@ -1484,3 +1484,30 @@ EHPrepare_RemoveColumnsWithAllNA <- function(df)
   return (df)
   
 }
+
+  EHSummarize_OverallColumnDescription <- function(df, summary=TRUE, str=FALSE, glimpse=TRUE, describe=FALSE)
+  {
+    library(Hmisc)
+    
+    if(summary)
+    {
+      print(summary(df))
+    }
+    
+    if(str)
+    {
+      print(str(df))
+    }
+    
+    if(glimpse)
+    {
+      print(glimpse(df))
+    }
+    
+    if(describe)
+    {
+      print(describe(df))
+    }
+    
+  }
+  
