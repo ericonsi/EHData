@@ -544,6 +544,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
 
 EHSummarize_StandardPlots <-function(data, y, return_list = FALSE, h_nbins = 20, print=TRUE, type="scatter")
 {  
+  #Error - ! Can't subset columns past the end. - may mean you passed a tibble, not a dataframe
   
   list1 <- EHSummarize_SingleColumn_Boxplots(data)
   list2 <- EHSummarize_SingleColumn_Histograms(data, hist_nbins =  h_nbins)
