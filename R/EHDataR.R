@@ -1512,7 +1512,3 @@ EHPrepare_RemoveColumnsWithAllNA <- function(df)
     }
     
   }
-  
-  library(faraway)
-  modp <- glm(TARGET ~., family=poisson, df)  
-  summary(modp)
