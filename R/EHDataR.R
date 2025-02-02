@@ -1184,6 +1184,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
 {
   
   #"Need to be the same factors" - Make sure to designate categorical=false if the targ123 is continuous
+  #'Error in confusionMatrix.default(predictions, x) : the data cannot have more levels than the reference - This occured when the target was continuous
   
   targ123 <- target
 
@@ -1512,3 +1513,6 @@ EHPrepare_RemoveColumnsWithAllNA <- function(df)
     
   }
   
+  library(faraway)
+  modp <- glm(TARGET ~., family=poisson, df)  
+  summary(modp)
