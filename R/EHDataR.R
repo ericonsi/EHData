@@ -26,7 +26,15 @@ library(caret)
 library(pROC)
 library(methods) 
 
-EHTheme <- function(rectfill="slategray2"){
+EHTheme <- function(rectfill="cornsilk"){
+  
+  x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkblue"))
+  
+  return (x)
+  
+}
+
+EHTheme_SlateGray2 <- function(rectfill="slategray2"){
   
   x <- theme(axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 9), axis.text.x = element_blank(), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray"))
   
@@ -513,6 +521,7 @@ EHExplore_OneContinuousAndOneCategoricalColumn_Boxplots <- function(df, y, yCate
   plot_list3 <- list()
   
   #At this point, y has to be categorical, the only one and the last one
+  #Error: Error in parse(text = x, keep.source = FALSE) : <text>:1:12: unexpected symbol may result if the previous rule is violated
   
   zz <- ncol(df) - 1
   
