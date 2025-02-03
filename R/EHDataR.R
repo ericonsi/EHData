@@ -455,7 +455,7 @@ EHSummarize_SingleColumn_Histograms <- function(df, font_size = 7, hist_nbins = 
 }
 
 
-EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectfill="slategray2")
+EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectfill="slategray2", pointfill="white")
 {
   plot_list <- list()
   
@@ -477,7 +477,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectf
     }
     
     p <- ggplot(df, aes_string(x1, y1)) +
-      geom_point(fill="navy", color="white") +
+      geom_point(fill="navy", color=pointfill) +
       geom_smooth(method = "loess", color="red", fill="lightcoral") +
       ylab(y) +
       xlab(xText) +
