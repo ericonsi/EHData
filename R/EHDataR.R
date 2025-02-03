@@ -211,10 +211,10 @@ EHPrepare_MissingValues_Imputation <- function(df, y="", impute = "mean", print_
     return (l1$df)
 }
 
-EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
+EHExplore_Interactions_Scatterplots <- function(df, y, interaction, rectfill="lightskyblue") {
   
   #If you get these Errors:
-  #"Error: Unknown input: tbl_df' = you probably did not pass it a proper dataframe (probably a tibble instead)
+  #Error: Unknown input: tbl_df' = you probably did not pass it a proper dataframe (probably a tibble instead)
   
   library(ggsci)
   
@@ -237,7 +237,7 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction) {
                            geom_point(alpha=.1) +
                            geom_smooth(method = "lm") +
                            xlab(colnames(df)[i]) +
-                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "lightskyblue1", color="darkslategray")) +
+                           theme(title = element_text(size=9), axis.title.x = element_text(size = 9), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), panel.grid.major.x = element_line(color="gray"), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray")) +
                            scale_color_d3()+
                            scale_fill_d3()+
                            ggtitle(colnames(df)[i]), list(i=i)))
