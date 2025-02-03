@@ -455,7 +455,7 @@ EHSummarize_SingleColumn_Histograms <- function(df, font_size = 7, hist_nbins = 
 }
 
 
-EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
+EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectfill="slategray2")
 {
   plot_list <- list()
   
@@ -481,7 +481,7 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE)
       geom_smooth(method = "loess", color="red", fill="lightcoral") +
       ylab(y) +
       xlab(xText) +
-      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = "slategray2", color="darkslategray")) +
+      theme(title = element_text(size=9), axis.title.x = element_text(size = 8), axis.title.y = element_text(size = 9), axis.text.x = element_text(size = 8), axis.ticks.x = element_blank(), panel.grid.major.x = element_blank(), panel.grid.minor.x=element_blank(), panel.grid.minor.y=element_blank(), panel.grid.major.y=element_line(color="gray"), panel.background = element_rect(fill = rectfill, color="darkslategray")) +
       ggtitle(colnames(df)[i])
     
     p <- eval(substitute(p, list(i=i)))
