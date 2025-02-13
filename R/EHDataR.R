@@ -687,7 +687,7 @@ EHModel_Regression_StandardLM <- function(df, y, splitRatio=.8, xseed = 0, vif=T
     mod_4 <- lm(fla, df)
   } else {
     
-    i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+    i <- createDataPartition(unlist(df[,y]), p=splitRatio, list=FALSE)
     
     test_reg <- df[-i,]
     train_reg <- df[i,]
