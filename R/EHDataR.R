@@ -764,7 +764,7 @@ EHModel_Regression_Robust <- function(df, y, splitRatio=.8, xseed = 0) {
   fla <- substitute(n ~ ., list(n = as.name(y)))
   fm <- as.formula(fla)
   
-  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+  i <- createDataPartition(unlist(df[y]), p=splitRatio, list=FALSE)
   
   test_reg <- df[-i,]
   train_reg <- df[i,]
@@ -850,7 +850,7 @@ EHModel_Regression_Logistic <-function(df, y, splitRatio = .8, xseed = 0, return
     }
   }
   
-  i <- createDataPartition(df[,y], p=splitRatio, list=FALSE)
+  i <- createDataPartition(unlist(df[y]), p=splitRatio, list=FALSE)
   
   test_reg <- df[-i,]
   train_reg <- df[i,]
@@ -1123,7 +1123,7 @@ EHModel_DecisionTree <- function(df, target, seed=042760, levels=31, categorical
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  i <- createDataPartition(unlist(df4[,targ123]), p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
@@ -1203,7 +1203,7 @@ EHModel_RandomForest <- function(df4, target, seed=042760, categorical=TRUE, pri
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  i <- createDataPartition(unlist(df4[,targ123]), p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
@@ -1274,7 +1274,7 @@ EHModel_SVM_ToReplace <- function(df4, target, method = "linear", seed=042760, p
 
   set.seed(seed)
   
-  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  i <- createDataPartition(unlist(df4[,targ123]), p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
@@ -1356,7 +1356,7 @@ EHModel_SVM <- function(df4, target, method = "linear", seed=042760, printSVM = 
   
   set.seed(seed)
   
-  i <- createDataPartition(df4[,targ123], p=0.8, list=FALSE)
+  i <- createDataPartition(unlist(df4[,targ123]), p=0.8, list=FALSE)
   
   dfEval <- df4[-i,]
   dfTrain <- df4[i,]
