@@ -494,7 +494,9 @@ EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectf
 EHExplore_TwoContinuousColumns_CorrelationsAndPValues <- function(df, y)
   
   #Also works for one continuous and one binary
+  # Error in cor.test.default(df[, i], df[, y]) :   'x' must be a numeric vector may occur if df is not recognized as a dataframe - even when it is derived from another dataframe
 {
+  df <- as.data.frame(df)
   df <- select_if(df, is.numeric)
   dfResult <- data.frame()
   
