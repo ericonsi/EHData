@@ -218,6 +218,8 @@ EHExplore_Interactions_Scatterplots <- function(df, y, interaction, rectfill="li
   
   library(ggsci)
   
+  df <- as.data.frame(df)
+  
   df <- select_if(df, is.numeric)
   
   v <- as.vector(df[,interaction])
@@ -458,6 +460,8 @@ EHSummarize_SingleColumn_Histograms <- function(df, font_size = 7, hist_nbins = 
 EHExplore_TwoContinuousColumns_Scatterplots <- function(df, y, flip=FALSE, rectfill="slategray2", pointfill="white")
 {
   plot_list <- list()
+  
+  df=as.data.frame(df)
   
   df <- select_if(df, is.numeric)
   
